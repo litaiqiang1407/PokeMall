@@ -1,0 +1,57 @@
+@import "~bootstrap/scss/bootstrap";
+
+.types {
+  padding: 20px 0;
+  margin-top: 50px;
+  background-color: var(--primary-background-color);
+}
+
+.types-container {
+  padding: 0;
+  background-color: var(--white);
+}
+
+.types-header {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.types-title {
+  color: var(--primary-color);
+  margin-left: 20px;
+  font-weight: 700;
+}
+
+.type-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .type-link {
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    display: block;
+    transition: transform 0.2s;
+    color: inherit;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .type-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .type-name {
+    margin-top: 10px;
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: bold;
+  }
+}

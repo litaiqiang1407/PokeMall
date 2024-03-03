@@ -1,0 +1,26 @@
+@import "~bootstrap/scss/bootstrap";
+
+.header-container {
+  height: 84px;
+  background-color: var(--white);
+  border-bottom: 2px solid var(--primary-color);
+
+  .header-logo {
+    padding-top: 9px;
+  }
+}
+
+.body-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 220px 0;
+}
+
+.image-container,
+.form-container {
+  flex-basis: calc(50% - 25px);
+}
+
+.image-container {
+  margin-right: 25px;
+}

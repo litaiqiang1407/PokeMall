@@ -1,0 +1,50 @@
+@import "~bootstrap/scss/bootstrap";
+
+.header-container {
+  height: 120px;
+  background-color: var(--white);
+
+  .header-top {
+    height: 70px;
+    background-color: var(--white);
+
+    .header-logo {
+      padding: 14px 0;
+    }
+
+    .header-search {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 640px;
+      height: 46px;
+      margin-top: 12px;
+      border-radius: 46px;
+      border: 1px solid black;
+      &:focus-within {
+        border-color: var(--primary-color);
+      }
+
+      .search-input {
+        font-size: 1.4rem;
+        width: 88%;
+        padding: 10px 16px;
+        border-radius: 46px;
+        border-color: transparent;
+        outline: none;
+        :focus {
+          border-color: transparent;
+        }
+      }
+
+      .btn-search {
+        width: 12%;
+        margin-right: 4px;
+        height: 38px;
+        border-radius: 38px;
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+    }
+  }
+}

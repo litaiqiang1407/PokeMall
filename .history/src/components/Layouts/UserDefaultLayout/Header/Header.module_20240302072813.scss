@@ -1,0 +1,37 @@
+@import "~bootstrap/scss/bootstrap";
+
+.header-container {
+  height: 120px;
+  background-color: var(--white);
+}
+
+.header-top {
+  height: 70px;
+  background-color: var(--white);
+}
+
+.header-logo {
+  padding: 14px 0;
+}
+
+.header-search {
+  width: 640px;
+  height: 46px;
+  margin-top: 12px;
+  border-radius: 46px;
+  border: 1px solid var(--primary-color);
+}
+
+.search-input {
+  font-size: 1.6rem;
+  padding: 10px 0 10px 16px;
+}
+.btn-wrapper {
+  border-radius: 38px;
+}
+
+.btn-search {
+  width: 84px;
+  height: 38px;
+  background-color: var(--primary-color);
+}

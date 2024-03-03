@@ -1,0 +1,17 @@
+@import "~bootstrap/scss/bootstrap";
+
+.header-container {
+  height: 84px;
+  background-color: var(--white);
+  border-bottom: 2px solid var(--primary-color);
+
+  .header-logo {
+    padding-top: 9px;
+  }
+}
+
+.body-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
