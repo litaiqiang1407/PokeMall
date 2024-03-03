@@ -98,10 +98,10 @@ function Footer() {
               </Row>
             </Col>
           </Row>
+          <Container className={cx("footer-footer")}>
+            Copyright © 2024 PokeMall. Powered by CuongLT{" "}
+          </Container>
         </Container>
-      </Container>
-      <Container fluid className={cx("footer-footer")}>
-        Copyright © 2024 PokeMall. Powered by CuongLT{" "}
       </Container>
     </footer>
   );

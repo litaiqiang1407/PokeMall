@@ -88,20 +88,12 @@ function Footer() {
                   />
                 </Col>
                 <Col lg={6}>
-                  <img
-                    src="https://cdn.haitrieu.com/wp-content/uploads/2022/05/Logo-Viettel-Post-Red.png"
-                    alt="ViettelPost"
-                    width={80}
-                    height={80}
-                  />
+                  <img src="" alt="" width={80} height={80} />
                 </Col>
               </Row>
             </Col>
           </Row>
         </Container>
-      </Container>
-      <Container fluid className={cx("footer-footer")}>
-        Copyright © 2024 PokeMall. Powered by CuongLT{" "}
       </Container>
     </footer>
   );
