@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 function Suggestions() {
   const [products, setProducts] = useState([]);
-  const [displayedProducts, setDisplayedProducts] = useState(24);
+  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     axios
@@ -23,9 +23,8 @@ function Suggestions() {
   }, []);
 
   const loadMoreProducts = () => {
-    setDisplayedProducts(displayedProducts + 24);
+    setShowMore(true);
   };
-
   return (
     <Container fluid className={cx("suggestions-container")}>
       <Container className={cx("suggestion-header")}>
@@ -33,7 +32,7 @@ function Suggestions() {
       </Container>
       <Container className={cx("suggestion-content")}>
         <Row>
-          {products.slice(0, displayedProducts).map((product) => (
+          {products.slice(0, 24).map((product) => (
             <Col lg={2} key={product.ID} className={cx("product-item")}>
               <Link
                 to={`/product/${product.ID}`}
@@ -57,9 +56,11 @@ function Suggestions() {
         </Row>
       </Container>
       <Container className={cx("suggestion-footer")}>
-        <Button onClick={loadMoreProducts} className={cx("more-button")}>
-          More
-        </Button>
+        {!showMore && (
+          <Button onClick={loadMoreProducts} className={cx("more-button")}>
+            More
+          </Button>
+        )}
       </Container>
     </Container>
   );

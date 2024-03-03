@@ -41,7 +41,16 @@
       transition: transform 0.3s ease;
 
       &:hover {
-        transform: scale(1.1) rotateY(180deg);
+        animation: rotateOnce 1s ease forwards;
+
+        @keyframes rotateOnce {
+          0% {
+            transform: scale(1) rotateY(0deg);
+          }
+          100% {
+            transform: scale(1.1) rotateY(180deg); // Lật ngược hình ảnh khi hover
+          }
+        }
       }
     }
 
@@ -82,12 +91,12 @@
     font-size: 1.6rem;
     background-color: var(--white);
     color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
 
     &:hover {
       background-color: var(--primary-color);
       color: var(--white);
-      border-color: 2px solid var(--primary-color);
+      border-color: 1px solid var(--primary-color);
     }
   }
 }

@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 
 function Suggestions() {
   const [products, setProducts] = useState([]);
-  const [displayedProducts, setDisplayedProducts] = useState(24);
+  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     axios
@@ -23,9 +23,8 @@ function Suggestions() {
   }, []);
 
   const loadMoreProducts = () => {
-    setDisplayedProducts(displayedProducts + 24);
+    setShowMore(true);
   };
-
   return (
     <Container fluid className={cx("suggestions-container")}>
       <Container className={cx("suggestion-header")}>
@@ -33,22 +32,22 @@ function Suggestions() {
       </Container>
       <Container className={cx("suggestion-content")}>
         <Row>
-          {products.slice(0, displayedProducts).map((product) => (
-            <Col lg={2} key={product.ID} className={cx("product-item")}>
+          {products.slice(0, showMore ? products.length : 6).map((product) => (
+            <Col lg={2} key={product.id} className={cx("product-item")}>
               <Link
-                to={`/product/${product.ID}`}
+                to={`/product/${product.id}`}
                 className={cx("product-link")}
               >
                 <img
-                  src={product.ImageURL}
-                  alt={product.FigureName}
+                  src={product.imgSrc}
+                  alt={product.name}
                   className={cx("product-img")}
                 />
                 <div className={cx("product-info")}>
-                  <p className={cx("product-name")}>{product.FigureName}</p>
+                  <p className={cx("product-name")}>{product.name}</p>
                   <Container className={cx("product-footer")}>
-                    <p className={cx("product-price")}>${product.Price}</p>
-                    <p className={cx("product-sold")}>{product.Sold} Sold</p>
+                    <p className={cx("product-price")}>${product.price}</p>
+                    <p className={cx("product-sold")}>{product.sold} Sold</p>
                   </Container>
                 </div>
               </Link>
@@ -57,9 +56,15 @@ function Suggestions() {
         </Row>
       </Container>
       <Container className={cx("suggestion-footer")}>
-        <Button onClick={loadMoreProducts} className={cx("more-button")}>
-          More
-        </Button>
+        {showMore && (
+          <Row>
+            <Col>
+              <Button onClick={loadMoreProducts} className={cx("more-button")}>
+                Load More
+              </Button>
+            </Col>
+          </Row>
+        )}
       </Container>
     </Container>
   );

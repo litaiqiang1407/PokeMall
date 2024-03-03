@@ -18,7 +18,7 @@ function Footer() {
             <p>Help Center</p>
           </Col>
           <Col lg={3}>
-            <h3>Payment Methods</h3>
+            <h3>Pay</h3>
             <ul>
               <li>Visa</li>
               <li>MasterCard</li>
@@ -27,7 +27,7 @@ function Footer() {
             </ul>
           </Col>
           <Col lg={3}>
-            <h3>Shipping Methods</h3>
+            <h3>Pay</h3>
             <ul>
               <li>Visa</li>
               <li>MasterCard</li>

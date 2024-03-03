@@ -41,7 +41,7 @@
       transition: transform 0.3s ease;
 
       &:hover {
-        transform: scale(1.1) rotateY(180deg);
+        animation: rotateOnce 1s ease forwards;
       }
     }
 
@@ -82,12 +82,12 @@
     font-size: 1.6rem;
     background-color: var(--white);
     color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+    border: 1px solid var(--primary-color);
 
     &:hover {
       background-color: var(--primary-color);
       color: var(--white);
-      border-color: 2px solid var(--primary-color);
+      border-color: 1px solid var(--primary-color);
     }
   }
 }
