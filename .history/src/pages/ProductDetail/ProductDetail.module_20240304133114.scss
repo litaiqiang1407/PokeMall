@@ -1,0 +1,150 @@
+@import "~bootstrap/scss/bootstrap";
+
+.product {
+  padding: 15px;
+  background-color: var(--white);
+
+  .img-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .img-list__item {
+      cursor: pointer;
+      border: 1px solid var(--primary-color);
+    }
+  }
+
+  .img-selected {
+    border: 1.5px solid var(--primary-color);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02) rotateY(180deg);
+    }
+  }
+
+  .product-header {
+    height: 60px;
+    padding-bottom: 5px;
+
+    .product-name {
+      font-weight: 700;
+      margin: 0;
+      line-height: 60px;
+    }
+  }
+
+  .product-metrics {
+    display: flex;
+    align-items: center;
+    font-size: 1.6rem;
+
+    .metrics-data {
+      font-weight: 500;
+      color: var(--text-black-color);
+    }
+
+    .product-rating {
+      font-weight: 500;
+      color: var(--primary-color);
+    }
+
+    .product-reviews {
+      border-right: 1px solid var(--border-color);
+      border-left: 1px solid var(--border-color);
+    }
+  }
+
+  .product-price {
+    margin: 20px 0;
+    height: 60px;
+    border: 10px solid var(--primary-background-color);
+
+    .price {
+      font-weight: bold;
+      color: var(--price-color);
+      line-height: 40px;
+      font-size: 3rem;
+    }
+  }
+
+  .option-label {
+    width: 100px;
+    font-size: 1.6rem;
+    line-height: 40;
+    color: var(--text-color);
+  }
+
+  .product-size {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    height: 40px;
+
+    .size-option {
+      margin: 0 4px;
+      width: 40px;
+      height: 30px;
+      font-size: 1.2rem;
+      color: var(--text-black-color);
+      background-color: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 0;
+
+      &:hover {
+        background-color: var(--primary-color-hover);
+        border: none;
+        color: var(--text-black-color);
+      }
+    }
+  }
+
+  .product-quantity {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    height: 40px;
+
+    .decrease,
+    .increase {
+      width: 32px;
+      height: 32px;
+      font-size: 1.4rem;
+      color: var(--text-black-color);
+      background-color: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 0;
+    }
+    .decrease {
+      margin-left: 4px;
+    }
+
+    .quantity-input {
+      width: 40px;
+      height: 32px;
+      padding: 0;
+      font-size: 1.4rem;
+      color: var(--text-black-color);
+      background-color: var(--white);
+      border: none;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      border-radius: 0;
+      text-align: center;
+      vertical-align: middle;
+
+      &:focus {
+        border: 1px solid var(--primary-color);
+        outline: none;
+      }
+    }
+  }
+}
+
+.product-action {
+  height: 64px;
+}
+
+.add-to-cart , 
