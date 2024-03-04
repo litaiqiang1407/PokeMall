@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { Link } from "react-router-dom";
 
 import { Container, Form, Button } from "react-bootstrap";
@@ -37,7 +35,7 @@ function Signup() {
             <h1 className={cx(" text-center")}>Sign Up</h1>
           </Container>
 
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Form.Group
               className={cx("form-field")}
               controlId="formPhoneNumber"
@@ -58,15 +56,10 @@ function Signup() {
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: passwordError })}
+                className={cx("form-input")}
                 type="password"
                 placeholder="Enter your password"
-                value={password}
-                onChange={handlePasswordChange}
               />
-              {passwordError && (
-                <span className={cx("error-message")}>{passwordError}</span>
-              )}
             </Form.Group>
 
             <Button

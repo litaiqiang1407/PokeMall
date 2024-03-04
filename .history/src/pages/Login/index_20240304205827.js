@@ -1,17 +1,14 @@
 import { useState } from "react";
-
 import { Link } from "react-router-dom";
-
 import { Container, Form, Button } from "react-bootstrap";
 
 import { isValidateForm } from "~/functions/validation";
-
 import classNames from "classnames/bind";
-import styles from "./Signup.module.scss";
+import styles from "./Login.module.scss";
 
 const cx = classNames.bind(styles);
 
-function Signup() {
+function Login() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -29,15 +26,50 @@ function Signup() {
     e.preventDefault();
     isValidateForm(phone, password, setPhoneError, setPasswordError);
   };
+
+  // const validateForm = () => {
+  //   let phoneValid = true;
+  //   let passwordValid = true;
+
+  //   // Validate Phone
+  //   if (!phone) {
+  //     setPhoneError("Phone number is required");
+  //     phoneValid = false;
+  //   } else if (!/^\d{10}$/.test(phone)) {
+  //     setPhoneError("Invalid phone number format");
+  //     phoneValid = false;
+  //   } else {
+  //     setPhoneError("");
+  //   }
+
+  //   // Validate Password
+  //   if (!password) {
+  //     setPasswordError("Password is required");
+  //     passwordValid = false;
+  //   } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
+  //     setPasswordError("Invalid password format");
+  //     passwordValid = false;
+  //   } else {
+  //     setPasswordError("");
+  //   }
+
+  //   // If both fields are valid, proceed with login
+  //   if (phoneValid && passwordValid) {
+  //     // Your login logic here
+  //   }
+  // };
+
   return (
-    <Container fluid className={cx("signup-container")}>
-      <Container fluid className={cx("signup-form-container")}>
-        <Container className={cx("signup-form")}>
-          <Container className={cx("signup-title")}>
-            <h1 className={cx(" text-center")}>Sign Up</h1>
+    <Container fluid className={cx("login-container")}>
+      <Container fluid className={cx("login-form-container")}>
+        <Container className={cx("login-form")}>
+          {/* Title */}
+          <Container className={cx("login-title")}>
+            <h1 className={cx("text-center")}>Log In</h1>
           </Container>
 
           <Form onSubmit={handleSubmit}>
+            {/* Phone Field */}
             <Form.Group
               className={cx("form-field")}
               controlId="formPhoneNumber"
@@ -55,6 +87,7 @@ function Signup() {
               )}
             </Form.Group>
 
+            {/* Password Field */}
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
               <Form.Control
@@ -69,19 +102,27 @@ function Signup() {
               )}
             </Form.Group>
 
+            {/* Forgot Password */}
+            <Container className={cx("forgot-password_container")}>
+              <Link to="/forgot-password" className={cx("forgot-password")}>
+                Forgot password
+              </Link>
+            </Container>
+
+            {/* Login Button */}
             <Button
               variant="primary"
               type="submit"
-              className={cx("signup-button")}
+              className={cx("login-button")}
             >
-              Sign up
+              Log in
             </Button>
           </Form>
           <hr className={cx("horizontal-line")} />
-          <Container className={cx("login-section")}>
-            <p className={cx("login-text")}>Already have an account?</p>
-            <Link to="/login" className={cx("login-button")}>
-              Log in
+          <Container className={cx("signup-section")}>
+            <p className={cx("signup-text")}>Don't have an account?</p>
+            <Link to="/signup" className={cx("signup-button")}>
+              Sign up
             </Link>
           </Container>
         </Container>
@@ -90,4 +131,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;

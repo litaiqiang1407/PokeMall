@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { fetchData } from "~/functions/fetchData";
-
+import { loadMoreProducts } from "~/functions/handleEvent";
 import classNames from "classnames/bind";
 import styles from "./Suggestions.module.scss";
 

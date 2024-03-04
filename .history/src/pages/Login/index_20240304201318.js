@@ -1,30 +1,49 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Container, Form, Button } from "react-bootstrap";
-
-import { isValidateForm } from "~/functions/validation";
-import classNames from "classnames/bind";
-import styles from "./Login.module.scss";
+import { useState } from "react"; // React
+import { Link } from "react-router-dom"; // React-Router-DOM
+import { Container, Form, Button } from "react-bootstrap"; // React-Bootstrap
+import classNames from "classnames/bind"; // CSS Modules
+import styles from "./Login.module.scss"; // Component styles
 
 const cx = classNames.bind(styles);
 
 function Login() {
+  const [validated, setValidated] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (
+      form.checkValidity() === false ||
+      !isPhoneValid(phone) ||
+      !isPasswordValid(password)
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+  const handlePhoneChange = (event) => {
+    setPhone(event.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    isValidateForm(phone, password, setPhoneError, setPasswordError);
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const isPhoneValid = (phone) => {
+    // Regular expression to validate phone format (10 digits)
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone);
+  };
+
+  const isPasswordValid = (password) => {
+    // Regular expression to validate password format (at least 8 characters, at least one letter, at least one number, and at least one special character)
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    return passwordRegex.test(password);
   };
 
   return (
@@ -36,7 +55,7 @@ function Login() {
             <h1 className={cx("text-center")}>Log In</h1>
           </Container>
 
-          <Form onSubmit={handleSubmit}>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {/* Phone Field */}
             <Form.Group
               className={cx("form-field")}
@@ -44,30 +63,36 @@ function Login() {
             >
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: phoneError })}
+                required
+                className={cx("form-input")}
                 type="text"
                 placeholder="Enter your phone number"
                 value={phone}
                 onChange={handlePhoneChange}
               />
-              {phoneError && (
-                <span className={cx("error-message")}>{phoneError}</span>
-              )}
+              <Form.Control.Feedback type="invalid">
+                {phone.trim === ""
+                  ? "Please provide your phone number."
+                  : "Please provide a valid phone number (10 digits)."}
+              </Form.Control.Feedback>
             </Form.Group>
 
             {/* Password Field */}
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: passwordError })}
+                required
+                className={cx("form-input")}
                 type="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={handlePasswordChange}
               />
-              {passwordError && (
-                <span className={cx("error-message")}>{passwordError}</span>
-              )}
+              <Form.Control.Feedback type="invalid">
+                {password.trim === ""
+                  ? "Please enter your password."
+                  : "Please enter a valid password (at least 8 characters, at least one letter, at least one number, and at least one special character)."}
+              </Form.Control.Feedback>
             </Form.Group>
 
             {/* Forgot Password */}

@@ -1,15 +1,22 @@
-import { useState, useEffect } from "react"; // React hooks
-import { useParams } from "react-router-dom"; // React router
+// React
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap"; // Bootstrap
-import { fetchData } from "~/functions/fetchData"; // Custom function
+
+// Bootstrap
+import { Container, Row, Col, Button } from "react-bootstrap";
+
+// Functions
+import { fetchData } from "~/functions/fetchData";
 import {
   handleDecrease,
   handleIncrease,
   handleQuantityChange,
-} from "~/functions/eventHandlers"; // Custom functions
-import { renderStarIcons } from "~/functions/render"; // Custom function
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Font Awesome
+} from "~/functions/eventHandlers";
+import { renderStarIcons } from "~/functions/render";
+
+// Font Awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBox,
   faCartPlus,
@@ -17,12 +24,16 @@ import {
   faHandHoldingDollar,
   faStar,
   faThumbsUp,
-} from "@fortawesome/free-solid-svg-icons"; // Font Awesome
-import LoadingAnimation from "~/components/LoadingAnimation"; // Loading Animation
-import classNames from "classnames/bind"; // CSS Module
-import styles from "./ProductDetail.module.scss"; // CSS Module
+} from "@fortawesome/free-solid-svg-icons";
 
-const cx = classNames.bind(styles); // CSS Module
+// Components
+import LoadingAnimation from "~/components/LoadingAnimation";
+
+// Styles
+import classNames from "classnames/bind";
+import styles from "./ProductDetail.module.scss";
+
+const cx = classNames.bind(styles);
 
 // Component
 function ProductDetail() {

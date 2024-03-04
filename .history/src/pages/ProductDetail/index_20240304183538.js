@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react"; // React hooks
-import { useParams } from "react-router-dom"; // React router
+// React
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap"; // Bootstrap
-import { fetchData } from "~/functions/fetchData"; // Custom function
-import {
-  handleDecrease,
-  handleIncrease,
-  handleQuantityChange,
-} from "~/functions/eventHandlers"; // Custom functions
-import { renderStarIcons } from "~/functions/render"; // Custom function
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Font Awesome
+
+// Bootstrap
+import { Container, Row, Col, Button } from "react-bootstrap";
+
+// Functions
+import { fetchData } from "~/functions/fetchData";
+
+// Font Awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBox,
   faCartPlus,
@@ -17,12 +18,16 @@ import {
   faHandHoldingDollar,
   faStar,
   faThumbsUp,
-} from "@fortawesome/free-solid-svg-icons"; // Font Awesome
-import LoadingAnimation from "~/components/LoadingAnimation"; // Loading Animation
-import classNames from "classnames/bind"; // CSS Module
-import styles from "./ProductDetail.module.scss"; // CSS Module
+} from "@fortawesome/free-solid-svg-icons";
 
-const cx = classNames.bind(styles); // CSS Module
+// Components
+import LoadingAnimation from "~/components/LoadingAnimation";
+
+// Styles
+import classNames from "classnames/bind";
+import styles from "./ProductDetail.module.scss";
+
+const cx = classNames.bind(styles);
 
 // Component
 function ProductDetail() {
@@ -42,7 +47,33 @@ function ProductDetail() {
     return <LoadingAnimation />;
   }
 
-  const starIcons = renderStarIcons(productDetail.AverageRating, cx);
+  const renderStarIcons = () => {
+    const rating = Math.round(productDetail.AverageRating);
+    const starIcons = [];
+    for (let i = 0; i < rating; i++) {
+      starIcons.push(
+        <FontAwesomeIcon key={i} className={cx("rating-icon")} icon={faStar} />
+      );
+    }
+    return starIcons;
+  };
+
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleQuantityChange = (event) => {
+    const value = parseInt(event.target.value);
+    if (!isNaN(value) && value >= 1) {
+      setQuantity(value);
+    }
+  };
 
   return (
     <Container fluid style={{ backgroundColor: "#f8f9fa", padding: "20px 0" }}>
@@ -117,7 +148,7 @@ function ProductDetail() {
                   {productDetail.AverageRating}
                 </span>
                 <FontAwesomeIcon className={cx("rating-icon")} icon={faStar} />
-                {starIcons}
+                {renderStarIcons()}
               </Container>
               <Container className={cx("product-reviews")}>
                 <span className={cx("metrics-data")}>
@@ -161,24 +192,16 @@ function ProductDetail() {
               <Container className={cx("product-quantity")}>
                 <span className={cx("option-label")}>Quantity:</span>
                 <Container className={cx("quantity-select")}>
-                  <Button
-                    className={cx("decrease")}
-                    onClick={() => handleDecrease(quantity, setQuantity)}
-                  >
+                  <Button className={cx("decrease")} onClick={handleDecrease}>
                     -
                   </Button>
                   <input
                     type="text"
                     value={quantity}
-                    onChange={(event) =>
-                      handleQuantityChange(event, setQuantity)
-                    }
+                    onChange={handleQuantityChange}
                     className={cx("quantity-input")}
                   />
-                  <Button
-                    className={cx("increase")}
-                    onClick={() => handleIncrease(quantity, setQuantity)}
-                  >
+                  <Button className={cx("increase")} onClick={handleIncrease}>
                     +
                   </Button>
                 </Container>

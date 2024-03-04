@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Container, Form, Button } from "react-bootstrap";
-
-import { isValidateForm } from "~/functions/validation";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import classNames from "classnames/bind";
 import styles from "./Login.module.scss";
 
@@ -24,7 +22,39 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    isValidateForm(phone, password, setPhoneError, setPasswordError);
+    validateForm();
+  };
+
+  const validateForm = () => {
+    let phoneValid = true;
+    let passwordValid = true;
+
+    // Validate Phone
+    if (!phone) {
+      setPhoneError("Phone number is required");
+      phoneValid = false;
+    } else if (!/^\d{10}$/.test(phone)) {
+      setPhoneError("Invalid phone number format");
+      phoneValid = false;
+    } else {
+      setPhoneError("");
+    }
+
+    // Validate Password
+    if (!password) {
+      setPasswordError("Password is required");
+      passwordValid = false;
+    } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
+      setPasswordError("Invalid password format");
+      passwordValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    // If both fields are valid, proceed with login
+    if (phoneValid && passwordValid) {
+      // Your login logic here
+    }
   };
 
   return (
@@ -44,30 +74,28 @@ function Login() {
             >
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: phoneError })}
+                required
+                className={cx("form-input")}
                 type="text"
                 placeholder="Enter your phone number"
                 value={phone}
                 onChange={handlePhoneChange}
               />
-              {phoneError && (
-                <span className={cx("error-message")}>{phoneError}</span>
-              )}
+              {phoneError && <span variant="danger">{phoneError}</span>}
             </Form.Group>
 
             {/* Password Field */}
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: passwordError })}
+                required
+                className={cx("form-input")}
                 type="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={handlePasswordChange}
               />
-              {passwordError && (
-                <span className={cx("error-message")}>{passwordError}</span>
-              )}
+              {passwordError && <span variant="danger">{passwordError}</span>}
             </Form.Group>
 
             {/* Forgot Password */}

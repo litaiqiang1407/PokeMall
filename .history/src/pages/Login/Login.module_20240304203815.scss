@@ -1,6 +1,6 @@
 @import "~bootstrap/scss/bootstrap";
 
-.signup-container {
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,17 +8,17 @@
   height: 500px;
   padding: 0 50px;
 
-  .signup-form-container {
+  .login-form-container {
     width: 400px;
     height: 500px;
 
-    .signup-form {
+    .login-form {
       background-color: var(--white);
       border-radius: 10px;
       padding: 35px 20px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
-      .signup-title {
+      .login-title {
         height: 40px;
         font-weight: 800;
       }
@@ -42,6 +42,17 @@
         }
       }
 
+      .forgot-password_container {
+        margin: 10px 0 20px;
+        padding: 0;
+        text-align: right;
+        .forgot-password {
+          font-size: 1.4rem;
+          color: var(--primary-color);
+          text-decoration: none;
+        }
+      }
+
       .signup-button,
       .login-button {
         display: flex;
@@ -57,7 +68,7 @@
         transition: color 0.3s, border-color 0.3s;
       }
 
-      .login-button {
+      .signup-button {
         margin-top: 10px;
         margin-right: 16px;
         color: var(--primary-color);
@@ -70,8 +81,7 @@
         }
       }
 
-      .signup-button {
-        margin-top: 54px;
+      .login-button {
         color: var(--white);
         background-color: var(--primary-color);
 
@@ -86,11 +96,7 @@
         color: var(--error-message-color);
         font-size: 1.2rem;
         margin-top: 4px;
-      }
-
-      .error {
-        border-color: var(--error-message-color);
-        background-color: var(--error-background-color);
+        position: absolute;
       }
 
       .horizontal-line {
@@ -98,7 +104,7 @@
         margin: 20px 0;
       }
 
-      .login-text {
+      .signup-text {
         font-size: 1.6rem;
         color: var(--text-color);
         text-align: center;

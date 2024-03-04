@@ -1,42 +1,40 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Container, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom"; // React-Router-DOM
+import { Container, Form, Button } from "react-bootstrap"; // React-Bootstrap
 
-import { isValidateForm } from "~/functions/validation";
-import classNames from "classnames/bind";
-import styles from "./Login.module.scss";
+// import { handleSubmit } from "~/functions/eventHandlers"; // Functions
+
+import classNames from "classnames/bind"; // CSS Modules
+import styles from "./Login.module.scss"; // Component styles
 
 const cx = classNames.bind(styles);
 
 function Login() {
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [validated, setValidated] = useState(false);
 
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
   };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    isValidateForm(phone, password, setPhoneError, setPasswordError);
-  };
-
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const formData = new FormData(event.target);
+  //   handleSubmit(formData);
+  // };
   return (
     <Container fluid className={cx("login-container")}>
       <Container fluid className={cx("login-form-container")}>
         <Container className={cx("login-form")}>
           {/* Title */}
           <Container className={cx("login-title")}>
-            <h1 className={cx("text-center")}>Log In</h1>
+            <h1 className={cx(" text-center")}>Log In</h1>
           </Container>
 
-          <Form onSubmit={handleSubmit}>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
             {/* Phone Field */}
             <Form.Group
               className={cx("form-field")}
@@ -44,30 +42,20 @@ function Login() {
             >
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: phoneError })}
+                className={cx("form-input")}
                 type="text"
                 placeholder="Enter your phone number"
-                value={phone}
-                onChange={handlePhoneChange}
               />
-              {phoneError && (
-                <span className={cx("error-message")}>{phoneError}</span>
-              )}
             </Form.Group>
 
             {/* Password Field */}
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: passwordError })}
+                className={cx("form-input")}
                 type="password"
                 placeholder="Enter your password"
-                value={password}
-                onChange={handlePasswordChange}
               />
-              {passwordError && (
-                <span className={cx("error-message")}>{passwordError}</span>
-              )}
             </Form.Group>
 
             {/* Forgot Password */}

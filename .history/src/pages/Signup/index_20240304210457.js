@@ -37,7 +37,7 @@ function Signup() {
             <h1 className={cx(" text-center")}>Sign Up</h1>
           </Container>
 
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Form.Group
               className={cx("form-field")}
               controlId="formPhoneNumber"

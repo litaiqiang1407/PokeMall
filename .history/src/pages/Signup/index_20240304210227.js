@@ -1,10 +1,6 @@
-import { useState } from "react";
-
 import { Link } from "react-router-dom";
 
 import { Container, Form, Button } from "react-bootstrap";
-
-import { isValidateForm } from "~/functions/validation";
 
 import classNames from "classnames/bind";
 import styles from "./Signup.module.scss";
@@ -37,36 +33,26 @@ function Signup() {
             <h1 className={cx(" text-center")}>Sign Up</h1>
           </Container>
 
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Form.Group
               className={cx("form-field")}
               controlId="formPhoneNumber"
             >
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: phoneError })}
+                className={cx("form-input")}
                 type="text"
                 placeholder="Enter your phone number"
-                value={phone}
-                onChange={handlePhoneChange}
               />
-              {phoneError && (
-                <span className={cx("error-message")}>{phoneError}</span>
-              )}
             </Form.Group>
 
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
               <Form.Control
-                className={cx("form-input", { error: passwordError })}
+                className={cx("form-input")}
                 type="password"
                 placeholder="Enter your password"
-                value={password}
-                onChange={handlePasswordChange}
               />
-              {passwordError && (
-                <span className={cx("error-message")}>{passwordError}</span>
-              )}
             </Form.Group>
 
             <Button
