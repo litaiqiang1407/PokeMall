@@ -1,3 +1,4 @@
+import axios from "axios";
 import toast from "react-hot-toast";
 
 // Increase
@@ -20,8 +21,7 @@ const handleQuantityChange = (e, setQuantity) => {
   }
 };
 
-// Response
-const handleResponse = (data, formType) => {
+const handleResponse = (data, formType, redirectPage) => {
   if (data) {
     toast.success(`${formType} success`, {
       icon: "💛",

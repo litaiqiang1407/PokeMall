@@ -19,11 +19,6 @@ const errorMessages = {
   },
 };
 
-const isExist = (data, field, setError) => {
-  if (data === `${field} already exists`)
-    return setError(`This ${field} already exists`);
-};
-
 const validateField = (field, value) => {
   if (!value) return `Please enter your ${field}.`;
   const regex = validators[field];

@@ -1,18 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, InputGroup } from "react-bootstrap";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
-
-import { isValidation, isExist } from "~/functions/validation";
-import { interactData } from "~/functions/interactData";
-import { handleResponse } from "~/functions/eventHandlers";
+import { isValidation } from "~/functions/validation";
 
 import classNames from "classnames/bind";
 import styles from "./Signup.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-regular-svg-icons";
 
 const cx = classNames.bind(styles);
 
@@ -21,9 +18,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [existError, setExistError] = useState("");
   const [signupSuccess, setSignupSuccess] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handlePhoneChange = (e) => {
@@ -32,10 +27,6 @@ function Signup() {
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   const handleSubmit = (e) => {
@@ -48,17 +39,34 @@ function Signup() {
       setPhoneError(errors.phone || "");
       setPasswordError(errors.password || "");
       if (!errors.phone && !errors.password) {
-        interactData(
-          "http://localhost/pokemall/actions/signup.php",
-          "POST",
-          { phone: phone, password: password },
-          (data) => {
+        fetch("http://localhost/pokemall/actions/signup.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            phone: phone,
+            password: password,
+          }),
+        })
+          .then((response) => response.text())
+          .then((data) => {
             console.log(data);
-            isExist(data, phone, setExistError);
-            handleResponse(data, "Sign up");
+            toast.success("Signup success", {
+              icon: "💛",
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#fff",
+              },
+              duration: 1000,
+              position: "top-center",
+            });
             setSignupSuccess(true);
-          }
-        );
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
       }
     });
   };
@@ -77,7 +85,7 @@ function Signup() {
             <h1 className={cx(" text-center")}>Sign Up</h1>
           </Container>
 
-          <Form action="signup.php" method="post" onSubmit={handleSubmit}>
+          <Form action="" method="post" onSubmit={handleSubmit}>
             <Form.Group
               className={cx("form-field")}
               controlId="formPhoneNumber"
@@ -94,32 +102,20 @@ function Signup() {
               {phoneError && (
                 <span className={cx("error-message")}>{phoneError}</span>
               )}
-              {existError && (
-                <span className={cx("error-message")}>{existError}</span>
-              )}
             </Form.Group>
 
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
 
-              <div className={cx("form-input-container")}>
-                <Form.Control
-                  name="password"
-                  className={cx("form-input", { error: passwordError })}
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-
-                {password && (
-                  <FontAwesomeIcon
-                    className={cx("show-icon")}
-                    icon={showPassword ? faEyeSlash : faEye}
-                    onClick={togglePasswordVisibility}
-                  />
-                )}
-              </div>
+              <Form.Control
+                name="password"
+                className={cx("form-input", { error: passwordError })}
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              <FontAwesomeIcon className={cx("show-icon")} icon={faEye} />
 
               {passwordError && (
                 <span className={cx("error-message")}>{passwordError}</span>

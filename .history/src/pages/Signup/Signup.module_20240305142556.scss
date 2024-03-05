@@ -126,16 +126,15 @@
   }
 }
 
-.form-input-container {
-  position: relative;
-}
+.form-container {
+  display: flex;
+  align-items: center; // Điều này giúp căn giữa các phần tử theo chiều dọc
 
-.show-icon {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  padding: 16px;
-  font-size: 1.6rem;
-  transform: translateY(-50%);
-  cursor: pointer;
+  .form-input {
+    flex: 1; // Phần này chiếm phần còn lại của không gian
+  }
+
+  .show-icon {
+    margin-left: 10px; // Có thể điều chỉnh khoảng cách giữa Form.Control và icon
+  }
 }

@@ -19,13 +19,9 @@ const errorMessages = {
   },
 };
 
-const isExist = (data, field, setError) => {
-  if (data === `${field} already exists`)
-    return setError(`This ${field} already exists`);
-};
-
-const validateField = (field, value) => {
+const validateField = (field, value, existData) => {
   if (!value) return `Please enter your ${field}.`;
+  if 
   const regex = validators[field];
   return regex.test(value) ? "" : errorMessages[field].invalidFormat;
 };
@@ -46,4 +42,4 @@ const isValidation = (fields, setErrors) => {
   return isValid;
 };
 
-export { isValidation, validators, isExist };
+export { isValidation, validators };

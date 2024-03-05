@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"; // React hooks
 import { useParams } from "react-router-dom"; // React router
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap"; // Bootstrap
+import { fetchData } from "~/functions/fetchData"; // Custom function
 import { interactData } from "~/functions/interactData"; // Custom function
 import {
   handleDecrease,
@@ -32,10 +33,8 @@ function ProductDetail() {
   const { id } = useParams();
 
   useEffect(() => {
-    interactData(
+    fetchData(
       `http://localhost/pokemall/api/ProductDetail.php?productId=${id}`,
-      "GET",
-      null,
       setProductDetail
     );
   }, [id]);

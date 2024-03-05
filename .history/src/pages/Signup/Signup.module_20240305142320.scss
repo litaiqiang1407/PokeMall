@@ -126,16 +126,11 @@
   }
 }
 
-.form-input-container {
-  position: relative;
+.form-control-wrapper {
+  display: flex;
+  align-items: center;
 }
 
 .show-icon {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  padding: 16px;
-  font-size: 1.6rem;
-  transform: translateY(-50%);
-  cursor: pointer;
+  margin-left: 10px; // Điều chỉnh khoảng cách theo ý của bạn
 }

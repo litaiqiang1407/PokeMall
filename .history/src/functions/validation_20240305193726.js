@@ -19,15 +19,15 @@ const errorMessages = {
   },
 };
 
-const isExist = (data, field, setError) => {
-  if (data === `${field} already exists`)
-    return setError(`This ${field} already exists`);
-};
-
 const validateField = (field, value) => {
   if (!value) return `Please enter your ${field}.`;
   const regex = validators[field];
   return regex.test(value) ? "" : errorMessages[field].invalidFormat;
+};
+
+const isExist = (data, field) => {
+  if (data === `This ${field} is already exist`)
+    return `This ${field} is already exist`;
 };
 
 const isValidation = (fields, setErrors) => {
@@ -46,4 +46,4 @@ const isValidation = (fields, setErrors) => {
   return isValid;
 };
 
-export { isValidation, validators, isExist };
+export { isValidation, validators };

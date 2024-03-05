@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 // Increase
 const handleIncrease = (quantity, setQuantity) => {
@@ -20,8 +21,9 @@ const handleQuantityChange = (e, setQuantity) => {
   }
 };
 
-// Response
-const handleResponse = (data, formType) => {
+const handleResponse = (data, formType, redirectPage) => {
+  const navigate = useNavigate();
+
   if (data) {
     toast.success(`${formType} success`, {
       icon: "💛",
@@ -33,6 +35,9 @@ const handleResponse = (data, formType) => {
       duration: 1000,
       position: "top-center",
     });
+    setTimeout(() => {
+      navigate(redirectPage);
+    }, 1500);
   }
 };
 

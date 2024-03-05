@@ -133,7 +133,6 @@ function Login() {
           </Container>
         </Container>
       </Container>
-      <Toaster />
     </Container>
   );
 }

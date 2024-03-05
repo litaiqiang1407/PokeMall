@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { interactData } from "~/functions/interactData";
+import { fetchData } from "~/functions/fetchData";
 
 import classNames from "classnames/bind";
 import styles from "./Suggestions.module.scss";
+import { interactData } from "~/functions/interactData";
 
 const cx = classNames.bind(styles);
 
@@ -15,8 +16,10 @@ function Suggestions() {
   useEffect(() => {
     interactData(
       "http://localhost/pokemall/api/SuggestionProducts.php",
-      "GET",
-      null,
+      setProducts
+    );
+    fetchData(
+      "http://localhost/pokemall/api/SuggestionProducts.php",
       setProducts
     );
   }, []);

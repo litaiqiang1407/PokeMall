@@ -20,7 +20,6 @@ const handleQuantityChange = (e, setQuantity) => {
   }
 };
 
-// Response
 const handleResponse = (data, formType) => {
   if (data) {
     toast.success(`${formType} success`, {

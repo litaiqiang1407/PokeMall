@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { fetchData } from "~/functions/fetchData";
 import { interactData } from "~/functions/interactData";
 
 import classNames from "classnames/bind";

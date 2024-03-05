@@ -32,9 +32,7 @@ function Login() {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const fields = [
@@ -46,12 +44,6 @@ function Login() {
       setPasswordError(errors.password || "");
     });
   };
-
-  if (loginSuccess) {
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
-  }
 
   return (
     <Container fluid className={cx("login-container")}>
@@ -85,24 +77,14 @@ function Login() {
             {/* Password Field */}
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
-              <div className={cx("form-input-container")}>
-                <Form.Control
-                  name="password"
-                  className={cx("form-input", { error: passwordError })}
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
-
-                {password && (
-                  <FontAwesomeIcon
-                    className={cx("show-icon")}
-                    icon={showPassword ? faEyeSlash : faEye}
-                    onClick={togglePasswordVisibility}
-                  />
-                )}
-              </div>
+              <Form.Control
+                name="password"
+                className={cx("form-input", { error: passwordError })}
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
               {passwordError && (
                 <span className={cx("error-message")}>{passwordError}</span>
               )}
@@ -133,7 +115,6 @@ function Login() {
           </Container>
         </Container>
       </Container>
-      <Toaster />
     </Container>
   );
 }

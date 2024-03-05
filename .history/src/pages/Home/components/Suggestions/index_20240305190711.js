@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { fetchData } from "~/functions/fetchData";
 import { interactData } from "~/functions/interactData";
 
 import classNames from "classnames/bind";
 import styles from "./Suggestions.module.scss";
+import { interactData } from "~/functions/interactData";
 
 const cx = classNames.bind(styles);
 
