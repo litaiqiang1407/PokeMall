@@ -71,7 +71,7 @@ function Header() {
                     className={cx("user-options__item btn-profile")}
                     to="/profile"
                   >
-                    <img />
+                    <img src={user.avatar} alt={user.name} />
                   </Link>
                 </div>
               ) : (

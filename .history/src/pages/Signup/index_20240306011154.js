@@ -50,20 +50,20 @@ function Signup() {
       setPhoneError(errors.phone || "");
       setPasswordError(errors.password || "");
       if (!errors.phone && !errors.password) {
-        interactData(
-          url,
-          "POST",
-          { phone: phone, password: password },
-          (data) => {
-            console.log(data);
-            if (data.message === "phone already exists") {
-              setExistError("Phone number already exists");
-            } else {
+        isExist(url, "phone", phone, setExistError);
+        // Check if there are no errors (including existence error)
+        if (!errors.phone && !errors.password && !existError) {
+          interactData(
+            url,
+            "POST",
+            { phone: phone, password: password },
+            (data) => {
+              console.log(data);
               handleResponse(data, "Sign up");
               setSignupSuccess(true);
             }
-          }
-        );
+          );
+        }
       }
     });
   };
@@ -90,9 +90,7 @@ function Signup() {
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
                 name="phone"
-                className={cx("form-input", {
-                  error: phoneError || existError,
-                })}
+                className={cx("form-input", { error: phoneError })}
                 type="text"
                 placeholder="Enter your phone number"
                 value={phone}

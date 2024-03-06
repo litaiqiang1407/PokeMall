@@ -5,7 +5,6 @@ import { Navbar, Container, Row, Col, Nav } from "react-bootstrap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCartShopping,
   faMagnifyingGlass,
   faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
@@ -53,26 +52,23 @@ function Header() {
             <Col lg={3}>
               {isLoggedIn ? (
                 <div className={cx("user-options")}>
-                  <Link
-                    className={cx("user-options__item btn-order")}
-                    to="/order"
-                  >
-                    <FontAwesomeIcon icon={faReceipt} />
-                  </Link>
-
-                  <Link
-                    className={cx("user-options__item btn-cart")}
-                    to="/cart"
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} />
-                  </Link>
-
-                  <Link
-                    className={cx("user-options__item btn-profile")}
-                    to="/profile"
-                  >
-                    <img />
-                  </Link>
+                  <Row>
+                    <Col lg={4}>
+                      <Link className={cx("btn-order")} to="/order">
+                        <FontAwesomeIcon icon={faReceipt} />
+                      </Link>
+                    </Col>
+                    <Col lg={4}>
+                      <Link className={cx("btn-cart")} to="/cart">
+                        <FontAwesomeIcon icon={faShoppingCart} />
+                      </Link>
+                    </Col>
+                    <Col lg={4}>
+                      <Link className={cx("btn-profile")} to="/profile">
+                        <img />
+                      </Link>
+                    </Col>
+                  </Row>
                 </div>
               ) : (
                 <div className={cx("authentication")}>

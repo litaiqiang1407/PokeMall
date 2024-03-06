@@ -51,17 +51,14 @@ function Signup() {
       setPasswordError(errors.password || "");
       if (!errors.phone && !errors.password) {
         interactData(
-          url,
+          "http://localhost/pokemall/actions/signup.php",
           "POST",
           { phone: phone, password: password },
           (data) => {
             console.log(data);
-            if (data.message === "phone already exists") {
-              setExistError("Phone number already exists");
-            } else {
-              handleResponse(data, "Sign up");
-              setSignupSuccess(true);
-            }
+
+            handleResponse(data, "Sign up");
+            setSignupSuccess(true);
           }
         );
       }
@@ -90,9 +87,7 @@ function Signup() {
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
                 name="phone"
-                className={cx("form-input", {
-                  error: phoneError || existError,
-                })}
+                className={cx("form-input", { error: phoneError })}
                 type="text"
                 placeholder="Enter your phone number"
                 value={phone}

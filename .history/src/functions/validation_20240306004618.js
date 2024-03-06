@@ -1,5 +1,3 @@
-import { interactData } from "./interactData";
-
 const validators = {
   email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
   phone: /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/,
@@ -21,22 +19,15 @@ const errorMessages = {
   },
 };
 
+const isExist = (data, field, setError) => {
+  if (data === `${field} already exists`)
+    return setError(`This ${field} already exists`);
+};
+
 const validateField = (field, value) => {
   if (!value) return `Please enter your ${field}.`;
   const regex = validators[field];
   return regex.test(value) ? "" : errorMessages[field].invalidFormat;
-};
-
-const isExist = (url, field, value, setError) => {
-  const data = { [field]: value };
-
-  interactData(url, "POST", data, (response) => {
-    if (response.exists) {
-      setError(errorMessages[field].exist);
-    } else {
-      setError("");
-    }
-  });
 };
 
 const isValidation = (fields, setErrors) => {

@@ -90,9 +90,7 @@ function Signup() {
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
                 name="phone"
-                className={cx("form-input", {
-                  error: phoneError || existError,
-                })}
+                className={cx("form-input", { error: phoneError })}
                 type="text"
                 placeholder="Enter your phone number"
                 value={phone}

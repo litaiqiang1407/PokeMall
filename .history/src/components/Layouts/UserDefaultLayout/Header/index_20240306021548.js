@@ -4,11 +4,7 @@ import { Link } from "react-router-dom";
 import { Navbar, Container, Row, Col, Nav } from "react-bootstrap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCartShopping,
-  faMagnifyingGlass,
-  faReceipt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "~/functions/authContext";
 
 import classNames from "classnames/bind";
@@ -51,39 +47,14 @@ function Header() {
               </div>
             </Col>
             <Col lg={3}>
-              {isLoggedIn ? (
-                <div className={cx("user-options")}>
-                  <Link
-                    className={cx("user-options__item btn-order")}
-                    to="/order"
-                  >
-                    <FontAwesomeIcon icon={faReceipt} />
-                  </Link>
-
-                  <Link
-                    className={cx("user-options__item btn-cart")}
-                    to="/cart"
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} />
-                  </Link>
-
-                  <Link
-                    className={cx("user-options__item btn-profile")}
-                    to="/profile"
-                  >
-                    <img />
-                  </Link>
-                </div>
-              ) : (
-                <div className={cx("authentication")}>
-                  <Link className={cx("btn-signup")} to="/signup">
-                    Sign up
-                  </Link>
-                  <Link className={cx("btn-login")} to="/login">
-                    Log in
-                  </Link>
-                </div>
-              )}
+              <div className={cx("authentication")}>
+                <Link className={cx("btn-signup")} to="/signup">
+                  Sign up
+                </Link>
+                <Link className={cx("btn-login")} to="/login">
+                  Log in
+                </Link>
+              </div>
             </Col>
           </Row>
         </Container>
