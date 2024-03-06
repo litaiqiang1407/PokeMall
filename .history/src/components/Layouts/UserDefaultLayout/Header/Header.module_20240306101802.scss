@@ -10,6 +10,21 @@
   z-index: 1000;
   transition: all 0.3s ease;
 
+  .header-scrolled .header-search {
+    display: none; /* Hide search bar when scrolled */
+  }
+
+  .header-scrolled .navbar-header {
+    margin-top: 0; /* Adjust margin for navbar when scrolled */
+  }
+
+  .header-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease; /* Smooth transition */
+  }
+
   .header-top {
     height: 70px;
     padding: 0;
@@ -28,7 +43,7 @@
       margin-top: 12px;
       border-radius: 46px;
       border: 1px solid var(--border-color);
-      transition: border-color 0.3s, all 0.3s ease;
+      transition: border-color 0.3s;
 
       &:focus-within,
       &:hover {

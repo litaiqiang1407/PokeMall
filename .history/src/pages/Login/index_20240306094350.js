@@ -81,7 +81,6 @@ function Login() {
               handleResponse(data, "Login");
               setLoginSuccess(true);
               login();
-              localStorage.setItem("isLoggedIn", "true");
             }
           }
         );
@@ -112,7 +111,6 @@ function Login() {
             >
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
-                ref={phoneRef}
                 name="phone"
                 className={cx("form-input", {
                   error: phoneError || existError,

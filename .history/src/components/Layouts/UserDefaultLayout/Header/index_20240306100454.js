@@ -18,7 +18,6 @@ const cx = classNames.bind(styles);
 
 function Header() {
   const { isLoggedIn } = useContext(AuthContext);
-
   return (
     <header>
       <Container fluid className={cx("header-container")}>

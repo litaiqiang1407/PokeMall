@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { Navbar, Container, Row, Col, Nav } from "react-bootstrap";
@@ -18,7 +18,6 @@ const cx = classNames.bind(styles);
 
 function Header() {
   const { isLoggedIn } = useContext(AuthContext);
-
   return (
     <header>
       <Container fluid className={cx("header-container")}>

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 
 import { Link } from "react-router-dom";
 import { Navbar, Container, Row, Col, Nav } from "react-bootstrap";
@@ -9,7 +9,7 @@ import {
   faMagnifyingGlass,
   faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
-import { AuthContext } from "~/functions/Contexts/authContext";
+import { AuthContext } from "~/functions/authContext";
 
 import classNames from "classnames/bind";
 import styles from "./Header.module.scss";
@@ -18,7 +18,6 @@ const cx = classNames.bind(styles);
 
 function Header() {
   const { isLoggedIn } = useContext(AuthContext);
-
   return (
     <header>
       <Container fluid className={cx("header-container")}>

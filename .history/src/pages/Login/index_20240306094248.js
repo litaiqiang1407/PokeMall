@@ -32,10 +32,8 @@ function Login() {
   const url = "http://localhost/pokemall/actions/login.php";
 
   useEffect(() => {
-    if (phoneRef.current) {
-      phoneRef.current.focus();
-    }
-  }, [phoneRef]);
+    phoneRef.current.focus();
+  }, []);
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
@@ -81,7 +79,6 @@ function Login() {
               handleResponse(data, "Login");
               setLoginSuccess(true);
               login();
-              localStorage.setItem("isLoggedIn", "true");
             }
           }
         );
@@ -112,7 +109,6 @@ function Login() {
             >
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
-                ref={phoneRef}
                 name="phone"
                 className={cx("form-input", {
                   error: phoneError || existError,

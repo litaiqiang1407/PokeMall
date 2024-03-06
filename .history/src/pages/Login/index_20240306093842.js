@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
@@ -25,17 +25,11 @@ function Login() {
   const [existError, setExistError] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const phoneRef = useRef(null);
   const { login } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const url = "http://localhost/pokemall/actions/login.php";
-
-  useEffect(() => {
-    if (phoneRef.current) {
-      phoneRef.current.focus();
-    }
-  }, [phoneRef]);
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
@@ -47,14 +41,6 @@ function Login() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const fields = [
@@ -81,7 +67,6 @@ function Login() {
               handleResponse(data, "Login");
               setLoginSuccess(true);
               login();
-              localStorage.setItem("isLoggedIn", "true");
             }
           }
         );
@@ -112,7 +97,6 @@ function Login() {
             >
               <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
-                ref={phoneRef}
                 name="phone"
                 className={cx("form-input", {
                   error: phoneError || existError,
@@ -140,7 +124,6 @@ function Login() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={handlePasswordChange}
-                  onKeyDown={handleKeyDown}
                 />
 
                 {password && (

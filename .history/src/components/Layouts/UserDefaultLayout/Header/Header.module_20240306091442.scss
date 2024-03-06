@@ -1,14 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 
 .header-container {
-  position: fixed;
-  top: 0;
-  left: 0;
   height: 120px;
   background-color: var(--white);
   padding: 0;
-  z-index: 1000;
-  transition: all 0.3s ease;
 
   .header-top {
     height: 70px;
@@ -28,7 +23,7 @@
       margin-top: 12px;
       border-radius: 46px;
       border: 1px solid var(--border-color);
-      transition: border-color 0.3s, all 0.3s ease;
+      transition: border-color 0.3s;
 
       &:focus-within,
       &:hover {
@@ -138,9 +133,9 @@
         text-decoration: none;
         transition: color 0.3s, border-color 0.3s;
 
-        &:hover {
-          color: var(--primary-color-hover);
-        }
+        // .item-icon {
+        // }
+
         .avatar {
           width: 40px;
           height: 40px;

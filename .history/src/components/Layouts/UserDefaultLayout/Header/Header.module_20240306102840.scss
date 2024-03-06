@@ -10,6 +10,16 @@
   z-index: 1000;
   transition: all 0.3s ease;
 
+  &.header-scroll {
+    height: 70px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .header-scroll .header-search {
+    display: none;
+  }
+
   .header-top {
     height: 70px;
     padding: 0;

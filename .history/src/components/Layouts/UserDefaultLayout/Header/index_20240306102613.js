@@ -18,10 +18,29 @@ const cx = classNames.bind(styles);
 
 function Header() {
   const { isLoggedIn } = useContext(AuthContext);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    function handleScroll() {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <header>
-      <Container fluid className={cx("header-container")}>
+      <Container
+        fluid
+        className={cx("header-container", { "header-scrolled": isScrolled })}
+      >
         <Container className={cx("header-top")}>
           <Row>
             <Col lg={3}>

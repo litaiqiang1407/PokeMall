@@ -81,7 +81,6 @@ function Login() {
               handleResponse(data, "Login");
               setLoginSuccess(true);
               login();
-              localStorage.setItem("isLoggedIn", "true");
             }
           }
         );
