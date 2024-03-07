@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/bootstrap";
+
+.my-account {
+  background-color: var(--white);
+  padding: 20px 0;
+}
+
+.account-header {
+  margin: 0 12px;
+  padding: 0;
+  height: 80px;
+  border-bottom: 1px solid var(--border-color);
+}

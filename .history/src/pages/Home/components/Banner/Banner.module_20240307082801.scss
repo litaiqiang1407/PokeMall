@@ -1,0 +1,10 @@
+@import "~bootstrap/scss/bootstrap";
+
+.banner {
+  background-color: var(--white);
+  padding-bottom: 20px;
+  padding: 0;
+  .banner-img {
+    width: 100%;
+  }
+}

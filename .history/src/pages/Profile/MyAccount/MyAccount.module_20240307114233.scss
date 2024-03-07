@@ -1,0 +1,63 @@
+@import "~bootstrap/scss/bootstrap";
+
+.my-account {
+  background-color: var(--white);
+  padding: 20px 0;
+}
+
+.account-header {
+  height: 62px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.account-content {
+  padding: 20px 8px;
+}
+
+.info-header {
+  height: 40px;
+  border-bottom: 1px solid var(--border-color);
+
+  .info-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 40px;
+    margin-right: 8px;
+  }
+}
+
+.info-content {
+  padding: 40px;
+}
+
+.form-group {
+  height: 40px;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-weight: 400;
+  line-height: 40px;
+}
+
+.info-input {
+  width: 400px;
+  height: 40px;
+  padding: 4px 10px;
+  font-size: 1.6rem;
+  line-height: 40;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  &:focus {
+    color: var(--text-hover-color);
+    border-color: var(--primary-color);
+    outline: 0;
+    box-shadow: var(--primary-box-shadow);
+  }
+}
+
+// Styles for read-only inputs
+input[readonly] {
+  background-color: var(--border-color);
+  cursor: not-allowed;
+}
