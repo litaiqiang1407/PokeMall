@@ -1,0 +1,8 @@
+@import "~bootstrap/scss/bootstrap";
+
+.avatar-img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--primary-color);
+}

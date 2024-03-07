@@ -1,0 +1,30 @@
+@import "~bootstrap/scss/bootstrap";
+footer {
+  bottom: 0;
+  .footer-container {
+    margin-top: 40px;
+    border-top: 4px solid var(--primary-color);
+
+    .footer-content {
+      padding: 40px 0;
+    }
+
+    .footer-item__header {
+      margin-bottom: 10px;
+    }
+
+    .footer-item__content {
+      font-size: 1.4rem;
+    }
+  }
+
+  .footer-footer {
+    height: 40px;
+    padding: 0;
+    margin-top: 40px;
+    color: var(--text-tittle-color);
+    background-color: var(--primary-color);
+    text-align: center;
+    line-height: 40px;
+  }
+}
