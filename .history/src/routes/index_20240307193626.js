@@ -24,6 +24,7 @@ const publicRoutes = [
     path: "/shopping-cart",
     component: ShoppingCart,
     layout: UserDefaultLayout,
+    miniLayout: Profile,
   },
   {
     path: "/profile/my-account",

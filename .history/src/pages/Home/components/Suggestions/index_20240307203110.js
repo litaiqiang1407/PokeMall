@@ -22,7 +22,7 @@ function Suggestions() {
     );
   }, []);
 
-  if (!products) {
+  if (!setProducts) {
     return <LoadingAnimation />;
   }
 
@@ -30,7 +30,7 @@ function Suggestions() {
     setDisplayedProducts(displayedProducts + 24);
   };
 
-  if (!displayedProducts) {
+  if (!setDisplayedProducts) {
     return <LoadingAnimation />;
   }
   return (

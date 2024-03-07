@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 function LoadingAnimation() {
   return (
-    <Container className={cx("animation")}>
+    <Container style={{ height: 200 }}>
       <Container className={cx("loader")}></Container>
     </Container>
   );

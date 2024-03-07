@@ -1,0 +1,16 @@
+@import "~bootstrap/scss/bootstrap";
+
+.cart-header {
+  height: 60px;
+  border: 1px solid var(--primary-color);
+}
+
+.header-title,
+.cart-icon {
+  margin-left: 12px;
+  background-color: var(--white);
+  font-size: 2rem;
+  line-height: 60px;
+  color: var(--primary-color);
+  font-weight: bold;
+}

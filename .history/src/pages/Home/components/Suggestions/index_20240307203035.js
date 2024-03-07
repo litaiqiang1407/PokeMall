@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { interactData } from "~/functions/interactData";
-import LoadingAnimation from "~/components/LoadingAnimation";
 
 import classNames from "classnames/bind";
 import styles from "./Suggestions.module.scss";
@@ -22,17 +21,12 @@ function Suggestions() {
     );
   }, []);
 
-  if (!products) {
-    return <LoadingAnimation />;
+  if (!setProducts) {
   }
-
   const loadMoreProducts = () => {
     setDisplayedProducts(displayedProducts + 24);
   };
 
-  if (!displayedProducts) {
-    return <LoadingAnimation />;
-  }
   return (
     <Container fluid className={cx("suggestions-container")}>
       <Container className={cx("suggestion-header")}>
