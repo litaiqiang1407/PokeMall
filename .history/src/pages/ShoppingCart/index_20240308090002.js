@@ -25,7 +25,6 @@ function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
     // Fetch user data from localStorage on component mount
@@ -56,31 +55,29 @@ function ShoppingCart() {
     );
   }, [customerId]);
 
-  const handleCheckItem = (itemId, isChecked) => {
-    if (isChecked) {
-      setCheckedItems((prevCheckedItems) => [...prevCheckedItems, itemId]);
-    } else {
-      setCheckedItems((prevCheckedItems) =>
-        prevCheckedItems.filter((id) => id !== itemId)
-      );
-    }
+  const handleCheckItem = (itemId) => {
+    // Cập nhật trạng thái của sản phẩm khi checkbox được chọn hoặc bỏ chọn
+    const updatedCartItems = cartItems.map((item) =>
+      item.ID === itemId ? { ...item, isChecked: !item.isChecked } : item
+    );
+
+    // Cập nhật state với danh sách sản phẩm đã được cập nhật trạng thái checkbox
+    setCartItems(updatedCartItems);
   };
 
-  const handleCheckAll = (e) => {
-    if (e.target.checked) {
-      const allItemIds = cartItems.map((item) => item.ID);
-      setCheckedItems([...allItemIds]);
-    } else {
-      setCheckedItems([]);
-    }
-  };
+  const handleCheckAll = (event) => {
+    // Lấy giá trị của checkbox "Select All"
+    const isChecked = event.target.checked;
 
-  const totalCheckedAmount = cartItems.reduce((total, item) => {
-    if (checkedItems.includes(item.ID)) {
-      return total + item.TotalAmount;
-    }
-    return total;
-  }, 0);
+    // Cập nhật trạng thái của các checkbox trong danh sách sản phẩm
+    const updatedCartItems = cartItems.map((item) => ({
+      ...item,
+      isChecked: isChecked,
+    }));
+
+    // Cập nhật state với danh sách sản phẩm đã được cập nhật trạng thái checkbox
+    setCartItems(updatedCartItems);
+  };
 
   const handleDeleteItem = (itemId) => {
     // Xóa khỏi cartItems và cập nhật lại state
@@ -89,10 +86,6 @@ function ShoppingCart() {
     // Xóa số lượng của mục đó khỏi state
     const { [itemId]: _, ...updatedQuantities } = itemQuantities;
     setItemQuantities(updatedQuantities);
-    // Xóa khỏi danh sách các item được check nếu có
-    setCheckedItems((prevCheckedItems) =>
-      prevCheckedItems.filter((id) => id !== itemId)
-    );
   };
 
   const handleDecrease = (itemId, currentQuantity, handleQuantityChange) => {
@@ -156,14 +149,7 @@ function ShoppingCart() {
               {cartItems.map((item) => (
                 <tr className={cx("product-row")} key={item.ID}>
                   <td className={cx("product-col")}>
-                    <input
-                      className={cx("product-checkbox")}
-                      type="checkbox"
-                      onChange={(e) =>
-                        handleCheckItem(item.ID, e.target.checked)
-                      }
-                      checked={checkedItems.includes(item.ID)}
-                    />
+                    <input className={cx("product-checkbox")} type="checkbox" />
                   </td>
                   <td className={cx("product-col")}>
                     <div className={cx("product")}>
@@ -244,7 +230,6 @@ function ShoppingCart() {
               className={cx("footer-checkbox")}
               type="checkbox"
               onChange={handleCheckAll}
-              checked={checkedItems.length === cartItems.length}
             />
 
             <span className={cx("select-all")}>Select All</span>
@@ -253,7 +238,10 @@ function ShoppingCart() {
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>
             <span className={cx("total-amount")}>
-              ${parseFloat(totalCheckedAmount).toFixed(2)}
+              $
+              {parseFloat(
+                cartItems.reduce((total, item) => total + item.TotalAmount, 0)
+              ).toFixed(2)}
             </span>
             <Button className={cx("checkout")}>Checkout</Button>
           </Container>

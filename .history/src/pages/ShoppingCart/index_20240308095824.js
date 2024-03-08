@@ -25,7 +25,7 @@ function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [checkedItems, setCheckedItems] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
 
   useEffect(() => {
     // Fetch user data from localStorage on component mount
@@ -253,7 +253,7 @@ function ShoppingCart() {
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>
             <span className={cx("total-amount")}>
-              ${parseFloat(totalCheckedAmount).toFixed(2)}
+              ${totalCheckedAmount.toFixed(2)}
             </span>
             <Button className={cx("checkout")}>Checkout</Button>
           </Container>

@@ -252,9 +252,7 @@ function ShoppingCart() {
           </Container>
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>
-            <span className={cx("total-amount")}>
-              ${parseFloat(totalCheckedAmount).toFixed(2)}
-            </span>
+            <span className={cx("total-amount")}>${totalCheckedAmount}</span>
             <Button className={cx("checkout")}>Checkout</Button>
           </Container>
         </Container>

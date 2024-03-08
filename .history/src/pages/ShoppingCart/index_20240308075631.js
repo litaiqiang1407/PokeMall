@@ -25,7 +25,6 @@ function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
     // Fetch user data from localStorage on component mount
@@ -56,31 +55,17 @@ function ShoppingCart() {
     );
   }, [customerId]);
 
-  const handleCheckItem = (itemId, isChecked) => {
-    if (isChecked) {
-      setCheckedItems((prevCheckedItems) => [...prevCheckedItems, itemId]);
-    } else {
-      setCheckedItems((prevCheckedItems) =>
-        prevCheckedItems.filter((id) => id !== itemId)
-      );
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (userData) {
+      const userQuantityData = {};
+      setQuantities(userQuantityData);
     }
-  };
+  }, [userData]);
 
-  const handleCheckAll = (e) => {
-    if (e.target.checked) {
-      const allItemIds = cartItems.map((item) => item.ID);
-      setCheckedItems([...allItemIds]);
-    } else {
-      setCheckedItems([]);
-    }
+  const handleCheckAll = () => {
+    // Implement checkbox functionality here
   };
-
-  const totalCheckedAmount = cartItems.reduce((total, item) => {
-    if (checkedItems.includes(item.ID)) {
-      return total + item.TotalAmount;
-    }
-    return total;
-  }, 0);
 
   const handleDeleteItem = (itemId) => {
     // Xóa khỏi cartItems và cập nhật lại state
@@ -89,20 +74,18 @@ function ShoppingCart() {
     // Xóa số lượng của mục đó khỏi state
     const { [itemId]: _, ...updatedQuantities } = itemQuantities;
     setItemQuantities(updatedQuantities);
-    // Xóa khỏi danh sách các item được check nếu có
-    setCheckedItems((prevCheckedItems) =>
-      prevCheckedItems.filter((id) => id !== itemId)
-    );
   };
 
-  const handleDecrease = (itemId, currentQuantity, handleQuantityChange) => {
-    const newQuantity = currentQuantity > 0 ? currentQuantity - 1 : 0;
-    handleQuantityChange(itemId, newQuantity);
+  const handleDecrease = (itemId, quantities, setQuantities) => {
+    const updatedQuantity = (quantities[itemId] || 0) - 1;
+    if (updatedQuantity >= 0) {
+      setQuantities({ ...quantities, [itemId]: updatedQuantity });
+    }
   };
 
-  const handleIncrease = (itemId, currentQuantity, handleQuantityChange) => {
-    const newQuantity = currentQuantity + 1;
-    handleQuantityChange(itemId, newQuantity);
+  const handleIncrease = (itemId, quantities, setQuantities) => {
+    const updatedQuantity = (quantities[itemId] || 0) + 1;
+    setQuantities({ ...quantities, [itemId]: updatedQuantity });
   };
 
   const handleQuantityChange = (itemId, newQuantity) => {
@@ -156,14 +139,7 @@ function ShoppingCart() {
               {cartItems.map((item) => (
                 <tr className={cx("product-row")} key={item.ID}>
                   <td className={cx("product-col")}>
-                    <input
-                      className={cx("product-checkbox")}
-                      type="checkbox"
-                      onChange={(e) =>
-                        handleCheckItem(item.ID, e.target.checked)
-                      }
-                      checked={checkedItems.includes(item.ID)}
-                    />
+                    <input className={cx("product-checkbox")} type="checkbox" />
                   </td>
                   <td className={cx("product-col")}>
                     <div className={cx("product")}>
@@ -188,11 +164,7 @@ function ShoppingCart() {
                       <Button
                         className={cx("decrease")}
                         onClick={() =>
-                          handleDecrease(
-                            item.ID,
-                            itemQuantities[item.ID],
-                            handleQuantityChange
-                          )
+                          handleDecrease(item.ID, quantities, setQuantities)
                         }
                       >
                         -
@@ -201,18 +173,19 @@ function ShoppingCart() {
                         type="text"
                         value={itemQuantities[item.ID]}
                         onChange={(event) =>
-                          handleQuantityChange(item.ID, event.target.value)
+                          handleQuantityChange(
+                            event,
+                            item.ID,
+                            quantities,
+                            setQuantities
+                          )
                         }
                         className={cx("quantity-input")}
                       />
                       <Button
                         className={cx("increase")}
                         onClick={() =>
-                          handleIncrease(
-                            item.ID,
-                            itemQuantities[item.ID],
-                            handleQuantityChange
-                          )
+                          handleIncrease(item.ID, quantities, setQuantities)
                         }
                       >
                         +
@@ -222,7 +195,7 @@ function ShoppingCart() {
                   <td className={cx("product-col")}>
                     <span className={cx("total-amount")}>
                       {" "}
-                      ${item.TotalAmount}
+                      ${item.UnitPrice * item.Quantity}
                     </span>
                   </td>
                   <td className={cx("product-col")}>
@@ -237,26 +210,6 @@ function ShoppingCart() {
               ))}
             </tbody>
           </table>
-        </Container>
-        <Container className={cx("cart-footer")}>
-          <Container className={cx("footer-left")}>
-            <input
-              className={cx("footer-checkbox")}
-              type="checkbox"
-              onChange={handleCheckAll}
-              checked={checkedItems.length === cartItems.length}
-            />
-
-            <span className={cx("select-all")}>Select All</span>
-            <Button className={cx("delete-all")}>Delete</Button>
-          </Container>
-          <Container className={cx("footer-right")}>
-            <span className={cx("total-price")}>Total: </span>
-            <span className={cx("total-amount")}>
-              ${parseFloat(totalCheckedAmount).toFixed(2)}
-            </span>
-            <Button className={cx("checkout")}>Checkout</Button>
-          </Container>
         </Container>
       </Container>
     </Container>

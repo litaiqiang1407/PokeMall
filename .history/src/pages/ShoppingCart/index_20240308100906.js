@@ -77,6 +77,7 @@ function ShoppingCart() {
 
   const totalCheckedAmount = cartItems.reduce((total, item) => {
     if (checkedItems.includes(item.ID)) {
+      console.log(item.TotalAmount);
       return total + item.TotalAmount;
     }
     return total;

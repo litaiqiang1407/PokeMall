@@ -25,7 +25,9 @@ function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [checkedItems, setCheckedItems] = useState([]);
+  const [checkedItems, setCheckedItems] = useState({});
+
+  const checkedItemsArray = Array.isArray(checkedItems) ? checkedItems : [];
 
   useEffect(() => {
     // Fetch user data from localStorage on component mount
@@ -69,7 +71,7 @@ function ShoppingCart() {
   const handleCheckAll = (e) => {
     if (e.target.checked) {
       const allItemIds = cartItems.map((item) => item.ID);
-      setCheckedItems([...allItemIds]);
+      setCheckedItems(allItemIds);
     } else {
       setCheckedItems([]);
     }
@@ -244,7 +246,6 @@ function ShoppingCart() {
               className={cx("footer-checkbox")}
               type="checkbox"
               onChange={handleCheckAll}
-              checked={checkedItems.length === cartItems.length}
             />
 
             <span className={cx("select-all")}>Select All</span>
@@ -252,9 +253,7 @@ function ShoppingCart() {
           </Container>
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>
-            <span className={cx("total-amount")}>
-              ${parseFloat(totalCheckedAmount).toFixed(2)}
-            </span>
+            <span className={cx("total-amount")}>${totalCheckedAmount}</span>
             <Button className={cx("checkout")}>Checkout</Button>
           </Container>
         </Container>
