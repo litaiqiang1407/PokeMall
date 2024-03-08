@@ -20,7 +20,7 @@ function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [sizes, setSizes] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState({});
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
@@ -49,15 +49,27 @@ function ShoppingCart() {
   }, [customerId]);
 
   useEffect(() => {
-    interactData(
-      "http://localhost/pokemall/api/Size.php",
-      "GET",
-      null,
-      (data) => {
+    fetch("http://localhost/pokemall/api/sizes.php")
+      .then((response) => response.json())
+      .then((data) => {
         setSizes(data);
-      }
-    );
-  });
+        // Khởi tạo selectedSizes với kích thước mặc định cho từng sản phẩm
+        const initialSelectedSizes = {};
+        data.forEach((size) => {
+          initialSelectedSizes[size.ID] = size.SizeName;
+        });
+        setSelectedSizes(initialSelectedSizes);
+      })
+      .catch((error) => console.error("Error fetching sizes:", error));
+  }, []);
+
+  const handleSizeChange = (itemId, newSize) => {
+    setSelectedSizes((prevSelectedSizes) => ({
+      ...prevSelectedSizes,
+      [itemId]: newSize,
+    }));
+    // Gửi yêu cầu cập nhật kích thước lên server (nếu cần)
+  };
 
   const handleCheckItem = (itemId, isChecked) => {
     if (isChecked) {
@@ -177,8 +189,21 @@ function ShoppingCart() {
                     </div>
                   </td>
                   <td className={cx("product-col")}>
-                    <span className={cx("size")}>{item.SizeName}</span>
+                    <select
+                      className={cx("size-dropdown")}
+                      value={item.SizeName}
+                      onChange={(e) =>
+                        handleSizeChange(item.ID, e.target.value)
+                      }
+                    >
+                      {sizes.map((size) => (
+                        <option key={size.ID} value={size.SizeName}>
+                          {size.SizeName}
+                        </option>
+                      ))}
+                    </select>
                   </td>
+
                   <td className={cx("product-col")}>
                     <span className={cx("price")}>${item.UnitPrice}</span>
                   </td>

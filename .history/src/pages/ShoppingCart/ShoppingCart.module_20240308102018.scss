@@ -229,25 +229,15 @@
 }
 
 .header-checkbox,
-.product-checkbox,
-.footer-checkbox {
-  appearance: none;
-  border: 2px solid var(--primary-color);
-  position: relative;
+.footer-checkbox,
+.product-checkbox {
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  padding: 6px;
 
-  &:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-
-    &::before {
-      content: "\2713";
-      font-weight: 900;
-      font-size: 14px;
-      color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
+  // &:checked {
+  //   background-color: darken(var(--primary-color), 10%);
+  //   border-color: darken(var(--primary-color), 10%);
+  // }
 }

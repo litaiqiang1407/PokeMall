@@ -239,8 +239,9 @@
     background-color: var(--primary-color);
     border-color: var(--primary-color);
 
+    // Custom checkmark styles
     &::before {
-      content: "\2713";
+      content: "\2713"; // Unicode checkmark icon
       font-weight: 900;
       font-size: 14px;
       color: #fff;

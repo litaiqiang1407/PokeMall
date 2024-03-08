@@ -48,17 +48,6 @@ function ShoppingCart() {
     );
   }, [customerId]);
 
-  useEffect(() => {
-    interactData(
-      "http://localhost/pokemall/api/Size.php",
-      "GET",
-      null,
-      (data) => {
-        setSizes(data);
-      }
-    );
-  });
-
   const handleCheckItem = (itemId, isChecked) => {
     if (isChecked) {
       setCheckedItems((prevCheckedItems) => [...prevCheckedItems, itemId]);

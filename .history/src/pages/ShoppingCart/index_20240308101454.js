@@ -4,6 +4,11 @@ import { Container, Button } from "react-bootstrap";
 
 import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
+import {
+  handleDecrease,
+  handleIncrease,
+  handleQuantityChange,
+} from "~/functions/eventHandlers"; // Custom functions
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,24 +25,27 @@ function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [sizes, setSizes] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
+    // Fetch user data from localStorage on component mount
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
     if (storedUserData) {
       setUserData(storedUserData);
     }
   }, []);
 
+  // Get customerId from userData
   const { id: customerId } = userData;
 
   useEffect(() => {
+    // Fetch cart items from the server on component mount
     interactData(
       `http://localhost/pokemall/api/ShoppingCart.php?customerId=${customerId}`,
       "GET",
       null,
       (data) => {
+        // Lưu số lượng cho từng mục vào state
         const quantities = {};
         data.forEach((item) => {
           quantities[item.ID] = item.Quantity;
@@ -47,17 +55,6 @@ function ShoppingCart() {
       }
     );
   }, [customerId]);
-
-  useEffect(() => {
-    interactData(
-      "http://localhost/pokemall/api/Size.php",
-      "GET",
-      null,
-      (data) => {
-        setSizes(data);
-      }
-    );
-  });
 
   const handleCheckItem = (itemId, isChecked) => {
     if (isChecked) {
@@ -86,10 +83,13 @@ function ShoppingCart() {
   }, 0);
 
   const handleDeleteItem = (itemId) => {
+    // Xóa khỏi cartItems và cập nhật lại state
     const updatedCartItems = cartItems.filter((item) => item.ID !== itemId);
     setCartItems(updatedCartItems);
+    // Xóa số lượng của mục đó khỏi state
     const { [itemId]: _, ...updatedQuantities } = itemQuantities;
     setItemQuantities(updatedQuantities);
+    // Xóa khỏi danh sách các item được check nếu có
     setCheckedItems((prevCheckedItems) =>
       prevCheckedItems.filter((id) => id !== itemId)
     );
@@ -106,6 +106,7 @@ function ShoppingCart() {
   };
 
   const handleQuantityChange = (itemId, newQuantity) => {
+    // Cập nhật state số lượng cho mục đó
     setItemQuantities({ ...itemQuantities, [itemId]: newQuantity });
   };
 

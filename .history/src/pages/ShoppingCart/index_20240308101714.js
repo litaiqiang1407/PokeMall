@@ -4,6 +4,11 @@ import { Container, Button } from "react-bootstrap";
 
 import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
+import {
+  handleDecrease,
+  handleIncrease,
+  handleQuantityChange,
+} from "~/functions/eventHandlers"; // Custom functions
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -20,7 +25,6 @@ function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [sizes, setSizes] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
@@ -38,6 +42,7 @@ function ShoppingCart() {
       "GET",
       null,
       (data) => {
+        // Lưu số lượng cho từng mục vào state
         const quantities = {};
         data.forEach((item) => {
           quantities[item.ID] = item.Quantity;
@@ -47,17 +52,6 @@ function ShoppingCart() {
       }
     );
   }, [customerId]);
-
-  useEffect(() => {
-    interactData(
-      "http://localhost/pokemall/api/Size.php",
-      "GET",
-      null,
-      (data) => {
-        setSizes(data);
-      }
-    );
-  });
 
   const handleCheckItem = (itemId, isChecked) => {
     if (isChecked) {

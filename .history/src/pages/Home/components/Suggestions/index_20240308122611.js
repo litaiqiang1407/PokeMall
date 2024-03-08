@@ -22,7 +22,7 @@ function Suggestions() {
     );
   }, []);
 
-  if (!products.length) {
+  if (!products) {
     return <LoadingAnimation />;
   }
 

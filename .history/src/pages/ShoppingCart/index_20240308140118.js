@@ -49,15 +49,13 @@ function ShoppingCart() {
   }, [customerId]);
 
   useEffect(() => {
-    interactData(
-      "http://localhost/pokemall/api/Size.php",
-      "GET",
-      null,
-      (data) => {
+    fetch("http://localhost/pokemall/api/Size.php")
+      .then((response) => response.json())
+      .then((data) => {
         setSizes(data);
-      }
-    );
-  });
+      })
+      .catch((error) => console.error("Error fetching sizes:", error));
+  }, []);
 
   const handleCheckItem = (itemId, isChecked) => {
     if (isChecked) {

@@ -19,9 +19,10 @@ const cx = classNames.bind(styles); // CSS Module
 function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
+  const [sizeOptions, setSizeOptions] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [sizes, setSizes] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState({});
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
@@ -53,11 +54,11 @@ function ShoppingCart() {
       "http://localhost/pokemall/api/Size.php",
       "GET",
       null,
-      (data) => {
-        setSizes(data);
-      }
+      setSizeOptions
     );
   });
+
+  console.log(sizeOptions);
 
   const handleCheckItem = (itemId, isChecked) => {
     if (isChecked) {

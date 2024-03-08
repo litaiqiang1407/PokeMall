@@ -177,8 +177,18 @@ function ShoppingCart() {
                     </div>
                   </td>
                   <td className={cx("product-col")}>
-                    <span className={cx("size")}>{item.SizeName}</span>
+                    <select
+                      className={cx("size-dropdown")}
+                      value={item.SizeName}
+                    >
+                      {sizes.map((size) => (
+                        <option key={size.ID} value={size.SizeName}>
+                          {size.SizeName}
+                        </option>
+                      ))}
+                    </select>
                   </td>
+
                   <td className={cx("product-col")}>
                     <span className={cx("price")}>${item.UnitPrice}</span>
                   </td>

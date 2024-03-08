@@ -35,6 +35,10 @@
     width: 16px;
     height: 16px;
     cursor: pointer;
+    &:checked {
+      background-color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+    }
   }
 
   .header-col {
@@ -62,6 +66,10 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
+  &:checked {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+  }
 }
 
 .product-col:nth-child(2) {
@@ -143,6 +151,10 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
+  &:checked {
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+  }
 }
 
 .footer-left {
@@ -224,30 +236,6 @@
     &:hover {
       background-color: var(--primary-color-hover);
       border: 1px solid var(--primary-color);
-    }
-  }
-}
-
-.header-checkbox,
-.product-checkbox,
-.footer-checkbox {
-  appearance: none;
-  border: 2px solid var(--primary-color);
-  position: relative;
-
-  &:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-
-    &::before {
-      content: "\2713";
-      font-weight: 900;
-      font-size: 14px;
-      color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
     }
   }
 }

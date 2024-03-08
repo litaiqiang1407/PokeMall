@@ -251,3 +251,30 @@
     }
   }
 }
+
+// ShoppingCart.module.scss
+
+.size-dropdown {
+  // CSS cho dropdown
+  appearance: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+// Các hiệu ứng khi hover hoặc focus
+.size-dropdown:hover,
+.size-dropdown:focus {
+  border-color: #007bff;
+}
+
+// Các hiệu ứng khi dropdown được mở
+.size-dropdown:active,
+.size-dropdown:focus,
+.size-dropdown:checked {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

@@ -231,16 +231,23 @@
 .header-checkbox,
 .product-checkbox,
 .footer-checkbox {
+  // Custom checkbox styles
   appearance: none;
+  width: 18px;
+  height: 18px;
   border: 2px solid var(--primary-color);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
   position: relative;
 
   &:checked {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
 
+    // Custom checkmark styles
     &::before {
-      content: "\2713";
+      content: "\f00c"; // Unicode checkmark icon
       font-weight: 900;
       font-size: 14px;
       color: #fff;

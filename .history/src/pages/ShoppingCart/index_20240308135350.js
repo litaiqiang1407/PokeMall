@@ -19,9 +19,10 @@ const cx = classNames.bind(styles); // CSS Module
 function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
+  const [sizeOptions, setSizeOptions] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [sizes, setSizes] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState({});
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
@@ -53,9 +54,7 @@ function ShoppingCart() {
       "http://localhost/pokemall/api/Size.php",
       "GET",
       null,
-      (data) => {
-        setSizes(data);
-      }
+      setSizeOptions
     );
   });
 
@@ -107,6 +106,10 @@ function ShoppingCart() {
 
   const handleQuantityChange = (itemId, newQuantity) => {
     setItemQuantities({ ...itemQuantities, [itemId]: newQuantity });
+  };
+
+  const handleSizeChange = (itemId, newSize) => {
+    setSelectedSizes({ ...selectedSizes, [itemId]: newSize });
   };
 
   if (!cartItems.length) {
@@ -177,8 +180,21 @@ function ShoppingCart() {
                     </div>
                   </td>
                   <td className={cx("product-col")}>
-                    <span className={cx("size")}>{item.SizeName}</span>
+                    <select
+                      className={cx("size-dropdown")}
+                      value={selectedSizes[item.ID] || item.SizeName} // Giá trị mặc định là size hiện tại của sản phẩm
+                      onChange={(e) =>
+                        handleSizeChange(item.ID, e.target.value)
+                      }
+                    >
+                      {item.availableSizes.map((size) => (
+                        <option key={size.id} value={size.name}>
+                          {size.name}
+                        </option>
+                      ))}
+                    </select>
                   </td>
+
                   <td className={cx("product-col")}>
                     <span className={cx("price")}>${item.UnitPrice}</span>
                   </td>

@@ -227,27 +227,3 @@
     }
   }
 }
-
-.header-checkbox,
-.product-checkbox,
-.footer-checkbox {
-  appearance: none;
-  border: 2px solid var(--primary-color);
-  position: relative;
-
-  &:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-
-    &::before {
-      content: "\2713";
-      font-weight: 900;
-      font-size: 14px;
-      color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
-}

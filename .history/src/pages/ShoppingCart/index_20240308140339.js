@@ -20,7 +20,7 @@ function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
   const [itemQuantities, setItemQuantities] = useState({});
-  const [sizes, setSizes] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState({});
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
@@ -49,15 +49,13 @@ function ShoppingCart() {
   }, [customerId]);
 
   useEffect(() => {
-    interactData(
-      "http://localhost/pokemall/api/Size.php",
-      "GET",
-      null,
-      (data) => {
+    fetch("http://localhost/pokemall/api/Size.php")
+      .then((response) => response.json())
+      .then((data) => {
         setSizes(data);
-      }
-    );
-  });
+      })
+      .catch((error) => console.error("Error fetching sizes:", error));
+  }, []);
 
   const handleCheckItem = (itemId, isChecked) => {
     if (isChecked) {
@@ -177,8 +175,21 @@ function ShoppingCart() {
                     </div>
                   </td>
                   <td className={cx("product-col")}>
-                    <span className={cx("size")}>{item.SizeName}</span>
+                    <select
+                      className={cx("size-dropdown")}
+                      value={item.SizeName}
+                      onChange={(e) =>
+                        handleSizeChange(item.ID, e.target.value)
+                      }
+                    >
+                      {sizes.map((size) => (
+                        <option key={size.ID} value={size.SizeName}>
+                          {size.SizeName}
+                        </option>
+                      ))}
+                    </select>
                   </td>
+
                   <td className={cx("product-col")}>
                     <span className={cx("price")}>${item.UnitPrice}</span>
                   </td>
