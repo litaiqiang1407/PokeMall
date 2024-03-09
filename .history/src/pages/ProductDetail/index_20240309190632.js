@@ -76,11 +76,8 @@ function ProductDetail() {
   const product = {
     customerID: customerID,
     figureID: productDetail.ID,
-    sizeName: selectedSize,
+    sizeName: "1:1",
     quantity: "1",
-  };
-  const handleSizeSelection = (sizeName) => {
-    setSelectedSize(sizeName); 
   };
   const handleAddToCart = () => {
     if (isLoggedIn) {
@@ -203,11 +200,7 @@ function ProductDetail() {
                 <span className={cx("option-label")}>Size:</span>
                 <Container className={cx("size-select")}>
                   {sizes.map((size) => (
-                    <Button
-                      key={size.ID}
-                      className={cx("size-option", {"selected-size": handleSizeSelection})}
-                      onClick={() => handleSizeSelection(size.SizeName)}
-                    >
+                    <Button key={size.ID} className={cx("size-option")}>
                       {size.SizeName}
                     </Button>
                   ))}

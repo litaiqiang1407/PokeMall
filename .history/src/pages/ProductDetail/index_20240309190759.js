@@ -80,7 +80,7 @@ function ProductDetail() {
     quantity: "1",
   };
   const handleSizeSelection = (sizeName) => {
-    setSelectedSize(sizeName); 
+    setSelectedSize(sizeName); // Cập nhật giá trị size được chọn
   };
   const handleAddToCart = () => {
     if (isLoggedIn) {
@@ -205,7 +205,7 @@ function ProductDetail() {
                   {sizes.map((size) => (
                     <Button
                       key={size.ID}
-                      className={cx("size-option", {"selected-size": handleSizeSelection})}
+                      className={cx("size-option")}
                       onClick={() => handleSizeSelection(size.SizeName)}
                     >
                       {size.SizeName}

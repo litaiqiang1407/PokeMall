@@ -1,16 +1,12 @@
 import { useState, useEffect, useContext } from "react"; // React hooks
 import { useParams } from "react-router-dom"; // React router
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "~/functions/Contexts/authContext";
-import { Toaster } from "react-hot-toast";
-
+import { Link } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap"; // Bootstrap
 import { interactData } from "~/functions/interactData"; // Custom function
 import {
   handleDecrease,
   handleIncrease,
   handleQuantityChange,
-  handleResponse,
 } from "~/functions/eventHandlers"; // Custom functions
 import { renderStarIcons } from "~/functions/render"; // Custom function
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Font Awesome
@@ -30,15 +26,8 @@ const cx = classNames.bind(styles); // CSS Module
 
 // Component
 function ProductDetail() {
-  const { isLoggedIn } = useContext(AuthContext);
-  const [userData, setUserData] = useState({
-    id: "",
-  });
   const [productDetail, setProductDetail] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [sizes, setSizes] = useState([]);
-  const [selectedSize, setSelectedSize] = useState("");
-  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -51,52 +40,11 @@ function ProductDetail() {
     );
   }, [id]);
 
-  useEffect(() => {
-    interactData(
-      "http://localhost/pokemall/api/Size.php",
-      "GET",
-      null,
-      setSizes
-    );
-  }, []);
-
-  useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    if (userData) {
-      setUserData(userData);
-    }
-  }, []);
-
   if (!productDetail) {
     return <LoadingAnimation />;
   }
 
   const starIcons = renderStarIcons(productDetail.AverageRating, cx);
-  const { id: customerID } = userData;
-  const product = {
-    customerID: customerID,
-    figureID: productDetail.ID,
-    sizeName: selectedSize,
-    quantity: "1",
-  };
-  const handleSizeSelection = (sizeName) => {
-    setSelectedSize(sizeName); 
-  };
-  const handleAddToCart = () => {
-    if (isLoggedIn) {
-      interactData(
-        "http://localhost/pokemall/actions/addToCart.php",
-        "POST",
-        product,
-        (data) => {
-          console.log(data);
-          handleResponse(data, "Add to Cart");
-        }
-      );
-    } else {
-      navigate("/login");
-    }
-  };
 
   return (
     <Container fluid style={{ backgroundColor: "#f8f9fa", padding: "20px 0" }}>
@@ -202,15 +150,12 @@ function ProductDetail() {
               <Container className={cx("product-size")}>
                 <span className={cx("option-label")}>Size:</span>
                 <Container className={cx("size-select")}>
-                  {sizes.map((size) => (
-                    <Button
-                      key={size.ID}
-                      className={cx("size-option", {"selected-size": handleSizeSelection})}
-                      onClick={() => handleSizeSelection(size.SizeName)}
-                    >
-                      {size.SizeName}
-                    </Button>
-                  ))}
+                  <Button className={cx("size-option")}>1:1</Button>
+                  <Button className={cx("size-option")}>1:2</Button>
+                  <Button className={cx("size-option")}>1:4</Button>
+                  <Button className={cx("size-option")}>1:8</Button>
+                  <Button className={cx("size-option")}>1:16</Button>
+                  <Button className={cx("size-option")}>1:20</Button>
                 </Container>
               </Container>
 
@@ -244,7 +189,7 @@ function ProductDetail() {
 
             {/* Action */}
             <Container className={cx("product-action")}>
-              <Button className={cx("add-to-cart")} onClick={handleAddToCart}>
+              <Button className={cx("add-to-cart")}>
                 <FontAwesomeIcon icon={faCartPlus} />
                 <span className={cx("add-to-cart__text")}>Add to Cart</span>
               </Button>
@@ -350,7 +295,6 @@ function ProductDetail() {
           </Container>
         </Container>
       </Container>
-      <Toaster />
     </Container>
   );
 }

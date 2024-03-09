@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react"; // React hooks
 import { useParams } from "react-router-dom"; // React router
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "~/functions/Contexts/authContext";
-import { Toaster } from "react-hot-toast";
 
 import { Container, Row, Col, Button } from "react-bootstrap"; // Bootstrap
 import { interactData } from "~/functions/interactData"; // Custom function
@@ -30,14 +29,13 @@ const cx = classNames.bind(styles); // CSS Module
 
 // Component
 function ProductDetail() {
+  const [productDetail, setProductDetail] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [sizes, setSizes] = useState([]);
   const { isLoggedIn } = useContext(AuthContext);
   const [userData, setUserData] = useState({
     id: "",
   });
-  const [productDetail, setProductDetail] = useState(null);
-  const [quantity, setQuantity] = useState(1);
-  const [sizes, setSizes] = useState([]);
-  const [selectedSize, setSelectedSize] = useState("");
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -72,15 +70,12 @@ function ProductDetail() {
   }
 
   const starIcons = renderStarIcons(productDetail.AverageRating, cx);
-  const { id: customerID } = userData;
+  const customerID = userData.id;
   const product = {
     customerID: customerID,
     figureID: productDetail.ID,
-    sizeName: selectedSize,
+    sizeName: "1:1",
     quantity: "1",
-  };
-  const handleSizeSelection = (sizeName) => {
-    setSelectedSize(sizeName); 
   };
   const handleAddToCart = () => {
     if (isLoggedIn) {
@@ -203,11 +198,7 @@ function ProductDetail() {
                 <span className={cx("option-label")}>Size:</span>
                 <Container className={cx("size-select")}>
                   {sizes.map((size) => (
-                    <Button
-                      key={size.ID}
-                      className={cx("size-option", {"selected-size": handleSizeSelection})}
-                      onClick={() => handleSizeSelection(size.SizeName)}
-                    >
+                    <Button key={size.ID} className={cx("size-option")}>
                       {size.SizeName}
                     </Button>
                   ))}
