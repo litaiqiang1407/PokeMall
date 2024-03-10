@@ -103,11 +103,6 @@
         color: var(--text-black-color);
       }
     }
-    .size-selected {
-      background-color: var(--primary-color);
-      border-color: var(--primary-color);
-      color: var(--text-black-color);
-    }
   }
 
   .product-quantity {
@@ -125,12 +120,6 @@
       background-color: var(--white);
       border: 1px solid var(--border-color);
       border-radius: 0;
-
-      &:hover {
-        background-color: var(--primary-color-hover);
-        border: 1px solid var(--border-color);
-        color: var(--text-black-color);
-      }
     }
     .decrease {
       margin-left: 4px;
@@ -178,7 +167,7 @@
 
     .add-to-cart {
       background-color: var(--primary-color-background);
-      color: var(--text-black-color);
+      color: var(--primary-color);
 
       &:hover {
         background-color: var(--primary-color);
@@ -279,9 +268,8 @@
   }
 }
 
-.error-message {
-  color: var(--error-message-color);
-  font-size: 1.4rem;
-  margin-left: 12px;
-  vertical-align: middle;
+.size-option.size-selected {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--white);
 }

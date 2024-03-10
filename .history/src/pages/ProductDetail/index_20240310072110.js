@@ -77,7 +77,7 @@ function ProductDetail() {
     if (sizePrice) {
       return parseFloat(sizePrice[0].Price * quantity).toFixed(2);
     } else {
-      return parseFloat(productDetail.DefaultPrice * quantity).toFixed(2);
+      return productDetail.DefaultPrice;
     }
   };
 

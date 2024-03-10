@@ -71,13 +71,14 @@ function ProductDetail() {
         setSizePrice
       );
     }
-  }, [id, selectedSize]);
+  }, [selectedSize, id]);
 
+  console.log(id, selectedSize);
   const totalPrice = () => {
     if (sizePrice) {
-      return parseFloat(sizePrice[0].Price * quantity).toFixed(2);
+      return sizePrice * quantity;
     } else {
-      return parseFloat(productDetail.DefaultPrice * quantity).toFixed(2);
+      return productDetail.DefaultPrice;
     }
   };
 

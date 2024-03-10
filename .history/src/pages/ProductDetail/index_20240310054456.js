@@ -37,7 +37,7 @@ function ProductDetail() {
   const [productDetail, setProductDetail] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [sizes, setSizes] = useState([]);
-  const [sizePrice, setSizePrice] = useState(0);
+  const [sizePrice, setSizePrice] = useState([]);
   const [error, setError] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const navigate = useNavigate();
@@ -71,13 +71,13 @@ function ProductDetail() {
         setSizePrice
       );
     }
-  }, [id, selectedSize]);
+  }, [selectedSize, id]);
 
   const totalPrice = () => {
     if (sizePrice) {
-      return parseFloat(sizePrice[0].Price * quantity).toFixed(2);
+      return sizePrice * quantity;
     } else {
-      return parseFloat(productDetail.DefaultPrice * quantity).toFixed(2);
+      return productDetail.DefaultPrice;
     }
   };
 

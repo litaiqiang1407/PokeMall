@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navbar, Container, Row, Col, Nav } from "react-bootstrap";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,7 +25,7 @@ function Header() {
   const [userData, setUserData] = useState({
     avatar: "",
   });
-  const navigate = useNavigate();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(120);
 
@@ -57,8 +57,6 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.setItem("isLoggedIn", "false");
-    localStorage.removeItem("userData");
-    navigate("/");
     window.location.reload();
   };
 

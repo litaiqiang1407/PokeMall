@@ -37,8 +37,6 @@ function ProductDetail() {
   const [productDetail, setProductDetail] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [sizes, setSizes] = useState([]);
-  const [sizePrice, setSizePrice] = useState(0);
-  const [error, setError] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const navigate = useNavigate();
 
@@ -63,25 +61,6 @@ function ProductDetail() {
   }, []);
 
   useEffect(() => {
-    if (selectedSize) {
-      interactData(
-        `http://localhost/pokemall/api/Price.php?productId=${id}&sizeName=${selectedSize}`,
-        "GET",
-        null,
-        setSizePrice
-      );
-    }
-  }, [id, selectedSize]);
-
-  const totalPrice = () => {
-    if (sizePrice) {
-      return parseFloat(sizePrice[0].Price * quantity).toFixed(2);
-    } else {
-      return parseFloat(productDetail.DefaultPrice * quantity).toFixed(2);
-    }
-  };
-
-  useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));
     if (userData) {
       setUserData(userData);
@@ -102,14 +81,14 @@ function ProductDetail() {
   };
   const handleSizeSelection = (sizeName) => {
     setSelectedSize(sizeName);
-    setError("");
   };
   const handleAddToCart = () => {
-    if (!selectedSize) {
-      setError("Please select a size.");
-      return;
-    }
     if (isLoggedIn) {
+      const selectRequired = () => {
+        if (!selectedSize) {
+          return <span className={cx("select-required")}>Please select a size</span>;
+        
+      }
       interactData(
         "http://localhost/pokemall/actions/addToCart.php",
         "POST",
@@ -219,7 +198,7 @@ function ProductDetail() {
 
             {/* Price */}
             <Container className={cx("product-price")}>
-              <span className={cx("price")}>${totalPrice()}</span>
+              <span className={cx("price")}>${productDetail.DefaultPrice}</span>
             </Container>
 
             {/* Options */}
@@ -239,9 +218,7 @@ function ProductDetail() {
                       {size.SizeName}
                     </Button>
                   ))}
-                  {error && (
-                    <span className={cx("error-message")}>{error}</span>
-                  )}
+                  {selectRequired()}
                 </Container>
               </Container>
 

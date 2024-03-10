@@ -63,21 +63,19 @@ function ProductDetail() {
   }, []);
 
   useEffect(() => {
-    if (selectedSize) {
-      interactData(
-        `http://localhost/pokemall/api/Price.php?productId=${id}&sizeName=${selectedSize}`,
-        "GET",
-        null,
-        setSizePrice
-      );
-    }
-  }, [id, selectedSize]);
+    interactData(
+      `http://localhost/pokemall/api/SizePrice.php?productId=${id}&sizeName=${selectedSize}`,
+      "GET",
+      null,
+      setSizePrice
+    );
+  }, [selectedSize, id]);
 
   const totalPrice = () => {
     if (sizePrice) {
-      return parseFloat(sizePrice[0].Price * quantity).toFixed(2);
+      return sizePrice * quantity;
     } else {
-      return parseFloat(productDetail.DefaultPrice * quantity).toFixed(2);
+      return productDetail.DefaultPrice;
     }
   };
 

@@ -128,7 +128,7 @@
 
       &:hover {
         background-color: var(--primary-color-hover);
-        border: 1px solid var(--border-color);
+        border: none;
         color: var(--text-black-color);
       }
     }
@@ -178,7 +178,7 @@
 
     .add-to-cart {
       background-color: var(--primary-color-background);
-      color: var(--text-black-color);
+      color: var(--primary-color);
 
       &:hover {
         background-color: var(--primary-color);
@@ -277,11 +277,4 @@
     color: var(--text-black-color);
     font-weight: 500;
   }
-}
-
-.error-message {
-  color: var(--error-message-color);
-  font-size: 1.4rem;
-  margin-left: 12px;
-  vertical-align: middle;
 }
