@@ -107,30 +107,20 @@ function Header() {
             </Col>
             <Col lg={6}>
               <Tippy
-                interactive
                 visible={searchResults.length > 0}
-                arrow={true}
-                placement="bottom-start"
-                theme="custom"
+                interactive={true}
                 render={(attrs) => (
                   <div
                     {...attrs}
                     className={cx("search-results")}
                     tabIndex="-1"
                   >
-                    <ul className={cx("search-list")}>
+                    <ul>
                       {searchResults.map((result, index) => (
-                        <li key={index} className={cx("search-item")}>
+                        <li key={index}>
+                          <FontAwesomeIcon icon={faMagnifyingGlass} />
                           {/* Render search result item */}
-                          <Link
-                            to={`/product-detail/${result.ID}`}
-                            className={cx("search-link")}
-                          >
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            <img
-                              src={result.ImageURL}
-                              className={cx("search-img")}
-                            />
+                          <Link to={`/product-detail/${result.ID}`}>
                             {result.FigureName}
                           </Link>
                         </li>
@@ -138,6 +128,10 @@ function Header() {
                     </ul>
                   </div>
                 )}
+                interactive={true}
+                arrow={true}
+                placement="bottom-start"
+                theme="custom"
               >
                 <div className={cx("header-search")}>
                   <input

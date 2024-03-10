@@ -121,16 +121,12 @@ function Header() {
                     <ul className={cx("search-list")}>
                       {searchResults.map((result, index) => (
                         <li key={index} className={cx("search-item")}>
+                          <FontAwesomeIcon icon={faMagnifyingGlass} />
                           {/* Render search result item */}
                           <Link
                             to={`/product-detail/${result.ID}`}
                             className={cx("search-link")}
                           >
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            <img
-                              src={result.ImageURL}
-                              className={cx("search-img")}
-                            />
                             {result.FigureName}
                           </Link>
                         </li>

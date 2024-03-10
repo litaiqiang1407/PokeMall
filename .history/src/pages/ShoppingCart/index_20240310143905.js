@@ -99,13 +99,6 @@ function ShoppingCart() {
     );
   };
 
-  const handleDeleteAllCheckedItems = () => {
-    checkedItems.forEach((itemID) => {
-      handleDeleteItem(itemID);
-    });
-    setCheckedItems([]);
-  };
-
   const handleDecrease = (itemId, currentQuantity, handleQuantityChange) => {
     const newQuantity = currentQuantity > 0 ? currentQuantity - 1 : 0;
     handleQuantityChange(itemId, newQuantity);
@@ -278,12 +271,7 @@ function ShoppingCart() {
             />
 
             <span className={cx("select-all")}>Select All</span>
-            <Button
-              className={cx("delete-all")}
-              onClick={handleDeleteAllCheckedItems}
-            >
-              Delete
-            </Button>
+            <Button className={cx("delete-all")}>Delete</Button>
           </Container>
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>

@@ -1,4 +1,3 @@
-import Tippy from "@tippyjs/react/headless";
 import { useContext, useState, useEffect } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -11,6 +10,8 @@ import {
   faReceipt,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+
+import Tippy from "@tippyjs/react/headless";
 
 import { AuthContext } from "~/functions/Contexts/authContext";
 import { interactData } from "~/functions/interactData";
@@ -38,24 +39,17 @@ function Header() {
     }
   }, []);
 
-  // Function to handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-  };
-
-  // Function to handle search submit
-  const handleSearchSubmit = () => {
     // Call the PHP script to search for data
     interactData(
-      `http://localhost/pokemall/actions/userSearch.php?search=${searchTerm}`,
+      "http://localhost/pokemall/actions/userSearch.php?search=" +
+        e.target.value,
       "GET",
-      null,
+      {},
       setSearchResults
     );
   };
-
-  console.log(searchTerm);
-  console.log(searchResults);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -106,58 +100,20 @@ function Header() {
               </Container>
             </Col>
             <Col lg={6}>
-              <Tippy
-                interactive
-                visible={searchResults.length > 0}
-                arrow={true}
-                placement="bottom-start"
-                theme="custom"
-                render={(attrs) => (
-                  <div
-                    {...attrs}
-                    className={cx("search-results")}
-                    tabIndex="-1"
-                  >
-                    <ul className={cx("search-list")}>
-                      {searchResults.map((result, index) => (
-                        <li key={index} className={cx("search-item")}>
-                          {/* Render search result item */}
-                          <Link
-                            to={`/product-detail/${result.ID}`}
-                            className={cx("search-link")}
-                          >
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            <img
-                              src={result.ImageURL}
-                              className={cx("search-img")}
-                            />
-                            {result.FigureName}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              >
-                <div className={cx("header-search")}>
-                  <input
-                    className={cx("search-input")}
-                    placeholder="Search for pokemon figures..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
+              <div className={cx("header-search")}>
+                <input
+                  className={cx("search-input")}
+                  placeholder="Search for pokemon figures..."
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+                <button className={cx("btn-search")}>
+                  <FontAwesomeIcon
+                    className={cx("icon-search")}
+                    icon={faMagnifyingGlass}
                   />
-
-                  <button
-                    className={cx("btn-search")}
-                    onClick={handleSearchSubmit}
-                  >
-                    <FontAwesomeIcon
-                      className={cx("icon-search")}
-                      icon={faMagnifyingGlass}
-                    />
-                  </button>
-                </div>
-              </Tippy>
+                </button>
+              </div>
             </Col>
             <Col lg={3}>
               {isLoggedIn ? (

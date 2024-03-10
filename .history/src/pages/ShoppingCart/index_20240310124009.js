@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
+
 import { Container, Button, Dropdown } from "react-bootstrap";
 
 import { interactData } from "~/functions/interactData";
@@ -13,7 +13,6 @@ import {
 
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./ShoppingCart.module.scss"; // CSS Module
-import { handleResponse } from "~/functions/eventHandlers";
 
 const cx = classNames.bind(styles); // CSS Module
 
@@ -23,7 +22,7 @@ function ShoppingCart() {
   const [itemQuantities, setItemQuantities] = useState({});
   const [sizes, setSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
-  const [sizePrice, setSizePrice] = useState(0);
+
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
@@ -56,9 +55,11 @@ function ShoppingCart() {
       "http://localhost/pokemall/api/Size.php",
       "GET",
       null,
-      setSizes
+      (data) => {
+        setSizes(data);
+      }
     );
-  }, []);
+  });
 
   const handleCheckItem = (itemId, isChecked) => {
     if (isChecked) {
@@ -86,24 +87,14 @@ function ShoppingCart() {
     return total;
   }, 0);
 
-  const handleDeleteItem = (itemID) => {
-    interactData(
-      `http://localhost/pokemall/actions/deleteFromCart.php?productID=${itemID}`,
-      "DELETE",
-      null,
-      () => {
-        const newCartItems = cartItems.filter((item) => item.ID !== itemID);
-        setCartItems(newCartItems);
-        handleResponse("Product has been deleted", "Delete");
-      }
+  const handleDeleteItem = (itemId) => {
+    const updatedCartItems = cartItems.filter((item) => item.ID !== itemId);
+    setCartItems(updatedCartItems);
+    const { [itemId]: _, ...updatedQuantities } = itemQuantities;
+    setItemQuantities(updatedQuantities);
+    setCheckedItems((prevCheckedItems) =>
+      prevCheckedItems.filter((id) => id !== itemId)
     );
-  };
-
-  const handleDeleteAllCheckedItems = () => {
-    checkedItems.forEach((itemID) => {
-      handleDeleteItem(itemID);
-    });
-    setCheckedItems([]);
   };
 
   const handleDecrease = (itemId, currentQuantity, handleQuantityChange) => {
@@ -201,8 +192,8 @@ function ShoppingCart() {
                       <Dropdown.Menu className={cx("size-option")}>
                         {sizes.map((size) => (
                           <Dropdown.Item
-                            key={size.ID}
-                            onClick={() => handleSizeChange(size.SizeName)}
+                            key={size.id}
+                            onSelect={() => handleSizeChange(size.SizeName)}
                           >
                             {size.SizeName}
                           </Dropdown.Item>
@@ -278,12 +269,7 @@ function ShoppingCart() {
             />
 
             <span className={cx("select-all")}>Select All</span>
-            <Button
-              className={cx("delete-all")}
-              onClick={handleDeleteAllCheckedItems}
-            >
-              Delete
-            </Button>
+            <Button className={cx("delete-all")}>Delete</Button>
           </Container>
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>
@@ -294,7 +280,6 @@ function ShoppingCart() {
           </Container>
         </Container>
       </Container>
-      <Toaster />
     </Container>
   );
 }

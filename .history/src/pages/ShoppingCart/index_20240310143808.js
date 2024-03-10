@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
-import { Container, Button, Dropdown } from "react-bootstrap";
+
+import { Container, Button, Dropdown, Toast } from "react-bootstrap";
 
 import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
@@ -97,13 +97,6 @@ function ShoppingCart() {
         handleResponse("Product has been deleted", "Delete");
       }
     );
-  };
-
-  const handleDeleteAllCheckedItems = () => {
-    checkedItems.forEach((itemID) => {
-      handleDeleteItem(itemID);
-    });
-    setCheckedItems([]);
   };
 
   const handleDecrease = (itemId, currentQuantity, handleQuantityChange) => {
@@ -278,12 +271,7 @@ function ShoppingCart() {
             />
 
             <span className={cx("select-all")}>Select All</span>
-            <Button
-              className={cx("delete-all")}
-              onClick={handleDeleteAllCheckedItems}
-            >
-              Delete
-            </Button>
+            <Button className={cx("delete-all")}>Delete</Button>
           </Container>
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>
@@ -294,7 +282,7 @@ function ShoppingCart() {
           </Container>
         </Container>
       </Container>
-      <Toaster />
+      <Toast />
     </Container>
   );
 }

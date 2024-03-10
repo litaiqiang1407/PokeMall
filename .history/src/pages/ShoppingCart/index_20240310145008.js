@@ -25,7 +25,7 @@ function ShoppingCart() {
   const [selectedSize, setSelectedSize] = useState("");
   const [sizePrice, setSizePrice] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
-
+  const isFooterVisible = cartItems.length > 0;
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
     if (storedUserData) {
@@ -97,13 +97,6 @@ function ShoppingCart() {
         handleResponse("Product has been deleted", "Delete");
       }
     );
-  };
-
-  const handleDeleteAllCheckedItems = () => {
-    checkedItems.forEach((itemID) => {
-      handleDeleteItem(itemID);
-    });
-    setCheckedItems([]);
   };
 
   const handleDecrease = (itemId, currentQuantity, handleQuantityChange) => {
@@ -268,7 +261,9 @@ function ShoppingCart() {
             </tbody>
           </table>
         </Container>
-        <Container className={cx("cart-footer")}>
+        <Container
+          className={cx("cart-footer", { "fixed-bottom": !isFooterVisible })}
+        >
           <Container className={cx("footer-left")}>
             <input
               className={cx("footer-checkbox")}
@@ -278,12 +273,7 @@ function ShoppingCart() {
             />
 
             <span className={cx("select-all")}>Select All</span>
-            <Button
-              className={cx("delete-all")}
-              onClick={handleDeleteAllCheckedItems}
-            >
-              Delete
-            </Button>
+            <Button className={cx("delete-all")}>Delete</Button>
           </Container>
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>

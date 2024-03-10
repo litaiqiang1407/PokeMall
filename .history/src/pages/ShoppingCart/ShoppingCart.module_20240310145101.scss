@@ -143,6 +143,11 @@
   border: 1px solid var(--primary-color);
   background-color: var(--white);
   vertical-align: middle;
+
+  .cart-footer.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+  }
 }
 
 .footer-checkbox {

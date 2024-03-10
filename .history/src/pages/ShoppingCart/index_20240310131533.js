@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
+
 import { Container, Button, Dropdown } from "react-bootstrap";
 
 import { interactData } from "~/functions/interactData";
@@ -13,7 +13,6 @@ import {
 
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./ShoppingCart.module.scss"; // CSS Module
-import { handleResponse } from "~/functions/eventHandlers";
 
 const cx = classNames.bind(styles); // CSS Module
 
@@ -88,22 +87,18 @@ function ShoppingCart() {
 
   const handleDeleteItem = (itemID) => {
     interactData(
-      `http://localhost/pokemall/actions/deleteFromCart.php?productID=${itemID}`,
+      `http://localhost/pokemall/api/ShoppingCart.php?customerId=${customerId}&productID=${itemID}`,
       "DELETE",
       null,
-      () => {
-        const newCartItems = cartItems.filter((item) => item.ID !== itemID);
-        setCartItems(newCartItems);
-        handleResponse("Product has been deleted", "Delete");
+      (data) => {
+        const quantities = {};
+        data.forEach((item) => {
+          quantities[item.ID] = item.Quantity;
+        });
+        setItemQuantities(quantities);
+        setCartItems(data);
       }
     );
-  };
-
-  const handleDeleteAllCheckedItems = () => {
-    checkedItems.forEach((itemID) => {
-      handleDeleteItem(itemID);
-    });
-    setCheckedItems([]);
   };
 
   const handleDecrease = (itemId, currentQuantity, handleQuantityChange) => {
@@ -278,12 +273,7 @@ function ShoppingCart() {
             />
 
             <span className={cx("select-all")}>Select All</span>
-            <Button
-              className={cx("delete-all")}
-              onClick={handleDeleteAllCheckedItems}
-            >
-              Delete
-            </Button>
+            <Button className={cx("delete-all")}>Delete</Button>
           </Container>
           <Container className={cx("footer-right")}>
             <span className={cx("total-price")}>Total: </span>
@@ -294,7 +284,6 @@ function ShoppingCart() {
           </Container>
         </Container>
       </Container>
-      <Toaster />
     </Container>
   );
 }
