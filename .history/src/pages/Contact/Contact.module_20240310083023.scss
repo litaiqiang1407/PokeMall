@@ -1,0 +1,20 @@
+@import "~bootstrap/scss/bootstrap";
+
+.contact {
+  padding: 40px 0;
+}
+
+.contact-header {
+  margin-bottom: 40px;
+  height: 60px;
+  text-align: center;
+}
+
+.header-title {
+  font-weight: 700;
+}
+
+.contact-content {
+  box-shadow: 0 0 0 2.5rem rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+}

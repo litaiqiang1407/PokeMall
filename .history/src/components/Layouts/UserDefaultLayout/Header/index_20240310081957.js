@@ -115,7 +115,7 @@ function Header() {
                   {/* Tippy */}
                   <Tippy
                     render={(attrs) => (
-                      <div {...attrs} className={cx("custom-tooltip")}>
+                      <div {...attrs}>
                         <button
                           onClick={handleLogout}
                           className={cx("logout-button")}
@@ -127,6 +127,7 @@ function Header() {
                     interactive={true}
                     arrow={true}
                     placement="bottom"
+                    className={cx("custom-tooltip")}
                     theme="custom"
                   >
                     <Link
