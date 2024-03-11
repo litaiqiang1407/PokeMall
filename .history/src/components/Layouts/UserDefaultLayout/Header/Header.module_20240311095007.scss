@@ -300,3 +300,8 @@ header.scrolled {
     }
   }
 }
+.header-container.scrolled {
+  .header-search:hover ~ .navbar-header {
+    display: none;
+  }
+}

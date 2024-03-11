@@ -26,6 +26,7 @@ function Header() {
   const [userData, setUserData] = useState({
     avatar: "",
   });
+  const [searching, setSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -42,6 +43,7 @@ function Header() {
   // Function to handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    setSearching(true);
   };
 
   useEffect(() => {
@@ -169,7 +171,7 @@ function Header() {
                   )}
                   <button
                     className={cx("btn-search")}
-                    //onClick={handleSearchSubmit}
+                    onClick={handleSearchSubmit}
                   >
                     <FontAwesomeIcon
                       className={cx("icon-search")}

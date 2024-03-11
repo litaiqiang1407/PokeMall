@@ -210,8 +210,61 @@ header.scrolled {
   }
 
   &:hover {
-    margin-left: 0;
-    width: 640px;
+    .header-search {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 640px;
+      height: 46px;
+      margin-top: 12px;
+      border-radius: 46px;
+      border: 1px solid var(--border-color);
+      transition: border-color 0.3s, all 0.3s ease;
+
+      &:focus-within,
+      &:hover {
+        border-color: var(--primary-color);
+
+        .btn-search {
+          background-color: var(--primary-color-hover);
+          border-color: var(--primary-color-hover);
+        }
+
+        .search-input {
+          color: var(--text-hover-color);
+        }
+      }
+
+      .search-input {
+        width: 88%;
+        padding: 10px 16px;
+        font-size: 1.4rem;
+        color: var(--text-color);
+        border-radius: 46px;
+        border-color: transparent;
+        outline: none;
+
+        &:focus {
+          border-color: transparent;
+        }
+      }
+
+      .btn-search {
+        width: 12%;
+        height: 38px;
+        font-size: 1.6rem;
+        margin-right: 4px;
+        color: var(--white);
+        background-color: var(--primary-color);
+        border-radius: 38px;
+        border: none;
+
+        &:hover {
+          background-color: var(--primary-color-hover);
+          border-color: var(--primary-color-hover);
+        }
+      }
+    }
   }
 }
 
@@ -220,6 +273,7 @@ header.scrolled {
   left: 390px;
   position: fixed;
   width: 640px;
+  z-index: 100;
   border: none;
   transition: width 0.8s ease, opacity 0.8s ease;
 }

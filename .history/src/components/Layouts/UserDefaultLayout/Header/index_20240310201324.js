@@ -10,7 +10,6 @@ import {
   faMagnifyingGlass,
   faReceipt,
   faSignOutAlt,
-  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { AuthContext } from "~/functions/Contexts/authContext";
@@ -42,29 +41,25 @@ function Header() {
   // Function to handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+
+    setTimeout(() => {
+      handleSearchSubmit();
+    }, 1000);
   };
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchTerm) {
-        interactData(
-          `http://localhost/pokemall/actions/userSearch.php?search=${searchTerm}`,
-          "GET",
-          null,
-          setSearchResults
-        );
-      } else {
-        setSearchResults([]);
-      }
-    }, 500);
-
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
-
-  const handleClearSearch = () => {
-    setSearchTerm("");
-    setSearchResults([]);
+  // Function to handle search submit
+  const handleSearchSubmit = () => {
+    // Call the PHP script to search for data
+    interactData(
+      `http://localhost/pokemall/actions/userSearch.php?search=${searchTerm}`,
+      "GET",
+      null,
+      setSearchResults
+    );
   };
+
+  console.log(searchTerm);
+  console.log(searchResults);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,7 +116,6 @@ function Header() {
                 arrow={true}
                 placement="bottom-start"
                 theme="custom"
-                onClickOutside={handleClearSearch}
                 render={(attrs) => (
                   <div
                     {...attrs}
@@ -130,11 +124,7 @@ function Header() {
                   >
                     <ul className={cx("search-list")}>
                       {searchResults.map((result, index) => (
-                        <li
-                          key={index}
-                          className={cx("search-item")}
-                          onClick={handleClearSearch}
-                        >
+                        <li key={index} className={cx("search-item")}>
                           {/* Render search result item */}
                           <Link
                             to={`/product-detail/${result.ID}`}
@@ -145,7 +135,7 @@ function Header() {
                               src={result.ImageURL}
                               className={cx("search-img")}
                             />
-                            {result.FigureName} - {result.PrimaryType}
+                            {result.FigureName}
                           </Link>
                         </li>
                       ))}
@@ -160,16 +150,10 @@ function Header() {
                     value={searchTerm}
                     onChange={handleSearchChange}
                   />
-                  {searchTerm && (
-                    <FontAwesomeIcon
-                      icon={faXmark}
-                      onClick={handleClearSearch}
-                      className={cx("clear-search")}
-                    />
-                  )}
+
                   <button
                     className={cx("btn-search")}
-                    //onClick={handleSearchSubmit}
+                    onClick={handleSearchSubmit}
                   >
                     <FontAwesomeIcon
                       className={cx("icon-search")}

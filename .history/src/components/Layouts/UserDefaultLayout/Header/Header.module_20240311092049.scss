@@ -220,6 +220,7 @@ header.scrolled {
   left: 390px;
   position: fixed;
   width: 640px;
+  z-index: 100;
   border: none;
   transition: width 0.8s ease, opacity 0.8s ease;
 }

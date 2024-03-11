@@ -30,6 +30,7 @@ function Header() {
   const [searchResults, setSearchResults] = useState([]);
   const [isScrolled, setIsScrolled] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(120);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +43,7 @@ function Header() {
   // Function to handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    setIsSearchExpanded(!!e.target.value);
   };
 
   useEffect(() => {

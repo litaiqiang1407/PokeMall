@@ -212,6 +212,13 @@ header.scrolled {
   &:hover {
     margin-left: 0;
     width: 640px;
+
+    ~ .header-bottom {
+      display: none;
+    }
+  }
+  .header-search:hover + .header-bottom {
+    display: none; // Ẩn phần header bottom khi hover vào header search
   }
 }
 

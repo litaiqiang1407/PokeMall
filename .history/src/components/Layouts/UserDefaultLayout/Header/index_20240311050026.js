@@ -26,8 +26,10 @@ function Header() {
   const [userData, setUserData] = useState({
     avatar: "",
   });
+  const [searching, setSearching] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [tippyVisible, setTippyVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(120);
   const navigate = useNavigate();
@@ -42,28 +44,32 @@ function Header() {
   // Function to handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    setSearching(true);
   };
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (searchTerm) {
-        interactData(
-          `http://localhost/pokemall/actions/userSearch.php?search=${searchTerm}`,
-          "GET",
-          null,
-          setSearchResults
-        );
-      } else {
-        setSearchResults([]);
-      }
-    }, 500);
+  const handleSearchSubmit = () => {
+    interactData(
+      `http://localhost/pokemall/actions/userSearch.php?search=${searchTerm}`,
+      "GET",
+      null,
+      setSearchResults
+    );
+  };
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
+  if (searching) {
+    setTimeout(() => {
+      handleSearchSubmit();
+      setSearching(false);
+    }, 500);
+  }
 
   const handleClearSearch = () => {
     setSearchTerm("");
     setSearchResults([]);
+  };
+
+  const handleSearchItemClick = () => {
+    setTippyVisible(false);
   };
 
   useEffect(() => {
@@ -117,11 +123,11 @@ function Header() {
             <Col lg={6}>
               <Tippy
                 interactive
-                visible={searchResults.length > 0}
+                visible={tippyVisible && searchResults.length > 0}
                 arrow={true}
                 placement="bottom-start"
                 theme="custom"
-                onClickOutside={handleClearSearch}
+                onHide={() => setTippyVisible(false)}
                 render={(attrs) => (
                   <div
                     {...attrs}
@@ -130,11 +136,7 @@ function Header() {
                   >
                     <ul className={cx("search-list")}>
                       {searchResults.map((result, index) => (
-                        <li
-                          key={index}
-                          className={cx("search-item")}
-                          onClick={handleClearSearch}
-                        >
+                        <li key={index} className={cx("search-item")}>
                           {/* Render search result item */}
                           <Link
                             to={`/product-detail/${result.ID}`}
@@ -145,7 +147,7 @@ function Header() {
                               src={result.ImageURL}
                               className={cx("search-img")}
                             />
-                            {result.FigureName} - {result.PrimaryType}
+                            {result.FigureName}
                           </Link>
                         </li>
                       ))}
@@ -169,7 +171,7 @@ function Header() {
                   )}
                   <button
                     className={cx("btn-search")}
-                    //onClick={handleSearchSubmit}
+                    onClick={handleSearchSubmit}
                   >
                     <FontAwesomeIcon
                       className={cx("icon-search")}

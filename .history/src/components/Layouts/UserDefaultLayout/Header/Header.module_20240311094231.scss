@@ -190,6 +190,9 @@ header.scrolled {
 
 .header-container.scrolled {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  .header-search:hover + .header-bottom {
+    display: none; // Ẩn phần header bottom khi hover vào header search
+  }
 }
 
 .header-container.scrolled .header-search {
@@ -212,6 +215,10 @@ header.scrolled {
   &:hover {
     margin-left: 0;
     width: 640px;
+
+    ~ .header-bottom {
+      display: none;
+    }
   }
 }
 

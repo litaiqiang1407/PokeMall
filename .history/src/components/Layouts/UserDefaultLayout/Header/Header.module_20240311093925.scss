@@ -212,6 +212,10 @@ header.scrolled {
   &:hover {
     margin-left: 0;
     width: 640px;
+
+    ~ .header-bottom {
+      display: none;
+    }
   }
 }
 

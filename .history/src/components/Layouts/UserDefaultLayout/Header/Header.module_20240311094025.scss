@@ -30,6 +30,7 @@
       border-radius: 46px;
       border: 1px solid var(--border-color);
       transition: border-color 0.3s, all 0.3s ease;
+      z-index: 1000;
 
       &:focus-within,
       &:hover {
@@ -212,6 +213,10 @@ header.scrolled {
   &:hover {
     margin-left: 0;
     width: 640px;
+
+    ~ .header-bottom {
+      display: none;
+    }
   }
 }
 

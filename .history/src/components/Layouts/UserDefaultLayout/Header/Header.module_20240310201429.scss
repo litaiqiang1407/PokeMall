@@ -208,11 +208,6 @@ header.scrolled {
     margin-right: 2px;
     padding: 0;
   }
-
-  &:hover {
-    margin-left: 0;
-    width: 640px;
-  }
 }
 
 .header-container.scrolled .header-bottom {
@@ -220,6 +215,7 @@ header.scrolled {
   left: 390px;
   position: fixed;
   width: 640px;
+  z-index: 100;
   border: none;
   transition: width 0.8s ease, opacity 0.8s ease;
 }
@@ -254,23 +250,15 @@ header.scrolled {
   }
 }
 
-.clear-search {
-  margin-right: 8px;
-  color: var(--text-color);
-  font-size: 2rem;
-}
-
 .search-results {
   width: 640px;
-  min-height: 64px;
+  min-height: 100px;
   max-height: 424px;
   background-color: var(--white);
   padding: 12px 0;
   border-radius: 8px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.12);
   border: 1px solid var(--primary-color);
-  overflow-x: hidden;
-  overflow-y: auto;
 
   .search-list {
     list-style-type: none;

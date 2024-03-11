@@ -30,6 +30,7 @@ function Header() {
   const [searchResults, setSearchResults] = useState([]);
   const [isScrolled, setIsScrolled] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(120);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +43,11 @@ function Header() {
   // Function to handle search input change
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    setIsSearchExpanded(!!e.target.value);
+  };
+
+  const handleToggleSearch = () => {
+    setIsSearchExpanded(true);
   };
 
   useEffect(() => {
@@ -72,6 +78,7 @@ function Header() {
       if (scrollPosition > 70) {
         setIsScrolled(true);
         setHeaderHeight(70);
+        setIsSearchExpanded(false);
       } else {
         setIsScrolled(false);
         setHeaderHeight(120);
@@ -153,7 +160,11 @@ function Header() {
                   </div>
                 )}
               >
-                <div className={cx("header-search")}>
+                <div
+                  className={cx("header-search", {
+                    expanded: isSearchExpanded,
+                  })}
+                >
                   <input
                     className={cx("search-input")}
                     placeholder="Search for pokemon figures..."
@@ -169,7 +180,7 @@ function Header() {
                   )}
                   <button
                     className={cx("btn-search")}
-                    //onClick={handleSearchSubmit}
+                    onClick={handleToggleSearch}
                   >
                     <FontAwesomeIcon
                       className={cx("icon-search")}

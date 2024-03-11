@@ -212,6 +212,10 @@ header.scrolled {
   &:hover {
     margin-left: 0;
     width: 640px;
+
+    .header-container.scrolled .header-bottom {
+      opacity: 0;
+    }
   }
 }
 
@@ -220,6 +224,7 @@ header.scrolled {
   left: 390px;
   position: fixed;
   width: 640px;
+  z-index: 100;
   border: none;
   transition: width 0.8s ease, opacity 0.8s ease;
 }
