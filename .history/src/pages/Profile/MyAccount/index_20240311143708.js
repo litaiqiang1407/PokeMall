@@ -21,7 +21,6 @@ function MyAccount() {
   const [editable, setEditable] = useState(false);
   const [usernameError, setUsernameError] = useState("");
   const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [existError, setExistError] = useState("");
@@ -60,23 +59,19 @@ function MyAccount() {
       { name: "phone", value: userData.phone },
     ];
 
-    const isValid = isValidation(fields, (error) => {
+    isValidation(fields, (error) => {
       setUsernameError(error.username || "");
       setNameError(error.name || "");
       setEmailError(error.email || "");
       setPhoneError(error.phone || "");
     });
 
-    if (isValid) {
-      const endpointURL =
-        "http://localhost/pokemall/actions/changeAccountInfo.php";
-      interactData(endpointURL, "POST", userData, (response) => {
-        if (response.message === "Account information updated") {
-          localStorage.setItem("userData", JSON.stringify(userData));
-          setEditable(false);
-        }
-      });
-    }
+    interactData(
+      "http://localhost/pokemall/actions/changeAccountInfo.php",
+      "POST",
+      userData,
+      setUserData
+    );
   };
 
   return (

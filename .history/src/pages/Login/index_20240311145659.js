@@ -61,29 +61,30 @@ function Login() {
       { name: "phone", value: phone },
       { name: "password", value: password },
     ];
-    const isValid = isValidation(fields, (errors) => {
+    const data = { phone: phone, password: password };
+
+    isValidation(fields, (errors) => {
       setPhoneError(errors.phone || "");
       setPasswordError(errors.password || "");
+      if (!errors.phone && !errors.password) {
+        interactData(url, "POST", data, (data) => {
+          console.log(data);
+          if (data.message === "phone not found") {
+            setExistError(
+              "This phone number is not registered yet. Please register first."
+            );
+          } else if (data.message === "Login failed. Incorrect password.") {
+            setPasswordError("Incorrect password");
+          } else {
+            handleResponse(data, "Login");
+            localStorage.setItem("userData", JSON.stringify(data.userData));
+            setLoginSuccess(true);
+            login();
+            localStorage.setItem("isLoggedIn", "true");
+          }
+        });
+      }
     });
-
-    if (isValid) {
-      const data = { phone: phone, password: password };
-      interactData(url, "POST", data, (data) => {
-        if (data.message === "phone not found") {
-          setExistError(
-            "This phone number is not registered yet. Please register first."
-          );
-        } else if (data.message === "Login failed. Incorrect password.") {
-          setPasswordError("Incorrect password");
-        } else {
-          handleResponse(data, "Login");
-          localStorage.setItem("userData", JSON.stringify(data.userData));
-          setLoginSuccess(true);
-          login();
-          localStorage.setItem("isLoggedIn", "true");
-        }
-      });
-    }
   };
 
   if (loginSuccess) {

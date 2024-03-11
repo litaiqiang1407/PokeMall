@@ -231,10 +231,7 @@ function ShoppingCart() {
                   </td>
                   <td className={cx("product-col")}>
                     <div className={cx("product")}>
-                      <Link
-                        to={`/product-detail/${item.FigureID}`}
-                        className={cx("product-detail")}
-                      >
+                      <Link>
                         <img
                           src={item.ImageURL}
                           alt={item.FigureName}

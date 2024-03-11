@@ -67,22 +67,32 @@ function Login() {
     });
 
     if (isValid) {
-      const data = { phone: phone, password: password };
-      interactData(url, "POST", data, (data) => {
-        if (data.message === "phone not found") {
+      const data = { phone: phone.value, password: password.value };
+      try {
+        console.log("Sending request with data:", data);
+        const responseData = interactData(url, "POST", data);
+
+        if (responseData.message === "phone not found") {
           setExistError(
             "This phone number is not registered yet. Please register first."
           );
-        } else if (data.message === "Login failed. Incorrect password.") {
+        } else if (
+          responseData.message === "Login failed. Incorrect password."
+        ) {
           setPasswordError("Incorrect password");
         } else {
-          handleResponse(data, "Login");
-          localStorage.setItem("userData", JSON.stringify(data.userData));
+          handleResponse(responseData, "Login");
+          localStorage.setItem(
+            "userData",
+            JSON.stringify(responseData.userData)
+          );
           setLoginSuccess(true);
           login();
           localStorage.setItem("isLoggedIn", "true");
         }
-      });
+      } catch (error) {
+        console.error("Error occurred:", error);
+      }
     }
   };
 

@@ -1,7 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { Container, Button, Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
@@ -21,22 +20,22 @@ const cx = classNames.bind(styles); // CSS Module
 function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
-  const [itemID, setItemID] = useState(0);
-  const [itemSizeName, setItemSizeName] = useState("");
   const [itemQuantities, setItemQuantities] = useState({});
-  const [itemSizes, setItemSizes] = useState({});
   const [sizes, setSizes] = useState([]);
-  const [itemSizePrice, setItemSizePrice] = useState({});
+  const [selectedSize, setSelectedSize] = useState("");
+  const [sizePrice, setSizePrice] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
-
-  const customerId = userData.id;
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
     if (storedUserData) {
       setUserData(storedUserData);
     }
+  }, []);
 
+  const { id: customerId } = userData;
+
+  useEffect(() => {
     interactData(
       `http://localhost/pokemall/api/ShoppingCart.php?customerId=${customerId}`,
       "GET",
@@ -50,14 +49,16 @@ function ShoppingCart() {
         setCartItems(data);
       }
     );
+  }, [customerId]);
 
+  useEffect(() => {
     interactData(
       "http://localhost/pokemall/api/Size.php",
       "GET",
       null,
       setSizes
     );
-  }, [customerId]);
+  }, []);
 
   const handleCheckItem = useCallback((itemId, isChecked) => {
     setCheckedItems((prevCheckedItems) => {
@@ -80,7 +81,7 @@ function ShoppingCart() {
 
   const totalCheckedAmount = cartItems.reduce((total, item) => {
     if (checkedItems.includes(item.ID)) {
-      return total + item.Price * itemQuantities[item.ID];
+      return total + item.UnitPrice * itemQuantities[item.ID];
     }
     return total;
   }, 0);
@@ -117,60 +118,10 @@ function ShoppingCart() {
 
   const handleQuantityChange = (itemId, newQuantity) => {
     setItemQuantities({ ...itemQuantities, [itemId]: newQuantity });
-
-    const updatedCartItems = cartItems.map((item) => {
-      if (item.ID === itemId) {
-        const updatedItem = {
-          ...item,
-          Quantity: newQuantity,
-          TotalAmount: parseFloat(item.Price * newQuantity).toFixed(2),
-        };
-        return updatedItem;
-      }
-      return item;
-    });
-
-    setCartItems(updatedCartItems);
   };
-  useEffect(() => {
-    if (itemID && itemSizeName) {
-      interactData(
-        `http://localhost/pokemall/api/Price.php?itemID=${itemID}&sizeName=${itemSizeName}`,
-        "GET",
-        null,
-        (newPrices) => {
-          if (newPrices && newPrices[0] && newPrices[0].Price !== undefined) {
-            setItemSizePrice({
-              ...itemSizePrice,
-              [itemID]: newPrices[0].Price,
-            });
 
-            const updatedCartItems = cartItems.map((item) => {
-              if (item.ID === itemID) {
-                const updatedItem = {
-                  ...item,
-                  Price: newPrices[0].Price,
-                  TotalAmount: parseFloat(
-                    newPrices[0].Price * itemQuantities[item.ID]
-                  ).toFixed(2),
-                };
-                return updatedItem;
-              }
-              return item;
-            });
-            setCartItems(updatedCartItems);
-          } else {
-            console.error("Invalid response from server:", newPrices);
-          }
-        }
-      );
-    }
-  }, [itemID, itemSizeName]);
-
-  const handleSizeChange = (itemID, newSize) => {
-    setItemSizes({ ...itemSizes, [itemID]: newSize });
-    setItemID(itemID);
-    setItemSizeName(newSize);
+  const handleSizeChange = (sizeName) => {
+    setSelectedSize(sizeName);
   };
 
   if (!cartItems.length) {
@@ -231,34 +182,27 @@ function ShoppingCart() {
                   </td>
                   <td className={cx("product-col")}>
                     <div className={cx("product")}>
-                      <Link
-                        to={`/product-detail/${item.FigureID}`}
-                        className={cx("product-detail")}
-                      >
-                        <img
-                          src={item.ImageURL}
-                          alt={item.FigureName}
-                          className={cx("product-img")}
-                        />
-                        <span className={cx("product-name")}>
-                          {item.FigureName}
-                        </span>
-                      </Link>
+                      <img
+                        src={item.ImageURL}
+                        alt={item.FigureName}
+                        className={cx("product-img")}
+                      />
+                      <span className={cx("product-name")}>
+                        {item.FigureName}
+                      </span>
                     </div>
                   </td>
                   <td className={cx("product-col")}>
                     <Dropdown className={cx("size")}>
                       <Dropdown.Toggle className={cx("size-select")}>
-                        {itemSizes[item.ID] || item.SizeName}
+                        {selectedSize ? selectedSize : item.SizeName}
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu className={cx("size-option")}>
                         {sizes.map((size) => (
                           <Dropdown.Item
                             key={size.ID}
-                            onClick={() =>
-                              handleSizeChange(item.ID, size.SizeName)
-                            }
+                            onClick={() => handleSizeChange(size.SizeName)}
                           >
                             {size.SizeName}
                           </Dropdown.Item>
@@ -267,7 +211,7 @@ function ShoppingCart() {
                     </Dropdown>
                   </td>
                   <td className={cx("product-col")}>
-                    <span className={cx("price")}>${item.Price}</span>
+                    <span className={cx("price")}>${item.UnitPrice}</span>
                   </td>
                   <td className={cx("product-col")}>
                     <Container className={cx("quantity-select")}>

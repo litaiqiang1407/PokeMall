@@ -61,26 +61,27 @@ function Login() {
       { name: "phone", value: phone },
       { name: "password", value: password },
     ];
-    const isValid = isValidation(fields, (errors) => {
-      setPhoneError(errors.phone || "");
-      setPasswordError(errors.password || "");
-    });
 
-    if (isValid) {
-      const data = { phone: phone, password: password };
+    if (isValidation(fields, setErrors)) {
+      const url = "http://localhost/pokemall/actions/login.php";
+      const data = { phone, password };
+
       interactData(url, "POST", data, (data) => {
         if (data.message === "phone not found") {
-          setExistError(
-            "This phone number is not registered yet. Please register first."
-          );
+          setErrors({
+            phone:
+              "This phone number is not registered yet. Please register first.",
+          });
         } else if (data.message === "Login failed. Incorrect password.") {
-          setPasswordError("Incorrect password");
+          setErrors({ password: "Incorrect password" });
         } else {
-          handleResponse(data, "Login");
           localStorage.setItem("userData", JSON.stringify(data.userData));
           setLoginSuccess(true);
           login();
           localStorage.setItem("isLoggedIn", "true");
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
         }
       });
     }

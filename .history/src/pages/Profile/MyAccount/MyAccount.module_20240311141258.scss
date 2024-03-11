@@ -28,10 +28,7 @@
   .btn-edit {
     color: var(--edit-button-color);
     cursor: pointer;
-
-    &:focus {
-      outline: none;
-    }
+    border: none;
   }
 }
 

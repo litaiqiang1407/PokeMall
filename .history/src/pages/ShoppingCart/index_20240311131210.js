@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Toaster } from "react-hot-toast";
 import { Container, Button, Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
@@ -21,11 +20,11 @@ const cx = classNames.bind(styles); // CSS Module
 function ShoppingCart() {
   const [userData, setUserData] = useState({ id: "" });
   const [cartItems, setCartItems] = useState([]);
-  const [itemID, setItemID] = useState(0);
-  const [itemSizeName, setItemSizeName] = useState("");
+  const [itemID, setItemID] = useState("");
   const [itemQuantities, setItemQuantities] = useState({});
   const [itemSizes, setItemSizes] = useState({});
   const [sizes, setSizes] = useState([]);
+  const [selectedSize, setSelectedSize] = useState("");
   const [itemSizePrice, setItemSizePrice] = useState({});
   const [checkedItems, setCheckedItems] = useState([]);
 
@@ -133,17 +132,14 @@ function ShoppingCart() {
     setCartItems(updatedCartItems);
   };
   useEffect(() => {
-    if (itemID && itemSizeName) {
+    if (itemID && sizeName) {
       interactData(
-        `http://localhost/pokemall/api/Price.php?itemID=${itemID}&sizeName=${itemSizeName}`,
+        `http://localhost/pokemall/api/Price.php?itemID=${itemID}&sizeName=${sizeName}`,
         "GET",
         null,
         (newPrices) => {
           if (newPrices && newPrices[0] && newPrices[0].Price !== undefined) {
-            setItemSizePrice({
-              ...itemSizePrice,
-              [itemID]: newPrices[0].Price,
-            });
+            setItemPrices({ ...itemPrices, [itemID]: newPrices[0].Price });
 
             const updatedCartItems = cartItems.map((item) => {
               if (item.ID === itemID) {
@@ -165,12 +161,23 @@ function ShoppingCart() {
         }
       );
     }
-  }, [itemID, itemSizeName]);
+  }, [itemID, sizeName]);
 
   const handleSizeChange = (itemID, newSize) => {
     setItemSizes({ ...itemSizes, [itemID]: newSize });
-    setItemID(itemID);
-    setItemSizeName(newSize);
+    // console.log(`itemID: ${itemID}, sizeName: ${newSize}`);
+    // interactData(
+    //   `http://localhost/pokemall/api/Price.php?itemID=${itemID}&sizeName=${newSize}`,
+    //   "GET",
+    //   null,
+    //   (newPrices) => {
+    //     if (newPrices && newPrices[0] && newPrices[0].Price !== undefined) {
+    //       setItemSizePrice({ ...itemSizePrice, [itemID]: newPrices[0].Price });
+    //     } else {
+    //       console.error("Invalid response from server:", newPrices);
+    //     }
+    //   }
+    // );
   };
 
   if (!cartItems.length) {
@@ -231,19 +238,14 @@ function ShoppingCart() {
                   </td>
                   <td className={cx("product-col")}>
                     <div className={cx("product")}>
-                      <Link
-                        to={`/product-detail/${item.FigureID}`}
-                        className={cx("product-detail")}
-                      >
-                        <img
-                          src={item.ImageURL}
-                          alt={item.FigureName}
-                          className={cx("product-img")}
-                        />
-                        <span className={cx("product-name")}>
-                          {item.FigureName}
-                        </span>
-                      </Link>
+                      <img
+                        src={item.ImageURL}
+                        alt={item.FigureName}
+                        className={cx("product-img")}
+                      />
+                      <span className={cx("product-name")}>
+                        {item.FigureName}
+                      </span>
                     </div>
                   </td>
                   <td className={cx("product-col")}>

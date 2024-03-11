@@ -70,12 +70,7 @@ function MyAccount() {
     if (isValid) {
       const endpointURL =
         "http://localhost/pokemall/actions/changeAccountInfo.php";
-      interactData(endpointURL, "POST", userData, (response) => {
-        if (response.message === "Account information updated") {
-          localStorage.setItem("userData", JSON.stringify(userData));
-          setEditable(false);
-        }
-      });
+      interactData(endpointURL, "POST", userData, setUserData);
     }
   };
 

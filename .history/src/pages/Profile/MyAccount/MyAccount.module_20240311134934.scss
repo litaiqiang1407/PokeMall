@@ -24,15 +24,6 @@
     line-height: 40px;
     margin-right: 8px;
   }
-
-  .btn-edit {
-    color: var(--edit-button-color);
-    cursor: pointer;
-
-    &:focus {
-      outline: none;
-    }
-  }
 }
 
 .info-content {

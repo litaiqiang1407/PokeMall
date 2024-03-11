@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Toaster } from "react-hot-toast";
 import { Container, Button, Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
@@ -231,10 +230,7 @@ function ShoppingCart() {
                   </td>
                   <td className={cx("product-col")}>
                     <div className={cx("product")}>
-                      <Link
-                        to={`/product-detail/${item.FigureID}`}
-                        className={cx("product-detail")}
-                      >
+                      <Link>
                         <img
                           src={item.ImageURL}
                           alt={item.FigureName}

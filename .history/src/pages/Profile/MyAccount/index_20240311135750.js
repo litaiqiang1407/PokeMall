@@ -1,16 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import classNames from "classnames/bind";
 import styles from "./MyAccount.module.scss";
-import { interactData } from "~/functions/interactData";
-import { isValidation } from "~/functions/validation";
 
 const cx = classNames.bind(styles);
 function MyAccount() {
+  const [editable, setEditable] = useState(false);
   const [userData, setUserData] = useState({
     username: "",
     name: "",
@@ -18,13 +17,6 @@ function MyAccount() {
     phone: "",
     avatar: "",
   });
-  const [editable, setEditable] = useState(false);
-  const [usernameError, setUsernameError] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [existError, setExistError] = useState("");
 
   const inputRef = useRef(null);
 
@@ -51,34 +43,6 @@ function MyAccount() {
     setUserData({ ...userData, [name]: "" });
   };
 
-  const handleSave = (e) => {
-    e.PreventDefault();
-    const fields = [
-      { name: "username", value: userData.username },
-      { name: "name", value: userData.name },
-      { name: "email", value: userData.email },
-      { name: "phone", value: userData.phone },
-    ];
-
-    const isValid = isValidation(fields, (error) => {
-      setUsernameError(error.username || "");
-      setNameError(error.name || "");
-      setEmailError(error.email || "");
-      setPhoneError(error.phone || "");
-    });
-
-    if (isValid) {
-      const endpointURL =
-        "http://localhost/pokemall/actions/changeAccountInfo.php";
-      interactData(endpointURL, "POST", userData, (response) => {
-        if (response.message === "Account information updated") {
-          localStorage.setItem("userData", JSON.stringify(userData));
-          setEditable(false);
-        }
-      });
-    }
-  };
-
   return (
     <Container className={cx("my-account")}>
       <Container className={cx("account-header")}>
@@ -100,7 +64,7 @@ function MyAccount() {
                 </Tippy>
               </Container>
               <Container className={cx("info-content")}>
-                <Form onSubmit={handleSave}>
+                <form>
                   <Container className={cx("form-group")}>
                     <Row>
                       <Col lg={3}>
@@ -209,10 +173,8 @@ function MyAccount() {
                       </Col>
                     </Row>
                   </Container>
-                  <Button type="submit" className={cx("btn-save")}>
-                    Save
-                  </Button>
-                </Form>
+                  <Button className={cx("btn-save")}>Save</Button>
+                </form>
               </Container>
             </Container>
           </Col>

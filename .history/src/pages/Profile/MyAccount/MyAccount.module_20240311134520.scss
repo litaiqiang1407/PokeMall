@@ -24,15 +24,6 @@
     line-height: 40px;
     margin-right: 8px;
   }
-
-  .btn-edit {
-    color: var(--edit-button-color);
-    cursor: pointer;
-
-    &:focus {
-      outline: none;
-    }
-  }
 }
 
 .info-content {
@@ -88,21 +79,20 @@
 
   .btn-save {
     float: right;
-    margin-right: 58px;
+    margin-right: 40px;
     height: 40px;
     width: 100px;
     font-size: 1.6rem;
-    font-weight: 500;
+    line-height: 40px;
     border-radius: 5px;
     background-color: var(--primary-color);
     color: var(--white);
+    cursor: pointer;
     border: 0;
     transition: all 0.3s ease;
 
     &:hover {
       background-color: var(--primary-hover-color);
-      border: 1px solid var(--primary-color);
-      color: var(--primary-color);
     }
   }
 }
