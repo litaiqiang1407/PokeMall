@@ -1,0 +1,34 @@
+@import "~bootstrap/scss/bootstrap";
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-bottom {
+  height: 50px;
+  width: 100%;
+  padding: 0;
+  border-top: var(--primary-border);
+
+  .navbar-header {
+    background-color: var(--white);
+    padding: 0;
+    .nav-link {
+      @include flex-center;
+      height: 50px;
+      width: 120px;
+      font-size: 1.6rem;
+      font-weight: 600;
+      background-color: var(--white);
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
+      &:hover {
+        background-color: var(--primary-color);
+        color: var(--white);
+      }
+    }
+  }
+}

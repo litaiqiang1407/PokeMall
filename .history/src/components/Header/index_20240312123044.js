@@ -13,7 +13,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { AuthContext } from "~/functions/authContext";
+import { AuthContext } from "~/functions/Contexts/authContext";
 import { interactData } from "~/functions/interactData";
 
 import classNames from "classnames/bind";

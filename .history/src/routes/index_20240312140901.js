@@ -1,24 +1,19 @@
 //  Layouts
-import {
-  AuthenticationLayout,
-  UserDefaultLayout,
-  AdminLayout,
-} from "~/components/Layouts";
+import { AuthenticationLayout } from "~/components/Layouts";
+import { UserDefaultLayout } from "~/components/Layouts";
+import { AdminDefaultLayout } from "~/components/Layouts";
 
 // Pages
-import {
-  Home,
-  Login,
-  Signup,
-  AllProducts,
-  Contact,
-  ProductDetail,
-  Profile,
-  MyAccount,
-  PurchaseOrders,
-  ShoppingCart,
-  AdminLogin,
-} from "~/pages";
+import Home from "~/pages/Home";
+import Login from "~/pages/Login";
+import Signup from "~/pages/Signup";
+import AllProducts from "~/pages/AllProducts";
+import Contact from "~/pages/Contact";
+import ProductDetail from "~/pages/ProductDetail";
+import Profile from "~/pages/Profile";
+import MyAccount from "~/pages/Profile/MyAccount";
+import PurchaseOrders from "~/pages/Profile/PurchaseOrders";
+import ShoppingCart from "~/pages/ShoppingCart";
 
 // Public Routes
 const publicRoutes = [

@@ -14,19 +14,19 @@ import { AuthContext } from "~/functions/authContext";
 import Title from "~/components/Title";
 
 import classNames from "classnames/bind";
-import styles from "./Login.module.scss";
+import styles from "./AdminLogin.module.scss";
 
 const cx = classNames.bind(styles);
 
-function Login() {
-  const [phone, setPhone] = useState("");
+function AdminLogin() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [phoneError, setPhoneError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [existError, setExistError] = useState("");
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const phoneRef = useRef(null);
+  const usernameRef = useRef(null);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -40,13 +40,13 @@ function Login() {
   }, []);
 
   useEffect(() => {
-    if (phoneRef.current) {
-      phoneRef.current.focus();
+    if (usernameRef.current) {
+      usernameRef.current.focus();
     }
-  }, [phoneRef]);
+  }, [usernameRef]);
 
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -66,20 +66,20 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const fields = [
-      { name: "phone", value: phone },
+      { name: "username", value: username },
       { name: "password", value: password },
     ];
     const isValid = isValidation(fields, (errors) => {
-      setPhoneError(errors.phone || "");
+      setUsernameError(errors.username || "");
       setPasswordError(errors.password || "");
     });
 
     if (isValid) {
-      const data = { phone: phone, password: password };
+      const data = { username: username, password: password };
       interactData(url, "POST", data, (data) => {
-        if (data.message === "phone not found") {
+        if (data.message === "username not found") {
           setExistError(
-            "This phone number is not registered yet. Please register first."
+            "This username number is not registered yet. Please register first."
           );
         } else if (data.message === "Login failed. Incorrect password.") {
           setPasswordError("Incorrect password");
@@ -96,41 +96,40 @@ function Login() {
 
   if (loginSuccess) {
     setTimeout(() => {
-      navigate("/");
+      navigate("/admin/dashboard");
     }, 1500);
   }
-
   return (
     <Container fluid className={cx("login-container")}>
-      <Title title="Login - PokeMall" />
+      <Title title="Admin - PokeMall" />
       <Container fluid className={cx("login-form-container")}>
         <Container className={cx("login-form")}>
           {/* Title */}
           <Container className={cx("login-title")}>
-            <h1 className={cx("text-center")}>Log In</h1>
+            <h1 className={cx("text-center")}>Welcome back Admin</h1>
           </Container>
 
           <Form onSubmit={handleSubmit}>
-            {/* Phone Field */}
+            {/* username Field */}
             <Form.Group
               className={cx("form-field")}
-              controlId="formPhoneNumber"
+              controlId="formUsernameNumber"
             >
-              <Form.Label className={cx("form-label")}>Phone number</Form.Label>
+              <Form.Label className={cx("form-label")}>Username</Form.Label>
               <Form.Control
-                ref={phoneRef}
-                name="phone"
+                ref={usernameRef}
+                name="username"
                 className={cx("form-input", {
-                  error: phoneError || existError,
+                  error: usernameError || existError,
                 })}
                 type="text"
-                placeholder="Enter your phone number"
-                value={phone}
-                onChange={handlePhoneChange}
+                placeholder="Enter your username"
+                value={username}
+                onChange={handleUsernameChange}
               />
-              {(phoneError || existError) && (
+              {(usernameError || existError) && (
                 <span className={cx("error-message")}>
-                  {phoneError || existError}
+                  {usernameError || existError}
                 </span>
               )}
             </Form.Group>
@@ -192,4 +191,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default AdminLogin;

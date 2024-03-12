@@ -13,7 +13,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { AuthContext } from "~/functions/authContext";
+import { AuthContext } from "~/functions/Contexts/authContext";
 import { interactData } from "~/functions/interactData";
 
 import classNames from "classnames/bind";
@@ -236,28 +236,7 @@ function Header() {
           </Row>
         </Container>
 
-        <Container fluid className={cx("header-bottom")}>
-          <Navbar expand="lg" className={cx("navbar-header")}>
-            <Nav className="mx-auto">
-              <Nav.Link className={cx("nav-link")} href="#types">
-                Types
-              </Nav.Link>
-              <Nav.Link className={cx("nav-link")} href="#all-products">
-                All Products
-              </Nav.Link>
-              <Nav.Link className={cx("nav-link")} href="#suggestions">
-                Suggestions
-              </Nav.Link>
-              <Nav.Link className={cx("nav-link")} href="#about">
-                About
-              </Nav.Link>
-              <Link className={cx("nav-link")} to="/contact">
-                Contact
-              </Link>
-            </Nav>
-          </Navbar>
-        </Container>
-      </Container>
+        
       <Container style={{ height: `${headerHeight}px` }}></Container>
     </header>
   );

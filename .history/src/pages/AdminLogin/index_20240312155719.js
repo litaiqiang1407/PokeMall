@@ -14,11 +14,11 @@ import { AuthContext } from "~/functions/authContext";
 import Title from "~/components/Title";
 
 import classNames from "classnames/bind";
-import styles from "./Login.module.scss";
+import styles from "./AdminLogin.module.scss";
 
 const cx = classNames.bind(styles);
 
-function Login() {
+function AdminLogin() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -99,10 +99,9 @@ function Login() {
       navigate("/");
     }, 1500);
   }
-
   return (
     <Container fluid className={cx("login-container")}>
-      <Title title="Login - PokeMall" />
+      <Title title="Admin - PokeMall" />
       <Container fluid className={cx("login-form-container")}>
         <Container className={cx("login-form")}>
           {/* Title */}
@@ -192,4 +191,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default AdminLogin;

@@ -18,88 +18,7 @@ import styles from "./Login.module.scss";
 
 const cx = classNames.bind(styles);
 
-function Login() {
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [existError, setExistError] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const phoneRef = useRef(null);
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  const url = "http://localhost/pokemall/actions/login.php";
-
-  useEffect(() => {
-    document.title = "Login - PokeMall";
-    return () => {
-      document.title = "";
-    };
-  }, []);
-
-  useEffect(() => {
-    if (phoneRef.current) {
-      phoneRef.current.focus();
-    }
-  }, [phoneRef]);
-
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const fields = [
-      { name: "phone", value: phone },
-      { name: "password", value: password },
-    ];
-    const isValid = isValidation(fields, (errors) => {
-      setPhoneError(errors.phone || "");
-      setPasswordError(errors.password || "");
-    });
-
-    if (isValid) {
-      const data = { phone: phone, password: password };
-      interactData(url, "POST", data, (data) => {
-        if (data.message === "phone not found") {
-          setExistError(
-            "This phone number is not registered yet. Please register first."
-          );
-        } else if (data.message === "Login failed. Incorrect password.") {
-          setPasswordError("Incorrect password");
-        } else {
-          handleResponse(data, "Login");
-          localStorage.setItem("userData", JSON.stringify(data.userData));
-          setLoginSuccess(true);
-          login();
-          localStorage.setItem("isLoggedIn", "true");
-        }
-      });
-    }
-  };
-
-  if (loginSuccess) {
-    setTimeout(() => {
-      navigate("/");
-    }, 1500);
-  }
-
+function AdminLogin() {
   return (
     <Container fluid className={cx("login-container")}>
       <Title title="Login - PokeMall" />
@@ -192,4 +111,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default AdminLogin;
