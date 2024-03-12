@@ -31,7 +31,7 @@ function Contact() {
                 <h2>Contact Information</h2>
                 <span>We are here to help you</span>
               </Container>
-              <Container className={cx("info-content")}>
+              <Container>
                 <Container className={cx("info-contact")}>
                   <FontAwesomeIcon icon={faPhone} />
                   <span className={cx("info-text")}>+84326392976</span>

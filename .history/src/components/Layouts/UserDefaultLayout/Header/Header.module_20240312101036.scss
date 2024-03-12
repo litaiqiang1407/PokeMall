@@ -158,10 +158,11 @@
     height: 50px;
     width: 100%;
     padding: 0;
-    border-top: var(--primary-border);
+    border-top: 1px solid var(--primary-color);
 
     .navbar-header {
       background-color: var(--white);
+
       padding: 0;
       .nav-link {
         @include flex-center;
@@ -262,11 +263,15 @@ header.scrolled {
   padding: 12px 0;
   border-radius: 8px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.12);
-  border: var(--primary-border);
+  border: 1px solid var(--primary-color);
   overflow-x: hidden;
   overflow-y: auto;
 
   .search-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
     .search-item {
       &:hover {
         background-color: var(--primary-color-hover);

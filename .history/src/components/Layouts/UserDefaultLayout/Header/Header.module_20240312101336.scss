@@ -267,6 +267,10 @@ header.scrolled {
   overflow-y: auto;
 
   .search-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
     .search-item {
       &:hover {
         background-color: var(--primary-color-hover);

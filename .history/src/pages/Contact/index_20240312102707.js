@@ -26,7 +26,7 @@ function Contact() {
       <Container className={cx("contact-content")}>
         <Row>
           <Col>
-            <Container className={cx("contact-info")}>
+            <Container>
               <Container>
                 <h2>Contact Information</h2>
                 <span>We are here to help you</span>

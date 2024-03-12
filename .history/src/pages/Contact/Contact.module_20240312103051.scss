@@ -24,9 +24,6 @@
       border-radius: 6px;
       background-color: #ffc300;
 
-      .info-content {
-        margin: 48px 0;
-      }
       .info-contact {
         padding: 0;
         margin: 4px 0;
@@ -74,21 +71,20 @@
           }
         }
       }
-
-      .btn-send {
-        float: right;
-        background-color: var(--primary-color);
-        height: 40px;
-        font-size: 1.6rem;
-        color: var(--text-black-color);
-        border: none;
-
-        &:hover {
-          background-color: var(--white);
-          color: var(--text-black-color);
-          border: var(--primary-border);
-        }
-      }
     }
+  }
+}
+
+.btn-send {
+  float: right;
+  background-color: var(--primary-color);
+  height: 40px;
+  font-size: 1.6rem;
+  color: var(--text-black-color);
+
+  &:hover {
+    background-color: var(--white);
+    color: var(--text-black-color);
+    border: var(--primary-border);
   }
 }

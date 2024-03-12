@@ -27,9 +27,11 @@ function Contact() {
         <Row>
           <Col>
             <Container className={cx("contact-info")}>
-              <Container>
-                <h2>Contact Information</h2>
-                <span>We are here to help you</span>
+              <Container className={cx("info-header")}>
+                <h2 className={cx("info-title")}>Contact Information</h2>
+                <span className={cx("info-subtitle")}>
+                  We are here to help you
+                </span>
               </Container>
               <Container className={cx("info-content")}>
                 <Container className={cx("info-contact")}>
