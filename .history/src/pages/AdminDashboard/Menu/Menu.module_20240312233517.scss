@@ -1,0 +1,11 @@
+@import "~bootstrap/scss/bootstrap";
+
+.container {
+  background-color: var(--white);
+
+  .menu-header {
+    height: 40px;
+    text-align: right;
+    color: var(--primary-color);
+  }
+}

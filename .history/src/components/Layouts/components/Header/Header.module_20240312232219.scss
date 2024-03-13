@@ -1,0 +1,81 @@
+@import "~bootstrap/scss/bootstrap";
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-container {
+  --box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  --search-width: 640px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 70px;
+  background-color: var(--white);
+  padding: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: var(--box-shadow);
+
+  .header-top {
+    height: 70px;
+    padding: 0;
+    background-color: var(--white);
+
+    .header-logo {
+      padding: 14px 0;
+    }
+
+    .user-options {
+      @include flex-end;
+      height: 46px;
+      margin-top: 12px;
+
+      .options-item {
+        @include flex-end;
+        width: 80px;
+        height: 36px;
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        transition: color 0.3s, border-color 0.3s;
+
+        &:hover {
+          color: var(--primary-color-hover);
+        }
+        .avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+
+.logout-button {
+  width: 120px;
+  height: 32px;
+  padding: 4px 10px;
+  font-size: 1.6rem;
+  color: var(--text-black-color);
+  background-color: var(--white);
+  border: none;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary-color-hover);
+  }
+}
