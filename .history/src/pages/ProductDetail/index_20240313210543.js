@@ -67,7 +67,7 @@ function ProductDetail() {
   useEffect(() => {
     if (selectedSize) {
       interactData(
-        `http://localhost/pokemall/api/Price.php?productID=${id}&sizeName=${selectedSize}`,
+        `http://localhost/pokemall/api/Price.php?productId=${id}&sizeName=${selectedSize}`,
         "GET",
         null,
         setSizePrice

@@ -34,6 +34,8 @@ function ShoppingCart() {
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    customerID = storedUserData.id;
+    console.log(customerID);
     if (storedUserData) {
       setUserData(storedUserData);
     }

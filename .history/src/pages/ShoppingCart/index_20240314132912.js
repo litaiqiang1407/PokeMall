@@ -30,13 +30,12 @@ function ShoppingCart() {
   const [checkedItems, setCheckedItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const customerID = userData.id;
-
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
     if (storedUserData) {
       setUserData(storedUserData);
     }
+    const customerID = userData.id;
 
     interactData(
       `http://localhost/pokemall/api/ShoppingCart.php?customerID=${customerID}`,
@@ -54,7 +53,7 @@ function ShoppingCart() {
         setLoading(false);
       }
     );
-  }, [customerID]);
+  }, []);
 
   const handleCheckItem = useCallback((itemId, isChecked) => {
     setCheckedItems((prevCheckedItems) => {

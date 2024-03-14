@@ -43,7 +43,6 @@ function ShoppingCart() {
       "GET",
       null,
       (data) => {
-        console.log(data);
         const quantities = {};
         data.cartItems.forEach((item) => {
           quantities[item.ID] = item.Quantity;
@@ -129,7 +128,6 @@ function ShoppingCart() {
 
     setCartItems(updatedCartItems);
   };
-
   useEffect(() => {
     if (itemID && itemSizeName) {
       interactData(

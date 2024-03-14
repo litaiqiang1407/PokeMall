@@ -34,6 +34,7 @@ function ShoppingCart() {
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    console.log(storedUserData);
     if (storedUserData) {
       setUserData(storedUserData);
     }

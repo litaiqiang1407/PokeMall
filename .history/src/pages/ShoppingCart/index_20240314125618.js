@@ -30,7 +30,7 @@ function ShoppingCart() {
   const [checkedItems, setCheckedItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const customerID = userData.id;
+  const customerId = userData.id;
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
@@ -39,22 +39,31 @@ function ShoppingCart() {
     }
 
     interactData(
-      `http://localhost/pokemall/api/ShoppingCart.php?customerID=${customerID}`,
+      `http://localhost/pokemall/api/ShoppingCart.php?customerID=${customerId}`,
       "GET",
       null,
       (data) => {
-        console.log(data);
-        const quantities = {};
-        data.cartItems.forEach((item) => {
-          quantities[item.ID] = item.Quantity;
-        });
-        setItemQuantities(quantities);
-        setCartItems(data.cartItems);
-        setSizes(data.sizes);
-        setLoading(false);
+        console.log("API data", data);
+        if (data && data.cartItems && Array.isArray(data.cartItems)) {
+          const quantities = {};
+          data.cartItems.forEach((item) => {
+            quantities[item.ID] = item.Quantity;
+          });
+          setItemQuantities(quantities);
+          setCartItems(data.cartItems);
+          setSizes(data.sizes);
+          setLoading(false);
+        }
       }
     );
-  }, [customerID]);
+
+    // interactData(
+    //   "http://localhost/pokemall/api/Size.php",
+    //   "GET",
+    //   null,
+    //   setSizes
+    // );
+  }, [customerId]);
 
   const handleCheckItem = useCallback((itemId, isChecked) => {
     setCheckedItems((prevCheckedItems) => {
@@ -83,6 +92,7 @@ function ShoppingCart() {
   }, 0);
 
   const handleDeleteItem = (itemID) => {
+    console.log(itemID);
     interactData(
       `http://localhost/pokemall/actions/deleteFromCart.php?productID=${itemID}`,
       "DELETE",
@@ -129,7 +139,6 @@ function ShoppingCart() {
 
     setCartItems(updatedCartItems);
   };
-
   useEffect(() => {
     if (itemID && itemSizeName) {
       interactData(
