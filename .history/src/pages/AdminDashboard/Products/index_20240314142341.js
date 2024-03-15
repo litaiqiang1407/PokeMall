@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { Container, Dropdown } from "react-bootstrap";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
+import { Link } from "react-router-dom";
 
+import { Container, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDragon,
@@ -37,9 +36,15 @@ function Products() {
       null,
       (data) => {
         console.log(data); // Log the data to see its structure
-        setProductItems(data.products);
-        setSizes(data.sizes);
+        setProductItems(data.Products);
       }
+    );
+
+    interactData(
+      "http://localhost/pokemall/api/Size.php",
+      "GET",
+      null,
+      setSizes
     );
   }, []);
 
@@ -99,13 +104,11 @@ function Products() {
               />
             </button>
           </div>
-          <Tippy content={"Add"}>
-            <div className={cx("header-add")}>
-              <button className={cx("btn-add")}>
-                <FontAwesomeIcon icon={faPlus} className={cx("icon-add")} />
-              </button>
-            </div>
-          </Tippy>
+          <div className={cx("header-add")}>
+            <button className={cx("btn-add")}>
+              <FontAwesomeIcon icon={faPlus} className={cx("icon-add")} />
+            </button>
+          </div>
         </Container>
       </Container>
       <Container className={cx("content")}>

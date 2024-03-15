@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Container, Dropdown } from "react-bootstrap";
 import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -99,13 +98,11 @@ function Products() {
               />
             </button>
           </div>
-          <Tippy content={"Add"}>
-            <div className={cx("header-add")}>
-              <button className={cx("btn-add")}>
-                <FontAwesomeIcon icon={faPlus} className={cx("icon-add")} />
-              </button>
-            </div>
-          </Tippy>
+          <div className={cx("header-add")}>
+            <button className={cx("btn-add")}>
+              <FontAwesomeIcon icon={faPlus} className={cx("icon-add")} />
+            </button>
+          </div>
         </Container>
       </Container>
       <Container className={cx("content")}>

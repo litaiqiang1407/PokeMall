@@ -50,9 +50,9 @@ function ShoppingCart() {
             data.cartItems.forEach((item) => {
               quantities[item.ID] = item.Quantity;
             });
+            setItemQuantities(quantities);
             setCartItems(data.cartItems);
             setSizes(data.sizes);
-            setItemQuantities(quantities);
             setLoading(false);
           } else {
             console.error("Invalid data received:", data);

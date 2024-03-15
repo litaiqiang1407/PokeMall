@@ -38,30 +38,23 @@ function ShoppingCart() {
       setUserData(storedUserData);
     }
 
-    if (cartItems.length === 0) {
-      interactData(
-        `http://localhost/pokemall/api/ShoppingCart.php?customerID=${customerID}`,
-        "GET",
-        null,
-        (data) => {
-          console.log(data);
-          if (data && data.cartItems) {
-            const quantities = {};
-            data.cartItems.forEach((item) => {
-              quantities[item.ID] = item.Quantity;
-            });
-            setCartItems(data.cartItems);
-            setSizes(data.sizes);
-            setItemQuantities(quantities);
-            setLoading(false);
-          } else {
-            console.error("Invalid data received:", data);
-            setLoading(false);
-          }
-        }
-      );
-    }
-  }, [customerID, cartItems]);
+    interactData(
+      `http://localhost/pokemall/api/ShoppingCart.php?customerID=${customerID}`,
+      "GET",
+      null,
+      (data) => {
+        console.log(data);
+        const quantities = {};
+        data.cartItems.forEach((item) => {
+          quantities[item.ID] = item.Quantity;
+        });
+        setItemQuantities(quantities);
+        setCartItems(data.cartItems);
+        setSizes(data.sizes);
+        setLoading(false);
+      }
+    );
+  }, [customerID]);
 
   const handleCheckItem = useCallback((itemId, isChecked) => {
     setCheckedItems((prevCheckedItems) => {

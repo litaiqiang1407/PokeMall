@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Container, Dropdown } from "react-bootstrap";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
@@ -25,8 +25,7 @@ function Products() {
   const [productItems, setProductItems] = useState([]);
   const [itemID, setItemID] = useState(0);
   const [sizes, setSizes] = useState([]);
-  const [itemSizes, setItemSizes] = useState([]);
-  const [itemSizeName, setItemSizeName] = useState("");
+  const [itemSizes, setItemSizes] = useState({});
   const [checkedItems, setCheckedItems] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -43,35 +42,45 @@ function Products() {
     );
   }, []);
 
-  const handleSizeChange = (itemID, newSize) => {
-    setItemSizes({ ...itemSizes, [itemID]: newSize });
+  const handleSizeChange = useCallback((itemID, newSize) => {
+    setItemSizes((prevItemSizes) => ({
+      ...prevItemSizes,
+      [itemID]: newSize,
+    }));
     setItemID(itemID);
-    setItemSizeName(newSize);
-  };
-
-  const handleCheckItem = useCallback((itemId, isChecked) => {
-    setCheckedItems((prevCheckedItems) => {
-      if (isChecked) {
-        return [...prevCheckedItems, itemId];
-      } else {
-        return prevCheckedItems.filter((id) => id !== itemId);
-      }
-    });
   }, []);
 
-  const handleCheckAll = (e) => {
-    if (e.target.checked) {
-      const allItemIds = productItems.map((item) => item.ID);
-      setCheckedItems([...allItemIds]);
-    } else {
-      setCheckedItems([]);
-    }
-  };
+  const handleCheckItem = useCallback((itemId, isChecked) => {
+    setCheckedItems((prevCheckedItems) =>
+      isChecked
+        ? [...prevCheckedItems, itemId]
+        : prevCheckedItems.filter((id) => id !== itemId)
+    );
+  }, []);
 
-  const handleEditItem = (itemID) => {
+  const handleCheckAll = useCallback(
+    (e) => {
+      const allItemIds = productItems.map((item) => item.ID);
+      setCheckedItems(e.target.checked ? allItemIds : []);
+    },
+    [productItems]
+  );
+
+  const handleEditItem = useCallback((itemID) => {
     setItemID(itemID);
-    setIsEditing(!isEditing);
-  };
+    setIsEditing((prevIsEditing) => !prevIsEditing);
+  }, []);
+
+  const renderItemField = (item, field) =>
+    isEditing && item.ID === itemID ? (
+      <input
+        className={cx(`input-${field}`)}
+        value={item[field]}
+        // Add onChange handlers if needed
+      />
+    ) : (
+      <span className={cx(field)}>{item[field]}</span>
+    );
 
   if (!productItems.length) {
     return <LoadingAnimation />;
@@ -176,24 +185,10 @@ function Products() {
                   </div>
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input
-                      className={cx("input-name")}
-                      value={item.FigureName}
-                    />
-                  ) : (
-                    <span className={cx("name")}>{item.FigureName}</span>
-                  )}
+                  {renderItemField(item, "FigureName")}
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input
-                      className={cx("input-type")}
-                      value={item.PrimaryType}
-                    />
-                  ) : (
-                    <span className={cx("type")}>{item.PrimaryType}</span>
-                  )}
+                  {renderItemField(item, "PrimaryType")}
                 </td>
 
                 <td className={cx("product-col")}>
@@ -217,31 +212,13 @@ function Products() {
                   </Dropdown>
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input className={cx("input-price")} value={item.Price} />
-                  ) : (
-                    <span className={cx("price")}>${item.Price}</span>
-                  )}
+                  {renderItemField(item, "Price")}
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input
-                      className={cx("input-quantity")}
-                      value={item.Quantity}
-                    />
-                  ) : (
-                    <span className={cx("price")}>{item.Quantity}</span>
-                  )}
+                  {renderItemField(item, "Quantity")}
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input
-                      className={cx("input-release")}
-                      value={item.ReleaseDate}
-                    />
-                  ) : (
-                    <span className={cx("type")}>{item.ReleaseDate}</span>
-                  )}
+                  {renderItemField(item, "ReleaseDate")}
                 </td>
                 <td className={cx("product-col")}>
                   <Container className={cx("edit-icon")}>

@@ -38,6 +38,7 @@ function ShoppingCart() {
       setUserData(storedUserData);
     }
 
+    // Kiểm tra xem đã có dữ liệu giỏ hàng hay chưa
     if (cartItems.length === 0) {
       interactData(
         `http://localhost/pokemall/api/ShoppingCart.php?customerID=${customerID}`,
@@ -50,18 +51,18 @@ function ShoppingCart() {
             data.cartItems.forEach((item) => {
               quantities[item.ID] = item.Quantity;
             });
+            setItemQuantities(quantities);
             setCartItems(data.cartItems);
             setSizes(data.sizes);
-            setItemQuantities(quantities);
             setLoading(false);
           } else {
             console.error("Invalid data received:", data);
-            setLoading(false);
+            setLoading(false); // Dừng loading nếu dữ liệu không hợp lệ
           }
         }
       );
     }
-  }, [customerID, cartItems]);
+  }, [customerID, cartItems]); // Thêm cartItems vào mảng phụ thuộc để tránh gọi API lặp lại
 
   const handleCheckItem = useCallback((itemId, isChecked) => {
     setCheckedItems((prevCheckedItems) => {
