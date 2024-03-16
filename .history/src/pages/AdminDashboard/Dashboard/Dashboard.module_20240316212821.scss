@@ -179,7 +179,7 @@
             border-radius: 999px;
             color: var(--text-black-color);
             background-color: rgb(243, 232, 255);
-            transition: background-color 0.3s, color 0.3s, font-weight 0.3s;
+            transition: width 0.3s ease;
 
             &.active {
               font-weight: 500;

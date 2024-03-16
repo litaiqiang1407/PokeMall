@@ -24,7 +24,6 @@ function Dashboard() {
   const [monthlyStatistic, setMonthlyStatistic] = useState({});
   const [dailyStatistic, setDailyStatistic] = useState({});
   const [filterType, setFilterType] = useState("12_months");
-  const [activeFilter, setActiveFilter] = useState("12_months");
 
   useEffect(() => {
     interactData(
@@ -35,17 +34,16 @@ function Dashboard() {
         setStatistic(data);
         setMonthlyStatistic(data.monthlyStatistic);
         setDailyStatistic(data.dailyStatistic);
-        console.table(data.dailyStatistic);
       }
     );
   }, []);
 
   const handleFilterChange = (filter) => {
     setFilterType(filter);
-    setActiveFilter(filter);
+    console.log(filter);
   };
 
-  console.table(dailyStatistic);
+  console.table(monthlyStatistic);
 
   // Prepare data for chart
   const chartData = {
@@ -65,7 +63,7 @@ function Dashboard() {
             "Nov",
             "Dec",
           ]
-        : dailyStatistic.map((item) => item.date),
+        : dailyStatistic.date,
     datasets: [
       {
         label: "Revenue",
@@ -77,7 +75,7 @@ function Dashboard() {
         data:
           filterType === "12_months"
             ? monthlyStatistic.revenue
-            : dailyStatistic.map((item) => item.revenue),
+            : dailyStatistic.revenue,
       },
       {
         label: "Profit",
@@ -89,7 +87,7 @@ function Dashboard() {
         data:
           filterType === "12_months"
             ? monthlyStatistic.profit
-            : dailyStatistic.map((item) => item.profit),
+            : dailyStatistic.profit,
       },
       {
         label: "Sold",
@@ -101,7 +99,7 @@ function Dashboard() {
         data:
           filterType === "12_months"
             ? monthlyStatistic.sold
-            : dailyStatistic.map((item) => item.sold),
+            : dailyStatistic.sold,
       },
     ],
   };
@@ -173,24 +171,18 @@ function Dashboard() {
               <span className={cx("header-title")}>Statistical Cart</span>
             </Container>
             <Container className={cx("chart-filter")}>
-              <div className={cx("filter-container")}>
-                <button
-                  className={cx("filter-item", {
-                    active: activeFilter === "12_months",
-                  })}
-                  onClick={() => handleFilterChange("12_months")}
-                >
-                  12 Months
-                </button>
-                <button
-                  className={cx("filter-item", {
-                    active: activeFilter === "30_days",
-                  })}
-                  onClick={() => handleFilterChange("30_days")}
-                >
-                  30 Days
-                </button>
-              </div>
+              <button
+                className={cx("chart-filter-item")}
+                onClick={() => handleFilterChange("12_months")}
+              >
+                12 Months
+              </button>
+              <button
+                className={cx("chart-filter-item")}
+                onClick={() => handleFilterChange("30_days")}
+              >
+                30 Days
+              </button>
             </Container>
           </Container>
           <Container className={cx("chart-content")}>

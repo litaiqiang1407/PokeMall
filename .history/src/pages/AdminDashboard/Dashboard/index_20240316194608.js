@@ -20,11 +20,7 @@ import styles from "./Dashboard.module.scss";
 const cx = classNames.bind(styles);
 
 function Dashboard() {
-  const [statistic, setStatistic] = useState({});
-  const [monthlyStatistic, setMonthlyStatistic] = useState({});
-  const [dailyStatistic, setDailyStatistic] = useState({});
-  const [filterType, setFilterType] = useState("12_months");
-  const [activeFilter, setActiveFilter] = useState("12_months");
+  const [statistic, setStatistic] = useState([]);
 
   useEffect(() => {
     interactData(
@@ -33,39 +29,28 @@ function Dashboard() {
       null,
       (data) => {
         setStatistic(data);
-        setMonthlyStatistic(data.monthlyStatistic);
-        setDailyStatistic(data.dailyStatistic);
-        console.table(data.dailyStatistic);
+        console.table(data);
+        console.table(data.monthlyStatistic.revenue);
       }
     );
   }, []);
 
-  const handleFilterChange = (filter) => {
-    setFilterType(filter);
-    setActiveFilter(filter);
-  };
-
-  console.table(dailyStatistic);
-
   // Prepare data for chart
   const chartData = {
-    labels:
-      filterType === "12_months"
-        ? [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-          ]
-        : dailyStatistic.map((item) => item.date),
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
         label: "Revenue",
@@ -74,10 +59,7 @@ function Dashboard() {
         backgroundColor: "rgba(220, 252, 231)",
         borderColor: "rgba(60, 216, 86)",
         borderWidth: 2,
-        data:
-          filterType === "12_months"
-            ? monthlyStatistic.revenue
-            : dailyStatistic.map((item) => item.revenue),
+        data: monthlyStatistic.revenue,
       },
       {
         label: "Profit",
@@ -86,10 +68,7 @@ function Dashboard() {
         backgroundColor: "rgba(243, 232, 255)",
         borderColor: "rgba(191, 131, 255)",
         borderWidth: 2,
-        data:
-          filterType === "12_months"
-            ? monthlyStatistic.profit
-            : dailyStatistic.map((item) => item.profit),
+        data: monthlyStatistic.profit,
       },
       {
         label: "Sold",
@@ -98,10 +77,7 @@ function Dashboard() {
         backgroundColor: "rgba(255, 244, 222)",
         borderColor: "rgba(255, 148, 122)",
         borderWidth: 2,
-        data:
-          filterType === "12_months"
-            ? monthlyStatistic.sold
-            : dailyStatistic.map((item) => item.sold),
+        data: monthlyStatistic.sold,
       },
     ],
   };
@@ -165,33 +141,8 @@ function Dashboard() {
         </Container>
         <Container className={cx("chart")}>
           <Container className={cx("chart-header")}>
-            <Container>
-              <FontAwesomeIcon
-                className={cx("header-icon")}
-                icon={faLineChart}
-              />
-              <span className={cx("header-title")}>Statistical Cart</span>
-            </Container>
-            <Container className={cx("chart-filter")}>
-              <div className={cx("filter-container")}>
-                <button
-                  className={cx("filter-item", {
-                    active: activeFilter === "12_months",
-                  })}
-                  onClick={() => handleFilterChange("12_months")}
-                >
-                  12 Months
-                </button>
-                <button
-                  className={cx("filter-item", {
-                    active: activeFilter === "30_days",
-                  })}
-                  onClick={() => handleFilterChange("30_days")}
-                >
-                  30 Days
-                </button>
-              </div>
-            </Container>
+            <FontAwesomeIcon className={cx("chart-icon")} icon={faLineChart} />
+            <span className={cx("chart-title")}>Statistical Cart</span>
           </Container>
           <Container className={cx("chart-content")}>
             <Row>

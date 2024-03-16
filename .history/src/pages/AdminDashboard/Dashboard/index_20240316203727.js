@@ -24,7 +24,6 @@ function Dashboard() {
   const [monthlyStatistic, setMonthlyStatistic] = useState({});
   const [dailyStatistic, setDailyStatistic] = useState({});
   const [filterType, setFilterType] = useState("12_months");
-  const [activeFilter, setActiveFilter] = useState("12_months");
 
   useEffect(() => {
     interactData(
@@ -42,7 +41,6 @@ function Dashboard() {
 
   const handleFilterChange = (filter) => {
     setFilterType(filter);
-    setActiveFilter(filter);
   };
 
   console.table(dailyStatistic);
@@ -173,24 +171,18 @@ function Dashboard() {
               <span className={cx("header-title")}>Statistical Cart</span>
             </Container>
             <Container className={cx("chart-filter")}>
-              <div className={cx("filter-container")}>
-                <button
-                  className={cx("filter-item", {
-                    active: activeFilter === "12_months",
-                  })}
-                  onClick={() => handleFilterChange("12_months")}
-                >
-                  12 Months
-                </button>
-                <button
-                  className={cx("filter-item", {
-                    active: activeFilter === "30_days",
-                  })}
-                  onClick={() => handleFilterChange("30_days")}
-                >
-                  30 Days
-                </button>
-              </div>
+              <button
+                className={cx("chart-filter-item")}
+                onClick={() => handleFilterChange("12_months")}
+              >
+                12 Months
+              </button>
+              <button
+                className={cx("chart-filter-item")}
+                onClick={() => handleFilterChange("30_days")}
+              >
+                30 Days
+              </button>
             </Container>
           </Container>
           <Container className={cx("chart-content")}>

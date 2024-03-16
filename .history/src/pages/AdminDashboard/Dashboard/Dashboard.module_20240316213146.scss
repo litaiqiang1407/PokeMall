@@ -169,6 +169,8 @@
             border-radius: 999px;
             background-color: rgb(243, 232, 255);
             border: 1px solid var(--profit-color);
+            overflow: hidden; /* Hide overflowing content */
+            transition: width 0.3s ease; /* Transition width for smooth effect */
           }
 
           .filter-item {

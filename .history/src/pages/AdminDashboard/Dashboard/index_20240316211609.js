@@ -173,7 +173,7 @@ function Dashboard() {
               <span className={cx("header-title")}>Statistical Cart</span>
             </Container>
             <Container className={cx("chart-filter")}>
-              <div className={cx("filter-container")}>
+              <Container className={cx("filter-container")}>
                 <button
                   className={cx("filter-item", {
                     active: activeFilter === "12_months",
@@ -190,7 +190,7 @@ function Dashboard() {
                 >
                   30 Days
                 </button>
-              </div>
+              </Container>
             </Container>
           </Container>
           <Container className={cx("chart-content")}>

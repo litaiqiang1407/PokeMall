@@ -158,14 +158,13 @@
         }
 
         .chart-filter {
-          @include flex-end;
           margin-right: 20px;
+          float: right;
 
           .filter-container {
             @include flex-space;
             height: 40px;
-            width: 252px;
-            padding: 0 8px;
+            width: 240px;
             border-radius: 999px;
             background-color: rgb(243, 232, 255);
             border: 1px solid var(--profit-color);
@@ -179,7 +178,6 @@
             border-radius: 999px;
             color: var(--text-black-color);
             background-color: rgb(243, 232, 255);
-            transition: background-color 0.3s, color 0.3s, font-weight 0.3s;
 
             &.active {
               font-weight: 500;
