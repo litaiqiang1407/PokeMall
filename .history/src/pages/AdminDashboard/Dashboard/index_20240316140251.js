@@ -60,7 +60,7 @@ function Dashboard() {
                 {statistic.soldProducts}
               </div>
             </div>
-            <div className={cx("icon-sold")}>
+            <div className={cx("statistic-icon")}>
               <FontAwesomeIcon icon={faCoins} />
             </div>
           </div>
@@ -72,7 +72,7 @@ function Dashboard() {
                 ${parseFloat(statistic.totalRevenue).toFixed(2)}
               </div>
             </div>
-            <div className={cx("icon-revenue")}>
+            <div className={cx("statistic-icon")}>
               <FontAwesomeIcon icon={faMoneyBills} />
             </div>
           </div>
@@ -84,12 +84,11 @@ function Dashboard() {
                 ${parseFloat(statistic.totalProfit).toFixed(2)}
               </div>
             </div>
-            <div className={cx("icon-profit")}>
+            <div className={cx("statistic-icon")}>
               <FontAwesomeIcon icon={faMoneyBillTrendUp} />
             </div>
           </div>
         </Container>
-        <Container className={cx("chart")}></Container>
       </Container>
     </Container>
   );

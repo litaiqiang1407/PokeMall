@@ -48,7 +48,7 @@ function Dashboard() {
                 {statistic.totalProducts}
               </div>
             </div>
-            <div className={cx("icon-product")}>
+            <div className={cx("statistic-icon")}>
               <FontAwesomeIcon icon={faDragon} />
             </div>
           </div>
@@ -60,36 +60,35 @@ function Dashboard() {
                 {statistic.soldProducts}
               </div>
             </div>
-            <div className={cx("icon-sold")}>
+            <div className={cx("statistic-icon")}>
               <FontAwesomeIcon icon={faCoins} />
             </div>
           </div>
 
-          <div className={cx("statistic-revenue")}>
+          <div className={cx("statistic-item")}>
             <div className={cx("statistic-content")}>
               <div className={cx("statistic-title")}>Revenue</div>
               <div className={cx("statistic-value")}>
                 ${parseFloat(statistic.totalRevenue).toFixed(2)}
               </div>
             </div>
-            <div className={cx("icon-revenue")}>
+            <div className={cx("statistic-icon")}>
               <FontAwesomeIcon icon={faMoneyBills} />
             </div>
           </div>
 
-          <div className={cx("statistic-profit")}>
+          <div className={cx("statistic-item")}>
             <div className={cx("statistic-content")}>
               <div className={cx("statistic-title")}>Profit</div>
               <div className={cx("statistic-value")}>
                 ${parseFloat(statistic.totalProfit).toFixed(2)}
               </div>
             </div>
-            <div className={cx("icon-profit")}>
+            <div className={cx("statistic-icon")}>
               <FontAwesomeIcon icon={faMoneyBillTrendUp} />
             </div>
           </div>
         </Container>
-        <Container className={cx("chart")}></Container>
       </Container>
     </Container>
   );

@@ -89,7 +89,6 @@ function Dashboard() {
             </div>
           </div>
         </Container>
-        <Container className={cx("chart")}></Container>
       </Container>
     </Container>
   );

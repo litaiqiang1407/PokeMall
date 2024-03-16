@@ -55,13 +55,15 @@
       padding: 0;
 
       .statistic-products,
-      .statistic-sold,
-      .statistic-profit,
+      .statistic-users,
+      .statistic-orders,
       .statistic-revenue {
         @include flex-space;
         width: 280px;
         height: 100px;
         padding: 16px;
+        background-color: var(--white);
+        border: var(--primary-border);
         border-radius: 12px;
 
         .statistic-content {
@@ -77,59 +79,19 @@
             height: 40px;
             line-height: 40px;
             font-size: 2.4rem;
-            font-weight: 600;
+            font-weight: bold;
             color: var(--text-black-color);
           }
         }
 
-        .icon-product,
-        .icon-sold,
-        .icon-profit,
-        .icon-revenue {
+        .statistic-icon {
           @include flex-center;
           width: 68px;
           height: 68px;
-          font-size: 2.4rem;
           background-color: var(--primary-color-background);
           border-radius: 50%;
-          color: var(--white);
+          border: var(--primary-border);
         }
-
-        .icon-product {
-          background-color: #fa5a7d;
-        }
-
-        .icon-sold {
-          background-color: #ff947a;
-        }
-
-        .icon-revenue {
-          background-color: #3cd856;
-        }
-
-        .icon-profit {
-          background-color: #bf83ff;
-        }
-      }
-
-      .statistic-products {
-        border: 1px solid #fa5a7d;
-        background-color: #ffe2e5;
-      }
-
-      .statistic-sold {
-        border: 1px solid #ff947a;
-        background-color: #fff4de;
-      }
-
-      .statistic-revenue {
-        border: 1px solid #3cd856;
-        background-color: #dcfce7;
-      }
-
-      .statistic-profit {
-        border: 1px solid #bf83ff;
-        background-color: #f3e8ff;
       }
     }
   }
