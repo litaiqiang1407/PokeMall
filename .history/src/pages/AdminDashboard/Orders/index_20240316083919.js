@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Dropdown } from "react-bootstrap";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import { Toaster } from "react-hot-toast";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faDragon,
   faXmark,
   faMagnifyingGlass,
   faPlus,
@@ -14,9 +14,8 @@ import {
   faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { interactData } from "~/functions/interactData";
-import { handleResponse } from "~/functions/eventHandlers";
 import Title from "~/components/Title";
+import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
 
 import classNames from "classnames/bind";
@@ -77,25 +76,7 @@ function Orders() {
 
   const handleSaveEdit = (e) => {
     e.preventDefault();
-
-    const updateData = {
-      ID: itemID,
-      ...editedValues,
-    };
-
-    console.log(updateData);
-
-    interactData(
-      "http://localhost/pokemall/actions/updateAdminOrder.php",
-      "POST",
-      updateData,
-      (response) => {
-        console.log(response);
-        if (response.message === "Order information updated") {
-          handleResponse(response, "Order information updated");
-        }
-      }
-    );
+    // Update order item with edited values
     const updatedOrderItems = orderItems.map((item) => {
       if (item.ID === itemID) {
         return { ...item, ...editedValues };
@@ -244,7 +225,6 @@ function Orders() {
           </tbody>
         </table>
       </Container>
-      <Toaster />
     </Container>
   );
 }

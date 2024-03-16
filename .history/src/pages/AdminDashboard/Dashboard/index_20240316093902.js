@@ -11,7 +11,7 @@ function Dashboard() {
     <Container className={cx("container")}>
       <Title title="Dashboard" />
       <Container className={cx("header")}>
-        <FontAwesomeIcon className={cx("header-icon")} icon={faLineChart} />
+        <FontAwesomeIcon icon={faLineChart} />
         <span className={cx("header-title")}>Dashboard</span>
       </Container>
     </Container>

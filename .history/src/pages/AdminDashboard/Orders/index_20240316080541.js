@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Dropdown } from "react-bootstrap";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import { Toaster } from "react-hot-toast";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faDragon,
   faXmark,
   faMagnifyingGlass,
   faPlus,
@@ -14,9 +14,8 @@ import {
   faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { interactData } from "~/functions/interactData";
-import { handleResponse } from "~/functions/eventHandlers";
 import Title from "~/components/Title";
+import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
 
 import classNames from "classnames/bind";
@@ -29,7 +28,6 @@ function Orders() {
   const [itemID, setItemID] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedValues, setEditedValues] = useState({});
 
   useEffect(() => {
     interactData(
@@ -67,53 +65,9 @@ function Orders() {
     setIsEditing(!isEditing);
   };
 
-  const handleInputChange = (e, field) => {
-    const value = e.target.value;
-    setEditedValues((prevValues) => ({
-      ...prevValues,
-      [field]: value,
-    }));
-  };
-
-  const handleSaveEdit = (e) => {
-    e.preventDefault();
-
-    const updateData = {
-      ID: itemID,
-      ...editedValues,
-    };
-
-    console.log(updateData);
-
-    interactData(
-      "http://localhost/pokemall/actions/updateAdminOrder.php",
-      "POST",
-      updateData,
-      (response) => {
-        console.log(response);
-        if (response.message === "Order information updated") {
-          handleResponse(response, "Order information updated");
-        }
-      }
-    );
-    const updatedOrderItems = orderItems.map((item) => {
-      if (item.ID === itemID) {
-        return { ...item, ...editedValues };
-      }
-      return item;
-    });
-    setOrderItems(updatedOrderItems);
-    setIsEditing(false);
-    setEditedValues({});
-  };
-
   const renderItemField = (item, field) =>
     isEditing && item.ID === itemID ? (
-      <input
-        className={cx(`input-${field}`)}
-        value={editedValues[field] || item[field]}
-        onChange={(e) => handleInputChange(e, field)}
-      />
+      <input className={cx(`input-${field}`)} value={item[field]} />
     ) : (
       <span className={cx(field)}>{item[field]}</span>
     );
@@ -215,11 +169,7 @@ function Orders() {
                 </td>
                 <td className={cx("product-col")}>
                   {isEditing && item.ID === itemID ? (
-                    <button
-                      type="submit"
-                      className={cx("btn-save")}
-                      onClick={handleSaveEdit}
-                    >
+                    <button className={cx("btn-save")} onClick={handleSaveEdit}>
                       Save
                     </button>
                   ) : (
@@ -244,7 +194,6 @@ function Orders() {
           </tbody>
         </table>
       </Container>
-      <Toaster />
     </Container>
   );
 }

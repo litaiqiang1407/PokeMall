@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Dropdown } from "react-bootstrap";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import { Toaster } from "react-hot-toast";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faDragon,
   faXmark,
   faMagnifyingGlass,
   faPlus,
@@ -14,13 +14,13 @@ import {
   faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { interactData } from "~/functions/interactData";
-import { handleResponse } from "~/functions/eventHandlers";
 import Title from "~/components/Title";
+import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
 
 import classNames from "classnames/bind";
 import styles from "./Orders.module.scss";
+import { handleResponse } from "~/functions/eventHandlers";
 const cx = classNames.bind(styles);
 
 function Orders() {
@@ -86,7 +86,7 @@ function Orders() {
     console.log(updateData);
 
     interactData(
-      "http://localhost/pokemall/actions/updateAdminOrder.php",
+      "http://localhost/pokemall/api/updateAdminOrder.php",
       "POST",
       updateData,
       (response) => {
@@ -244,7 +244,6 @@ function Orders() {
           </tbody>
         </table>
       </Container>
-      <Toaster />
     </Container>
   );
 }
