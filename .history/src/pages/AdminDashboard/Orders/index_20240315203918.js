@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
+import { Container, Dropdown } from "react-bootstrap";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
-import { Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDragon,
@@ -9,50 +11,49 @@ import {
   faPlus,
   faCircleMinus,
   faPen,
-  faUsers,
+  faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Title from "~/components/Title";
-import LoadingAnimation from "~/components/LoadingAnimation";
-import ConfirmDialog from "~/components/ConfirmDialog/ConfirmDialog";
 import { interactData } from "~/functions/interactData";
-import { handleResponse } from "~/functions/eventHandlers";
+import LoadingAnimation from "~/components/LoadingAnimation";
 
 import classNames from "classnames/bind";
-import styles from "./Users.module.scss";
+import styles from "./Orders.module.scss";
 const cx = classNames.bind(styles);
 
-function Users() {
-  const [userItems, setUserItems] = useState([]);
+function Orders() {
+  const [columns, setColumns] = useState([]);
+  const [orderItems, setOrderItems] = useState([]);
   const [itemID, setItemID] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     interactData(
-      "http://localhost/pokemall/api/Users.php",
+      "http://localhost/pokemall/api/Orders.php",
       "GET",
       null,
       (data) => {
-        console.log(data); // Log the data to see its structure
-        setUserItems(data);
+        setOrderItems(data.orders);
+        setColumns(data.columns);
       }
     );
   }, []);
 
-  const handleCheckItem = useCallback((itemID, isChecked) => {
+  const handleCheckItem = useCallback((itemId, isChecked) => {
     setCheckedItems((prevCheckedItems) => {
       if (isChecked) {
-        return [...prevCheckedItems, itemID];
+        return [...prevCheckedItems, itemId];
       } else {
-        return prevCheckedItems.filter((id) => id !== itemID);
+        return prevCheckedItems.filter((id) => id !== itemId);
       }
     });
   }, []);
 
   const handleCheckAll = (e) => {
     if (e.target.checked) {
-      const allItemIds = userItems.map((item) => item.ID);
+      const allItemIds = orderItems.map((item) => item.ID);
       setCheckedItems([...allItemIds]);
     } else {
       setCheckedItems([]);
@@ -64,37 +65,24 @@ function Users() {
     setIsEditing(!isEditing);
   };
 
-  const handleDeleteItem = async (itemID) => {
-    const isConfirmed = await ConfirmDialog(
-      "Are you sure you want to delete this user?"
+  const renderItemField = (item, field) =>
+    isEditing && item.ID === itemID ? (
+      <input className={cx(`input-${field}`)} value={item[field]} />
+    ) : (
+      <span className={cx(field)}>{item[field]}</span>
     );
 
-    if (isConfirmed) {
-      console.log(itemID);
-      interactData(
-        `http://localhost/pokemall/actions/deleteUser.php?userID=${itemID}`,
-        "DELETE",
-        null,
-        () => {
-          const newUserItems = userItems.filter((item) => item.ID !== itemID);
-          setUserItems(newUserItems);
-          handleResponse("User deleted successfully!", "success");
-        }
-      );
-    }
-  };
-
-  if (!userItems.length) {
+  if (!orderItems.length) {
     return <LoadingAnimation />;
   }
 
   return (
     <Container className={cx("container")}>
-      <Title title={"Admin Users - PokeMall"} />
+      <Title title={"Admin Orders - PokeMall"} />
       <Container className={cx("header")}>
         <Container>
-          <FontAwesomeIcon icon={faUsers} className={cx("header-icon")} />
-          <span className={cx("header-title")}>Users</span>
+          <FontAwesomeIcon icon={faReceipt} className={cx("header-icon")} />
+          <span className={cx("header-title")}>Orders</span>
         </Container>
         <Container className={cx("header-right")}>
           <div className={cx("header-search")}>
@@ -110,11 +98,13 @@ function Users() {
               />
             </button>
           </div>
-          <div className={cx("header-add")}>
-            <button className={cx("btn-add")}>
-              <FontAwesomeIcon icon={faPlus} className={cx("icon-add")} />
-            </button>
-          </div>
+          <Tippy content={"Add"}>
+            <div className={cx("header-add")}>
+              <button className={cx("btn-add")}>
+                <FontAwesomeIcon icon={faPlus} className={cx("icon-add")} />
+              </button>
+            </div>
+          </Tippy>
         </Container>
       </Container>
       <Container className={cx("content")}>
@@ -126,24 +116,14 @@ function Users() {
                   className={cx("header-checkbox")}
                   type="checkbox"
                   onChange={handleCheckAll}
-                  checked={checkedItems.length === userItems.length}
+                  checked={checkedItems.length === orderItems.length}
                 />
               </th>
-              <th className={cx("header-col")} scope="col">
-                ID
-              </th>
-              <th className={cx("header-col")} scope="col">
-                Username
-              </th>
-              <th className={cx("header-col")} scope="col">
-                Name
-              </th>
-              <th className={cx("header-col")} scope="col">
-                Mail
-              </th>
-              <th className={cx("header-col")} scope="col">
-                Phone
-              </th>
+              {columns.map((column) => (
+                <th className={cx("header-col")} scope="col" key={column}>
+                  {column}
+                </th>
+              ))}
               <th className={cx("header-col")} scope="col">
                 Edit
               </th>
@@ -153,7 +133,7 @@ function Users() {
             </tr>
           </thead>
           <tbody>
-            {userItems.map((item) => (
+            {orderItems.map((item) => (
               <tr className={cx("product-row")} key={item.ID}>
                 <td className={cx("product-col")}>
                   <input
@@ -167,35 +147,19 @@ function Users() {
                   <span className={cx("id")}>{item.ID}</span>
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input
-                      className={cx("input-username")}
-                      value={item.Username}
-                    />
-                  ) : (
-                    <span className={cx("username")}>{item.Username}</span>
-                  )}
+                  {renderItemField(item, "CustomerName")}
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input className={cx("input-name")} value={item.Name} />
-                  ) : (
-                    <span className={cx("name")}>{item.Name}</span>
-                  )}
+                  {renderItemField(item, "TotalAmount")}
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input className={cx("input-email")} value={item.Email} />
-                  ) : (
-                    <span className={cx("email")}>{item.Email}</span>
-                  )}
+                  {renderItemField(item, "Address")}
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input className={cx("input-phone")} value={item.Phone} />
-                  ) : (
-                    <span className={cx("price")}>{item.Phone}</span>
-                  )}
+                  {renderItemField(item, "Quantity")}
+                </td>
+                <td className={cx("product-col")}>
+                  {renderItemField(item, "ReleaseDate")}
                 </td>
                 <td className={cx("product-col")}>
                   <Container className={cx("edit-icon")}>
@@ -209,7 +173,7 @@ function Users() {
                   <Container className={cx("delete-icon")}>
                     <FontAwesomeIcon
                       icon={faCircleMinus}
-                      onClick={() => handleDeleteItem(item.ID)}
+                      //onClick={() => handleDeleteItem(item.ID)}
                     />
                   </Container>
                 </td>
@@ -222,4 +186,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default Orders;

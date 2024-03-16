@@ -11,7 +11,6 @@ import {
   faPlus,
   faCircleMinus,
   faPen,
-  faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Title from "~/components/Title";
@@ -19,27 +18,36 @@ import { interactData } from "~/functions/interactData";
 import LoadingAnimation from "~/components/LoadingAnimation";
 
 import classNames from "classnames/bind";
-import styles from "./Orders.module.scss";
+import styles from "./Products.module.scss";
 const cx = classNames.bind(styles);
 
-function Orders() {
-  const [columns, setColumns] = useState([]);
-  const [orderItems, setOrderItems] = useState([]);
+function Products() {
+  const [productItems, setProductItems] = useState([]);
   const [itemID, setItemID] = useState(0);
+  const [sizes, setSizes] = useState([]);
+  const [itemSizes, setItemSizes] = useState([]);
+  const [itemSizeName, setItemSizeName] = useState("");
   const [checkedItems, setCheckedItems] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     interactData(
-      "http://localhost/pokemall/api/Orders.php",
+      "http://localhost/pokemall/api/Products.php",
       "GET",
       null,
       (data) => {
-        setOrderItems(data.orders);
-        setColumns(data.columns);
+        console.log(data); // Log the data to see its structure
+        setProductItems(data.products);
+        setSizes(data.sizes);
       }
     );
   }, []);
+
+  const handleSizeChange = (itemID, newSize) => {
+    setItemSizes({ ...itemSizes, [itemID]: newSize });
+    setItemID(itemID);
+    setItemSizeName(newSize);
+  };
 
   const handleCheckItem = useCallback((itemId, isChecked) => {
     setCheckedItems((prevCheckedItems) => {
@@ -53,7 +61,7 @@ function Orders() {
 
   const handleCheckAll = (e) => {
     if (e.target.checked) {
-      const allItemIds = orderItems.map((item) => item.ID);
+      const allItemIds = productItems.map((item) => item.ID);
       setCheckedItems([...allItemIds]);
     } else {
       setCheckedItems([]);
@@ -72,17 +80,17 @@ function Orders() {
       <span className={cx(field)}>{item[field]}</span>
     );
 
-  if (!orderItems.length) {
+  if (!productItems.length) {
     return <LoadingAnimation />;
   }
 
   return (
     <Container className={cx("container")}>
-      <Title title={"Admin Orders - PokeMall"} />
+      <Title>Admin Products - PokeMall</Title>
       <Container className={cx("header")}>
         <Container>
-          <FontAwesomeIcon icon={faReceipt} className={cx("header-icon")} />
-          <span className={cx("header-title")}>Orders</span>
+          <FontAwesomeIcon icon={faDragon} className={cx("header-icon")} />
+          <span className={cx("header-title")}>Products</span>
         </Container>
         <Container className={cx("header-right")}>
           <div className={cx("header-search")}>
@@ -116,14 +124,33 @@ function Orders() {
                   className={cx("header-checkbox")}
                   type="checkbox"
                   onChange={handleCheckAll}
-                  checked={checkedItems.length === orderItems.length}
+                  checked={checkedItems.length === productItems.length}
                 />
               </th>
-              {columns.map((column) => (
-                <th className={cx("header-col")} scope="col" key={column}>
-                  {column}
-                </th>
-              ))}
+              <th className={cx("header-col")} scope="col">
+                ID
+              </th>
+              <th className={cx("header-col")} scope="col">
+                Image
+              </th>
+              <th className={cx("header-col")} scope="col">
+                Name
+              </th>
+              <th className={cx("header-col")} scope="col">
+                Primary Type
+              </th>
+              <th className={cx("header-col")} scope="col">
+                Size
+              </th>
+              <th className={cx("header-col")} scope="col">
+                Price
+              </th>
+              <th className={cx("header-col")} scope="col">
+                Quantity
+              </th>
+              <th className={cx("header-col")} scope="col">
+                Release Date
+              </th>
               <th className={cx("header-col")} scope="col">
                 Edit
               </th>
@@ -133,7 +160,7 @@ function Orders() {
             </tr>
           </thead>
           <tbody>
-            {orderItems.map((item) => (
+            {productItems.map((item) => (
               <tr className={cx("product-row")} key={item.ID}>
                 <td className={cx("product-col")}>
                   <input
@@ -147,25 +174,86 @@ function Orders() {
                   <span className={cx("id")}>{item.ID}</span>
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "Customer")}
+                  <div className={cx("product")}>
+                    <img
+                      src={item.ImageURL}
+                      alt={item.FigureName}
+                      className={cx("product-img")}
+                    />
+                  </div>
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "Total")}
+                  {renderItemField(item, "FigureName")}
+                  {/* {isEditing && item.ID === itemID ? (
+                    <input
+                      className={cx("input-name")}
+                      value={item.FigureName}
+                    />
+                  ) : (
+                    <span className={cx("name")}>{item.FigureName}</span>
+                  )} */}
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "Address")}
+                  {renderItemField(item, "PrimaryType")}
+                  {/* {isEditing && item.ID === itemID ? (
+                    <input
+                      className={cx("input-type")}
+                      value={item.PrimaryType}
+                    />
+                  ) : (
+                    <span className={cx("type")}>{item.PrimaryType}</span>
+                  )} */}
+                </td>
+
+                <td className={cx("product-col")}>
+                  <Dropdown className={cx("size")}>
+                    <Dropdown.Toggle className={cx("size-select")}>
+                      {itemSizes[item.ID] || item.SizeName}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className={cx("size-option")}>
+                      {sizes.map((size) => (
+                        <Dropdown.Item
+                          key={size.ID}
+                          onClick={() =>
+                            handleSizeChange(item.ID, size.SizeName)
+                          }
+                        >
+                          {size.SizeName}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "Date")}
+                  {renderItemField(item, "Price")}
+                  {/* {isEditing && item.ID === itemID ? (
+                    <input className={cx("input-price")} value={item.Price} />
+                  ) : (
+                    <span className={cx("price")}>${item.Price}</span>
+                  )} */}
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "PaymentMethod")}
+                  {renderItemField(item, "Quantity")}
+                  {/* {isEditing && item.ID === itemID ? (
+                    <input
+                      className={cx("input-quantity")}
+                      value={item.Quantity}
+                    />
+                  ) : (
+                    <span className={cx("price")}>{item.Quantity}</span>
+                  )} */}
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "PaymentStatus")}
-                </td>
-                <td className={cx("product-col")}>
-                  {renderItemField(item, "OrderStatus")}
+                  {renderItemField(item, "ReleaseDate")}
+                  {/* {isEditing && item.ID === itemID ? (
+                    <input
+                      className={cx("input-release")}
+                      value={item.ReleaseDate}
+                    />
+                  ) : (
+                    <span className={cx("type")}>{item.ReleaseDate}</span>
+                  )} */}
                 </td>
                 <td className={cx("product-col")}>
                   <Container className={cx("edit-icon")}>
@@ -192,4 +280,4 @@ function Orders() {
   );
 }
 
-export default Orders;
+export default Products;

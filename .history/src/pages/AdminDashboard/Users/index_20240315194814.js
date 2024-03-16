@@ -9,7 +9,7 @@ import {
   faPlus,
   faCircleMinus,
   faPen,
-  faUsers,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Title from "~/components/Title";
@@ -93,7 +93,7 @@ function Users() {
       <Title title={"Admin Users - PokeMall"} />
       <Container className={cx("header")}>
         <Container>
-          <FontAwesomeIcon icon={faUsers} className={cx("header-icon")} />
+          <FontAwesomeIcon icon={faUser} className={cx("header-icon")} />
           <span className={cx("header-title")}>Users</span>
         </Container>
         <Container className={cx("header-right")}>

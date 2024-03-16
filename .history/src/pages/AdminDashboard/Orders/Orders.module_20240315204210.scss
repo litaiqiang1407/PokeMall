@@ -209,10 +209,10 @@
       vertical-align: middle;
     }
 
-    .input-FigureName,
-    .input-PrimaryType,
-    .input-Price,
-    .input-Quantity,
+    .input-CustomerName,
+    .input-PaymentMethod,
+    .input-TotalAmount,
+    .input-PaymentStatus,
     .input-ReleaseDate {
       width: 60px;
       font-size: 1.6rem;
@@ -221,7 +221,8 @@
       box-shadow: var(--primary-box-shadow);
     }
 
-    .input-FigureName {
+    .input-CustomerName,
+    .input-Address {
       width: 172px;
     }
 

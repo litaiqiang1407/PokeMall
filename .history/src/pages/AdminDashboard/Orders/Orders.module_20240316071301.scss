@@ -154,7 +154,9 @@
         width: 100px;
       }
 
-      .header-col:nth-child(4) {
+      .header-col:nth-child(3),
+      .header-col:nth-child(5) {
+        padding: 5px 12px;
         text-align: left;
         width: 172px;
       }
@@ -170,17 +172,17 @@
       height: 16px;
       cursor: pointer;
     }
-
-    .product-col:nth-child(4) {
-      text-align: left;
+    .product-col:nth-child(3),
+    .product-col:nth-child(5) {
       padding: 5px 12px;
+      text-align: left;
+      width: 172px;
     }
-
     .product-col:nth-child(6) {
       @include flex-center;
     }
 
-    .product-col:nth-child(7) {
+    .product-col:nth-child(4) {
       font-weight: 600;
       font-size: 2rem;
       color: var(--price-color);
@@ -209,11 +211,13 @@
       vertical-align: middle;
     }
 
-    .input-FigureName,
-    .input-PrimaryType,
-    .input-Price,
-    .input-Quantity,
-    .input-ReleaseDate {
+    .input-Customer,
+    .input-PaymentMethod,
+    .input-Total,
+    .input-PaymentStatus,
+    .input-OrderStatus,
+    .input-Address,
+    .input-Date {
       width: 60px;
       font-size: 1.6rem;
       color: var(--text-hover-color);
@@ -221,11 +225,12 @@
       box-shadow: var(--primary-box-shadow);
     }
 
-    .input-FigureName {
+    .input-Customer,
+    .input-Address {
       width: 172px;
     }
 
-    .input-ReleaseDate {
+    .input-Date {
       width: 120px;
     }
 

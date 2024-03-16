@@ -154,7 +154,8 @@
         width: 100px;
       }
 
-      .header-col:nth-child(4) {
+      .header-col:nth-child(3),
+      .header-col:nth-child(5) {
         text-align: left;
         width: 172px;
       }
@@ -209,11 +210,11 @@
       vertical-align: middle;
     }
 
-    .input-FigureName,
-    .input-PrimaryType,
-    .input-Price,
-    .input-Quantity,
-    .input-ReleaseDate {
+    .input-CustomerName,
+    .input-PaymentMethod,
+    .input-TotalAmount,
+    .input-PaymentStatus,
+    .input-OrderStatus {
       width: 60px;
       font-size: 1.6rem;
       color: var(--text-hover-color);
@@ -221,11 +222,12 @@
       box-shadow: var(--primary-box-shadow);
     }
 
-    .input-FigureName {
+    .input-CustomerName,
+    .input-Address {
       width: 172px;
     }
 
-    .input-ReleaseDate {
+    .input-OrderDate {
       width: 120px;
     }
 
