@@ -12,7 +12,7 @@ import { interactData } from "~/functions/interactData";
 import { handleResponse } from "~/functions/eventHandlers";
 import { AuthContext } from "~/functions/authContext";
 import Title from "~/components/Title";
-// import { loginURL } from "~/data";
+import { loginURL } from "~/data";
 
 import classNames from "classnames/bind";
 import styles from "./Login.module.scss";

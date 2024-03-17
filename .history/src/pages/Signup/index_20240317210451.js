@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
@@ -10,28 +10,26 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { isValidation } from "~/functions/validation";
 import { interactData } from "~/functions/interactData";
 import { handleResponse } from "~/functions/eventHandlers";
-import { AuthContext } from "~/functions/authContext";
-import Title from "~/components/Title";
-// import { loginURL } from "~/data";
+import { signupURL } from "~/data";
 
 import classNames from "classnames/bind";
-import styles from "./Login.module.scss";
+import styles from "./Signup.module.scss";
+import Title from "~/components/Title";
 
 const cx = classNames.bind(styles);
 
-function Login() {
+function Signup() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [existError, setExistError] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const phoneRef = useRef(null);
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const url = "http://localhost/pokemall/actions/login.php";
+  const url = "http://localhost/pokemall/actions/signup.php";
 
   useEffect(() => {
     if (phoneRef.current) {
@@ -46,6 +44,7 @@ function Login() {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -69,43 +68,38 @@ function Login() {
     });
 
     if (isValid) {
-      const data = { phone: phone, password: password };
-      interactData(url, "POST", data, (data) => {
-        if (data.message === "Phone not found") {
-          setExistError(
-            "This phone number is not registered yet. Please register first."
-          );
-        } else if (data.message === "Login failed. Incorrect password.") {
-          setPasswordError("Incorrect password");
-        } else {
-          handleResponse(data, "Login");
-          localStorage.setItem("userData", JSON.stringify(data.userData));
-          setLoginSuccess(true);
-          login();
-          localStorage.setItem("isLoggedIn", "true");
+      interactData(
+        url,
+        "POST",
+        { phone: phone, password: password },
+        (data) => {
+          if (data.message === "Phone already exists") {
+            setExistError("Phone number already exists");
+          } else {
+            handleResponse(data, "Sign up");
+            setSignupSuccess(true);
+          }
         }
-      });
+      );
     }
   };
 
-  if (loginSuccess) {
+  if (signupSuccess) {
     setTimeout(() => {
-      navigate("/");
+      navigate("/login");
     }, 1500);
   }
 
   return (
-    <Container fluid className={cx("login-container")}>
-      <Title title="Login - PokeMall" />
-      <Container fluid className={cx("login-form-container")}>
-        <Container className={cx("login-form")}>
-          {/* Title */}
-          <Container className={cx("login-title")}>
-            <h1 className={cx("text-center")}>Log In</h1>
+    <Container fluid className={cx("signup-container")}>
+      <Title title="Sign Up - PokeMall" />
+      <Container fluid className={cx("signup-form-container")}>
+        <Container className={cx("signup-form")}>
+          <Container className={cx("signup-title")}>
+            <h1 className={cx(" text-center")}>Sign Up</h1>
           </Container>
 
-          <Form onSubmit={handleSubmit}>
-            {/* Phone Field */}
+          <Form action="signup.php" method="post" onSubmit={handleSubmit}>
             <Form.Group
               className={cx("form-field")}
               controlId="formPhoneNumber"
@@ -129,9 +123,9 @@ function Login() {
               )}
             </Form.Group>
 
-            {/* Password Field */}
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
+
               <div className={cx("form-input-container")}>
                 <Form.Control
                   name="password"
@@ -151,32 +145,25 @@ function Login() {
                   />
                 )}
               </div>
+
               {passwordError && (
                 <span className={cx("error-message")}>{passwordError}</span>
               )}
             </Form.Group>
 
-            {/* Forgot Password */}
-            <Container className={cx("forgot-password_container")}>
-              <Link to="/forgot-password" className={cx("forgot-password")}>
-                Forgot password
-              </Link>
-            </Container>
-
-            {/* Login Button */}
             <Button
               variant="primary"
               type="submit"
-              className={cx("login-button")}
+              className={cx("signup-button")}
             >
-              Log in
+              Sign up
             </Button>
           </Form>
           <hr className={cx("horizontal-line")} />
-          <Container className={cx("signup-section")}>
-            <p className={cx("signup-text")}>Don't have an account?</p>
-            <Link to="/signup" className={cx("signup-button")}>
-              Sign up
+          <Container className={cx("login-section")}>
+            <p className={cx("login-text")}>Already have an account?</p>
+            <Link to="/login" className={cx("login-button")}>
+              Log in
             </Link>
           </Container>
         </Container>
@@ -186,4 +173,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
