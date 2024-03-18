@@ -49,10 +49,16 @@ function ProductDetail() {
 
   useEffect(() => {
     interactData(`${productDetailURL}?productID=${id}`, "GET", null, (data) => {
-      setProductDetail(data.productDetail);
+      setProductDetail(data.products);
       setSizes(data.sizes);
+      setColumns(data.columns);
+      setLoading(false);
     });
   }, [id]);
+
+  useEffect(() => {
+    interactData(sizeURL, "GET", null, setSizes);
+  }, []);
 
   useEffect(() => {
     if (selectedSize) {

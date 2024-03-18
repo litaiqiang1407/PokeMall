@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Line } from "react-chartjs-2";
 
+import { Col, Container, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCoins,
@@ -11,6 +9,7 @@ import {
   faMoneyBillTrendUp,
   faMoneyBills,
 } from "@fortawesome/free-solid-svg-icons";
+import { Line } from "react-chartjs-2";
 
 import Title from "~/components/Title";
 import { interactData } from "~/functions/interactData";

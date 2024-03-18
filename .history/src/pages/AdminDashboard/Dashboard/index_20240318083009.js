@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { Chart as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

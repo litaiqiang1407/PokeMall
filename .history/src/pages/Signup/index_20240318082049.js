@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
@@ -10,41 +10,41 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { isValidation } from "~/functions/validation";
 import { interactData } from "~/functions/interactData";
 import { handleResponse } from "~/functions/eventHandlers";
-import { AuthContext } from "~/functions/authContext";
-import Title from "~/components/Title";
+import { signupURL } from "~/data";
 
 import classNames from "classnames/bind";
-import styles from "./AdminLogin.module.scss";
+import styles from "./Signup.module.scss";
+import Title from "~/components/Title";
 
 const cx = classNames.bind(styles);
 
-function AdminLogin() {
-  const [username, setUsername] = useState("");
+function Signup() {
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameError, setUsernameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [existError, setExistError] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const usernameRef = useRef(null);
-  const { login } = useContext(AuthContext);
+  const phoneRef = useRef(null);
   const navigate = useNavigate();
 
-  const url = "http://localhost/pokemall/actions/login.php";
+  const url = "http://localhost/pokemall/actions/signup.php";
 
   useEffect(() => {
-    if (usernameRef.current) {
-      usernameRef.current.focus();
+    if (phoneRef.current) {
+      phoneRef.current.focus();
     }
-  }, [usernameRef]);
+  }, [phoneRef]);
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -59,77 +59,73 @@ function AdminLogin() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const fields = [
-      { name: "username", value: username },
+      { name: "phone", value: phone },
       { name: "password", value: password },
     ];
     const isValid = isValidation(fields, (errors) => {
-      setUsernameError(errors.username || "");
+      setPhoneError(errors.phone || "");
       setPasswordError(errors.password || "");
     });
 
     if (isValid) {
-      const data = { username: username, password: password };
-      interactData(url, "POST", data, (data) => {
-        if (data.message === "username not found") {
-          setExistError(
-            "This username number is not registered yet. Please register first."
-          );
-        } else if (data.message === "Login failed. Incorrect password.") {
-          setPasswordError("Incorrect password");
-        } else {
-          handleResponse(data, "Login");
-          localStorage.setItem("userData", JSON.stringify(data.userData));
-          setLoginSuccess(true);
-          login();
-          localStorage.setItem("isLoggedIn", "true");
+      interactData(
+        signupURL,
+        "POST",
+        { phone: phone, password: password },
+        (data) => {
+          if (data.message === "Phone already exists") {
+            setExistError("Phone number already exists");
+          } else {
+            handleResponse(data, "Sign up");
+            setSignupSuccess(true);
+          }
         }
-      });
+      );
     }
   };
 
-  if (loginSuccess) {
+  if (signupSuccess) {
     setTimeout(() => {
-      navigate("/admin/dashboard");
+      navigate("/login");
     }, 1500);
   }
+
   return (
-    <Container fluid className={cx("login-container")}>
-      <Title title="Admin - PokeMall" />
-      <Container fluid className={cx("login-form-container")}>
-        <Container className={cx("login-form")}>
-          {/* Title */}
-          <Container className={cx("login-title")}>
-            <h1 className={cx("text-center")}>Welcome back Admin</h1>
+    <Container fluid className={cx("signup-container")}>
+      <Title title="Sign Up - PokeMall" />
+      <Container fluid className={cx("signup-form-container")}>
+        <Container className={cx("signup-form")}>
+          <Container className={cx("signup-title")}>
+            <h1 className={cx(" text-center")}>Sign Up</h1>
           </Container>
 
-          <Form onSubmit={handleSubmit}>
-            {/* username Field */}
+          <Form action="signup.php" method="post" onSubmit={handleSubmit}>
             <Form.Group
               className={cx("form-field")}
-              controlId="formUsernameNumber"
+              controlId="formPhoneNumber"
             >
-              <Form.Label className={cx("form-label")}>Username</Form.Label>
+              <Form.Label className={cx("form-label")}>Phone number</Form.Label>
               <Form.Control
-                ref={usernameRef}
-                name="username"
+                ref={phoneRef}
+                name="phone"
                 className={cx("form-input", {
-                  error: usernameError || existError,
+                  error: phoneError || existError,
                 })}
                 type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={handleUsernameChange}
+                placeholder="Enter your phone number"
+                value={phone}
+                onChange={handlePhoneChange}
               />
-              {(usernameError || existError) && (
+              {(phoneError || existError) && (
                 <span className={cx("error-message")}>
-                  {usernameError || existError}
+                  {phoneError || existError}
                 </span>
               )}
             </Form.Group>
 
-            {/* Password Field */}
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
+
               <div className={cx("form-input-container")}>
                 <Form.Control
                   name="password"
@@ -149,27 +145,27 @@ function AdminLogin() {
                   />
                 )}
               </div>
+
               {passwordError && (
                 <span className={cx("error-message")}>{passwordError}</span>
               )}
             </Form.Group>
 
-            {/* Forgot Password */}
-            <Container className={cx("forgot-password_container")}>
-              <Link to="/forgot-password" className={cx("forgot-password")}>
-                Forgot password
-              </Link>
-            </Container>
-
-            {/* Login Button */}
             <Button
               variant="primary"
               type="submit"
-              className={cx("login-button")}
+              className={cx("signup-button")}
             >
-              Log in
+              Sign up
             </Button>
           </Form>
+          <hr className={cx("horizontal-line")} />
+          <Container className={cx("login-section")}>
+            <p className={cx("login-text")}>Already have an account?</p>
+            <Link to="/login" className={cx("login-button")}>
+              Log in
+            </Link>
+          </Container>
         </Container>
       </Container>
       <Toaster />
@@ -177,4 +173,4 @@ function AdminLogin() {
   );
 }
 
-export default AdminLogin;
+export default Signup;

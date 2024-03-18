@@ -17,7 +17,7 @@ import LoadingAnimation from "~/components/LoadingAnimation";
 import ConfirmDialog from "~/components/ConfirmDialog/ConfirmDialog";
 import { interactData } from "~/functions/interactData";
 import { handleResponse } from "~/functions/eventHandlers";
-import { usersURL, deleteUserURL } from "~/data";
+import { deleteUserURL } from "~/data";
 
 import classNames from "classnames/bind";
 import styles from "./Users.module.scss";
@@ -31,10 +31,15 @@ function Users() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    interactData(usersURL, "GET", null, (data) => {
-      setUserItems(data);
-      setLoading(false);
-    });
+    interactData(
+      "http://localhost/pokemall/api/Users.php",
+      "GET",
+      null,
+      (data) => {
+        setUserItems(data);
+        setLoading(false);
+      }
+    );
   }, []);
 
   const handleCheckItem = useCallback((itemID, isChecked) => {

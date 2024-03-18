@@ -18,7 +18,6 @@ import { interactData } from "~/functions/interactData";
 
 import classNames from "classnames/bind";
 import styles from "./Header.module.scss";
-import { userSearchURL } from "~/data";
 
 const cx = classNames.bind(styles);
 
@@ -49,7 +48,7 @@ function Header() {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm) {
         interactData(
-          `${userSearchURL}?search=${searchTerm}`,
+          `http://localhost/pokemall/actions/userSearch.php?search=${searchTerm}`,
           "GET",
           null,
           setSearchResults

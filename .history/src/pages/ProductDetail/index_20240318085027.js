@@ -25,10 +25,11 @@ import {
 import { renderStarIcons } from "~/functions/render"; // Custom function
 import LoadingAnimation from "~/components/LoadingAnimation"; // Loading Animation
 import Title from "~/components/Title";
-import { addToCartURL, priceURL, productDetailURL, sizeURL } from "~/data";
 
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./ProductDetail.module.scss"; // CSS Module
+import { productDetailURL, sizeURL } from "~/data";
+
 const cx = classNames.bind(styles); // CSS Module
 
 // Component
@@ -48,16 +49,22 @@ function ProductDetail() {
   const { id } = useParams();
 
   useEffect(() => {
-    interactData(`${productDetailURL}?productID=${id}`, "GET", null, (data) => {
-      setProductDetail(data.productDetail);
-      setSizes(data.sizes);
-    });
+    interactData(
+      `${productDetailURL}?productID=${id}`,
+      "GET",
+      null,
+      setProductDetail
+    );
   }, [id]);
+
+  useEffect(() => {
+    interactData(sizeURL, "GET", null, setSizes);
+  }, []);
 
   useEffect(() => {
     if (selectedSize) {
       interactData(
-        `${priceURL}?productID=${id}&sizeName=${selectedSize}`,
+        `http://localhost/pokemall/api/Price.php?productID=${id}&sizeName=${selectedSize}`,
         "GET",
         null,
         setSizePrice
@@ -102,10 +109,15 @@ function ProductDetail() {
       return;
     }
     if (isLoggedIn) {
-      interactData(addToCartURL, "POST", product, (data) => {
-        console.log(data);
-        handleResponse(data, "Add to Cart");
-      });
+      interactData(
+        "http://localhost/pokemall/actions/addToCart.php",
+        "POST",
+        product,
+        (data) => {
+          console.log(data);
+          handleResponse(data, "Add to Cart");
+        }
+      );
     } else {
       navigate("/login");
     }

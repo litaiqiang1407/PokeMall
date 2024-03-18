@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { Chart as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -60,7 +59,20 @@ function Dashboard() {
   const chartData = {
     labels:
       filterType === "12_months"
-        ? months
+        ? [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ]
         : dailyStatistic.map((item) => item.date),
     datasets: [
       {

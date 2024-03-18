@@ -18,7 +18,7 @@ import { interactData } from "~/functions/interactData";
 import { handleResponse } from "~/functions/eventHandlers";
 import Title from "~/components/Title";
 import LoadingAnimation from "~/components/LoadingAnimation";
-import { ordersURL, updateAdminOrderURL } from "~/data";
+import { orde}
 
 import classNames from "classnames/bind";
 import styles from "./Orders.module.scss";
@@ -34,11 +34,16 @@ function Orders() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    interactData(ordersURL, "GET", null, (data) => {
-      setOrderItems(data.orders);
-      setColumns(data.columns);
-      setLoading(false);
-    });
+    interactData(
+      "http://localhost/pokemall/api/Orders.php",
+      "GET",
+      null,
+      (data) => {
+        setOrderItems(data.orders);
+        setColumns(data.columns);
+        setLoading(false);
+      }
+    );
   }, []);
 
   const handleCheckItem = useCallback((itemId, isChecked) => {
@@ -81,12 +86,17 @@ function Orders() {
       ...editedValues,
     };
 
-    interactData(updateAdminOrderURL, "POST", updateData, (response) => {
-      console.log(response);
-      if (response.message === "Order information updated") {
-        handleResponse(response, "Order information updated");
+    interactData(
+      "http://localhost/pokemall/actions/updateAdminOrder.php",
+      "POST",
+      updateData,
+      (response) => {
+        console.log(response);
+        if (response.message === "Order information updated") {
+          handleResponse(response, "Order information updated");
+        }
       }
-    });
+    );
     const updatedOrderItems = orderItems.map((item) => {
       if (item.ID === itemID) {
         return { ...item, ...editedValues };

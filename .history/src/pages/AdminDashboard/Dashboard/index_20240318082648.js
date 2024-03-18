@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Line } from "react-chartjs-2";
 
+import { Col, Container, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCoins,
@@ -11,6 +9,8 @@ import {
   faMoneyBillTrendUp,
   faMoneyBills,
 } from "@fortawesome/free-solid-svg-icons";
+import { Chart as ChartJS } from "chart.js/auto";
+import { Line } from "react-chartjs-2";
 
 import Title from "~/components/Title";
 import { interactData } from "~/functions/interactData";
@@ -27,21 +27,6 @@ function Dashboard() {
   const [filterType, setFilterType] = useState("12_months");
   const [activeFilter, setActiveFilter] = useState("12_months");
 
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
   useEffect(() => {
     interactData(dashboardURL, "GET", null, (data) => {
       setStatistic(data);
@@ -56,11 +41,26 @@ function Dashboard() {
     setActiveFilter(filter);
   };
 
+  console.table(dailyStatistic);
+
   // Prepare data for chart
   const chartData = {
     labels:
       filterType === "12_months"
-        ? months
+        ? [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ]
         : dailyStatistic.map((item) => item.date),
     datasets: [
       {

@@ -16,7 +16,7 @@ import Title from "~/components/Title";
 
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./ShoppingCart.module.scss"; // CSS Module
-import { deleteFromCartURL, priceURL, shoppingCartURL } from "~/data";
+import { deleteFromCartURL, shoppingCartURL } from "~/data";
 const cx = classNames.bind(styles); // CSS Module
 
 function ShoppingCart() {
@@ -141,7 +141,7 @@ function ShoppingCart() {
   useEffect(() => {
     if (itemID && itemSizeName) {
       interactData(
-        `${priceURL}?itemID=${itemID}&sizeName=${itemSizeName}`,
+        `http://localhost/pokemall/api/Price.php?itemID=${itemID}&sizeName=${itemSizeName}`,
         "GET",
         null,
         (newPrices) => {

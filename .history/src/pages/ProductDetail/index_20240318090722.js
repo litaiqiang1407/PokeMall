@@ -48,11 +48,19 @@ function ProductDetail() {
   const { id } = useParams();
 
   useEffect(() => {
-    interactData(`${productDetailURL}?productID=${id}`, "GET", null, (data) => {
-      setProductDetail(data.productDetail);
-      setSizes(data.sizes);
-    });
+    interactData(
+      `${productDetailURL}?productID=${id}`,
+      "GET",
+      null,
+      setProductDetail
+    );
   }, [id]);
+
+  useEffect(() => {
+    interactData(sizeURL, "GET", null, setSizes);
+  }, []);
+
+  console.table(sizes);
 
   useEffect(() => {
     if (selectedSize) {
@@ -215,7 +223,7 @@ function ProductDetail() {
               {/* Size */}
               <Container className={cx("product-size")}>
                 <span className={cx("option-label")}>Size:</span>
-                <Container className={cx("size-select")}>
+                {/* <Container className={cx("size-select")}>
                   {sizes.map((size) => (
                     <Button
                       key={size.ID}
@@ -230,7 +238,7 @@ function ProductDetail() {
                   {error && (
                     <span className={cx("error-message")}>{error}</span>
                   )}
-                </Container>
+                </Container> */}
               </Container>
 
               {/* Quantity */}
