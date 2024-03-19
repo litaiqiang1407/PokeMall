@@ -13,7 +13,7 @@ const errorMessages = {
   username: {
     required: "Username is required",
     invalidFormat: "Username must contain minimum three characters",
-    exist: "This username is already exists",
+    exist: "This username is already taken",
   },
   name: {
     required: "Name is required",
@@ -35,7 +35,6 @@ const errorMessages = {
     required: "Password is required",
     invalidFormat:
       "Password must contain minimum eight characters, at least one letter and one number",
-    incorrect: "Incorrect password",
   },
 };
 

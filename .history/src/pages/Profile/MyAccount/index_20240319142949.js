@@ -115,13 +115,13 @@ function MyAccount() {
           setEditable(false);
         }
         if (response.message === "This username already exists") {
-          setUsernameError(errorMessages.username.exist);
+          setUsernameError("This username is already exist");
         }
         if (response.message === "This email already exists") {
-          setEmailError(errorMessages.email.exist);
+          setEmailError("This email is already exists");
         }
         if (response.message === "This phone already exists") {
-          setPhoneError(errorMessages.phone.exist);
+          setPhoneError("This phone number is already exists");
         }
       });
     }

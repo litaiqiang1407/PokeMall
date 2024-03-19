@@ -13,7 +13,7 @@ const errorMessages = {
   username: {
     required: "Username is required",
     invalidFormat: "Username must contain minimum three characters",
-    exist: "This username is already exists",
+    exist: "This username is already taken",
   },
   name: {
     required: "Name is required",

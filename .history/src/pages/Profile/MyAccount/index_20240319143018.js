@@ -118,10 +118,10 @@ function MyAccount() {
           setUsernameError(errorMessages.username.exist);
         }
         if (response.message === "This email already exists") {
-          setEmailError(errorMessages.email.exist);
+          setEmailError("This email is already exists");
         }
         if (response.message === "This phone already exists") {
-          setPhoneError(errorMessages.phone.exist);
+          setPhoneError("This phone number is already exists");
         }
       });
     }

@@ -13,7 +13,7 @@ const errorMessages = {
   username: {
     required: "Username is required",
     invalidFormat: "Username must contain minimum three characters",
-    exist: "This username is already exists",
+    exist: "This username is already taken",
   },
   name: {
     required: "Name is required",
@@ -27,15 +27,11 @@ const errorMessages = {
   phone: {
     required: "Phone number is required",
     invalidFormat: "Invalid phone number format: 03xxxxxxxxx",
-    exist: "This phone number is already registered",
-    unregistered:
-      "This phone number is not registered yet. Please register first.",
   },
   password: {
     required: "Password is required",
     invalidFormat:
       "Password must contain minimum eight characters, at least one letter and one number",
-    incorrect: "Incorrect password",
   },
 };
 
@@ -61,4 +57,4 @@ const isValidation = (fields, setErrors) => {
   return isValid;
 };
 
-export { isValidation, errorMessages };
+export { isValidation };

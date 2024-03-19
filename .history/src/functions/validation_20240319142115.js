@@ -1,3 +1,5 @@
+import { interactData } from "./interactData";
+
 const validators = {
   username: /^[a-zA-Z0-9._-]{3,16}$/,
   name: /^[\p{L}\s']+$/u,
@@ -13,7 +15,7 @@ const errorMessages = {
   username: {
     required: "Username is required",
     invalidFormat: "Username must contain minimum three characters",
-    exist: "This username is already exists",
+    exist: "This username is already taken",
   },
   name: {
     required: "Name is required",
@@ -27,15 +29,11 @@ const errorMessages = {
   phone: {
     required: "Phone number is required",
     invalidFormat: "Invalid phone number format: 03xxxxxxxxx",
-    exist: "This phone number is already registered",
-    unregistered:
-      "This phone number is not registered yet. Please register first.",
   },
   password: {
     required: "Password is required",
     invalidFormat:
       "Password must contain minimum eight characters, at least one letter and one number",
-    incorrect: "Incorrect password",
   },
 };
 
@@ -43,6 +41,18 @@ const validateField = (field, value) => {
   if (!value) return `Please enter your ${field}.`;
   const regex = validators[field];
   return regex.test(value) ? "" : errorMessages[field].invalidFormat;
+};
+
+const isExist = (url, field, value, setError) => {
+  const data = { [field]: value };
+
+  interactData(url, "POST", data, (response) => {
+    if (response.exists) {
+      setError(errorMessages[field].exist);
+    } else {
+      setError("");
+    }
+  });
 };
 
 const isValidation = (fields, setErrors) => {
@@ -61,4 +71,4 @@ const isValidation = (fields, setErrors) => {
   return isValid;
 };
 
-export { isValidation, errorMessages };
+export { isValidation, isExist };

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
@@ -10,23 +10,25 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { isValidation, errorMessages } from "~/functions/validation";
 import { interactData } from "~/functions/interactData";
 import { handleResponse } from "~/functions/eventHandlers";
-import { signupURL } from "~/data";
-
+import { AuthContext } from "~/functions/authContext";
 import Title from "~/components/Title";
+import { loginURL } from "~/data";
 
 import classNames from "classnames/bind";
-import styles from "./Signup.module.scss";
+import styles from "./Login.module.scss";
+
 const cx = classNames.bind(styles);
 
-function Signup() {
+function Login() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [existError, setExistError] = useState("");
-  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const phoneRef = useRef(null);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +44,6 @@ function Signup() {
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -66,38 +67,41 @@ function Signup() {
     });
 
     if (isValid) {
-      interactData(
-        signupURL,
-        "POST",
-        { phone: phone, password: password },
-        (data) => {
-          if (data.message === "Phone already exists") {
-            setExistError(errorMessages.phone.exist);
-          } else {
-            handleResponse(data, "Sign up");
-            setSignupSuccess(true);
-          }
+      const data = { phone: phone, password: password };
+      interactData(loginURL, "POST", data, (data) => {
+        if (data.message === "Phone not found") {
+          setExistError(errorMessages.phone.unregistered);
+        } else if (data.message === "Login failed. Incorrect password.") {
+          setPasswordError("Incorrect password");
+        } else {
+          handleResponse(data, "Login");
+          localStorage.setItem("userData", JSON.stringify(data.userData));
+          setLoginSuccess(true);
+          login();
+          localStorage.setItem("isLoggedIn", "true");
         }
-      );
+      });
     }
   };
 
-  if (signupSuccess) {
+  if (loginSuccess) {
     setTimeout(() => {
-      navigate("/login");
+      navigate("/");
     }, 1500);
   }
 
   return (
-    <Container fluid className={cx("signup-container")}>
-      <Title title="Sign Up - PokeMall" />
-      <Container fluid className={cx("signup-form-container")}>
-        <Container className={cx("signup-form")}>
-          <Container className={cx("signup-title")}>
-            <h1 className={cx(" text-center")}>Sign Up</h1>
+    <Container fluid className={cx("login-container")}>
+      <Title title="Login - PokeMall" />
+      <Container fluid className={cx("login-form-container")}>
+        <Container className={cx("login-form")}>
+          {/* Title */}
+          <Container className={cx("login-title")}>
+            <h1 className={cx("text-center")}>Log In</h1>
           </Container>
 
-          <Form action="signup.php" method="post" onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
+            {/* Phone Field */}
             <Form.Group
               className={cx("form-field")}
               controlId="formPhoneNumber"
@@ -121,9 +125,9 @@ function Signup() {
               )}
             </Form.Group>
 
+            {/* Password Field */}
             <Form.Group className={cx("form-field")} controlId="formPassword">
               <Form.Label className={cx("form-label")}>Password</Form.Label>
-
               <div className={cx("form-input-container")}>
                 <Form.Control
                   name="password"
@@ -143,25 +147,32 @@ function Signup() {
                   />
                 )}
               </div>
-
               {passwordError && (
                 <span className={cx("error-message")}>{passwordError}</span>
               )}
             </Form.Group>
 
+            {/* Forgot Password */}
+            <Container className={cx("forgot-password_container")}>
+              <Link to="/forgot-password" className={cx("forgot-password")}>
+                Forgot password
+              </Link>
+            </Container>
+
+            {/* Login Button */}
             <Button
               variant="primary"
               type="submit"
-              className={cx("signup-button")}
+              className={cx("login-button")}
             >
-              Sign up
+              Log in
             </Button>
           </Form>
           <hr className={cx("horizontal-line")} />
-          <Container className={cx("login-section")}>
-            <p className={cx("login-text")}>Already have an account?</p>
-            <Link to="/login" className={cx("login-button")}>
-              Log in
+          <Container className={cx("signup-section")}>
+            <p className={cx("signup-text")}>Don't have an account?</p>
+            <Link to="/signup" className={cx("signup-button")}>
+              Sign up
             </Link>
           </Container>
         </Container>
@@ -171,4 +182,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Login;

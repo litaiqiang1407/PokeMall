@@ -7,7 +7,7 @@ import { Container, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
-import { isValidation, errorMessages } from "~/functions/validation";
+import { isValidation } from "~/functions/validation";
 import { interactData } from "~/functions/interactData";
 import { handleResponse } from "~/functions/eventHandlers";
 import { signupURL } from "~/data";
@@ -72,7 +72,7 @@ function Signup() {
         { phone: phone, password: password },
         (data) => {
           if (data.message === "Phone already exists") {
-            setExistError(errorMessages.phone.exist);
+            setExistError("Phone number already exists");
           } else {
             handleResponse(data, "Sign up");
             setSignupSuccess(true);
