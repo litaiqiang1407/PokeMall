@@ -10,7 +10,7 @@ import { faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { interactData } from "~/functions/interactData";
 import { isValidation, errorMessages } from "~/functions/validation";
 import { handleResponse } from "~/functions/eventHandlers";
-import { Title } from "~/components";
+import Title from "~/components/Title";
 import { changeAccountInfoURL } from "~/data";
 
 import classNames from "classnames/bind";

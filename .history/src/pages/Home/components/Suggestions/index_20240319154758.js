@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { interactData } from "~/functions/interactData";
-import { LoadingAnimation } from "~/components";
+import LoadingAnimation from "~/components/LoadingAnimation";
 
 import classNames from "classnames/bind";
 import styles from "./Suggestions.module.scss";

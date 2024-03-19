@@ -1,4 +1,4 @@
-import { ConfirmDialog } from "~/components";
+import ConfirmDialog from "~/components/ConfirmDialog/ConfirmDialog";
 import toast from "react-hot-toast";
 import { interactData } from "./interactData";
 
@@ -29,8 +29,6 @@ const handleQuantityChange = (e, setQuantity) => {
     setQuantity(value);
   }
 };
-
-// Handle Size Change
 
 // Check Item
 const handleCheckItem = (itemID, isChecked, setCheckedItems) => {

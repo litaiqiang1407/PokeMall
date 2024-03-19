@@ -20,7 +20,8 @@ import {
   handleCheckItem,
   handleCheckAll,
 } from "~/functions/eventHandlers";
-import { LoadingAnimation, Title } from "~/components";
+import Title from "~/components/Title";
+import LoadingAnimation from "~/components/LoadingAnimation";
 import { ordersURL, updateAdminOrderURL } from "~/data";
 
 import classNames from "classnames/bind";

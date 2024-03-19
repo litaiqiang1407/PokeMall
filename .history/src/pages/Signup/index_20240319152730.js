@@ -12,7 +12,7 @@ import { interactData } from "~/functions/interactData";
 import { handleResponse } from "~/functions/eventHandlers";
 import { signupURL } from "~/data";
 
-import { Title } from "~/components";
+import Title from "~/components/Title";
 
 import classNames from "classnames/bind";
 import styles from "./Signup.module.scss";

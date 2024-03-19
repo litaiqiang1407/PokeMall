@@ -1,94 +1,62 @@
 import { useState, useEffect, useCallback } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Dropdown } from "react-bootstrap";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-import { Toaster } from "react-hot-toast";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faDragon,
   faXmark,
   faMagnifyingGlass,
   faPlus,
   faCircleMinus,
   faPen,
-  faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
 
+import Title from "~/components/Title";
 import { interactData } from "~/functions/interactData";
-import {
-  handleResponse,
-  handleCheckItem,
-  handleCheckAll,
-} from "~/functions/eventHandlers";
-import { LoadingAnimation, Title } from "~/components";
-import { ordersURL, updateAdminOrderURL } from "~/data";
+import LoadingAnimation from "~/components/LoadingAnimation";
+import { productsURL } from "~/data";
+import { handleCheckItem, handleCheckAll } from "~/functions/eventHandlers";
 
 import classNames from "classnames/bind";
-import styles from "./Orders.module.scss";
+import styles from "./Products.module.scss";
 const cx = classNames.bind(styles);
 
-function Orders() {
+function Products() {
   const [columns, setColumns] = useState([]);
-  const [orderItems, setOrderItems] = useState([]);
+  const [productItems, setProductItems] = useState([]);
   const [itemID, setItemID] = useState(0);
+  const [sizes, setSizes] = useState([]);
+  const [itemSizes, setItemSizes] = useState([]);
+  const [itemSizeName, setItemSizeName] = useState("");
   const [checkedItems, setCheckedItems] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedValues, setEditedValues] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    interactData(ordersURL, "GET", null, (data) => {
-      setOrderItems(data.orders);
+    interactData(productsURL, "GET", null, (data) => {
+      setProductItems(data.products);
+      setSizes(data.sizes);
       setColumns(data.columns);
       setLoading(false);
     });
   }, []);
+
+  const handleSizeChange = (itemID, newSize) => {
+    setItemSizes({ ...itemSizes, [itemID]: newSize });
+    setItemID(itemID);
+    setItemSizeName(newSize);
+  };
 
   const handleEditItem = (itemID) => {
     setItemID(itemID);
     setIsEditing(!isEditing);
   };
 
-  const handleInputChange = (e, field) => {
-    const value = e.target.value;
-    setEditedValues((prevValues) => ({
-      ...prevValues,
-      [field]: value,
-    }));
-  };
-
-  const handleSaveEdit = (e) => {
-    e.preventDefault();
-
-    const updateData = {
-      ID: itemID,
-      ...editedValues,
-    };
-
-    interactData(updateAdminOrderURL, "POST", updateData, (response) => {
-      console.log(response);
-      if (response.message === "Order information updated") {
-        handleResponse("Order information updated");
-      }
-    });
-    const updatedOrderItems = orderItems.map((item) => {
-      if (item.ID === itemID) {
-        return { ...item, ...editedValues };
-      }
-      return item;
-    });
-    setOrderItems(updatedOrderItems);
-    setIsEditing(false);
-    setEditedValues({});
-  };
-
   const renderItemField = (item, field) =>
     isEditing && item.ID === itemID ? (
-      <input
-        className={cx(`input-${field}`)}
-        value={editedValues[field] || item[field]}
-        onChange={(e) => handleInputChange(e, field)}
-      />
+      <input className={cx(`input-${field}`)} value={item[field]} />
     ) : (
       <span className={cx(field)}>{item[field]}</span>
     );
@@ -99,11 +67,11 @@ function Orders() {
 
   return (
     <Container className={cx("container")}>
-      <Title title={"Admin Orders - PokeMall"} />
+      <Title title={"Admin Products - PokeMall"} />
       <Container className={cx("header")}>
         <Container>
-          <FontAwesomeIcon icon={faReceipt} className={cx("header-icon")} />
-          <span className={cx("header-title")}>Orders</span>
+          <FontAwesomeIcon icon={faDragon} className={cx("header-icon")} />
+          <span className={cx("header-title")}>Products</span>
         </Container>
         <Container className={cx("header-right")}>
           <div className={cx("header-search")}>
@@ -140,10 +108,10 @@ function Orders() {
                     handleCheckAll(
                       e.target.checked,
                       setCheckedItems,
-                      orderItems
+                      productItems
                     );
                   }}
-                  checked={checkedItems.length === orderItems.length}
+                  checked={checkedItems.length === productItems.length}
                 />
               </th>
               {columns.map((column) => (
@@ -160,7 +128,7 @@ function Orders() {
             </tr>
           </thead>
           <tbody>
-            {orderItems.map((item) => (
+            {productItems.map((item) => (
               <tr className={cx("product-row")} key={item.ID}>
                 <td className={cx("product-col")}>
                   <input
@@ -180,43 +148,57 @@ function Orders() {
                   <span className={cx("id")}>{item.ID}</span>
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "Customer")}
+                  <div className={cx("product")}>
+                    <img
+                      src={item.Image}
+                      alt={item.FigureName}
+                      className={cx("product-img")}
+                    />
+                  </div>
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "Total")}
+                  {renderItemField(item, "FigureName")}
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "Address")}
+                  {renderItemField(item, "PrimaryType")}
+                </td>
+
+                <td className={cx("product-col")}>
+                  <Dropdown className={cx("size")}>
+                    <Dropdown.Toggle className={cx("size-select")}>
+                      {itemSizes[item.ID] || item.SizeName}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className={cx("size-option")}>
+                      {sizes.map((size) => (
+                        <Dropdown.Item
+                          key={size.ID}
+                          onClick={() =>
+                            handleSizeChange(item.ID, size.SizeName)
+                          }
+                        >
+                          {size.SizeName}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "Date")}
+                  {renderItemField(item, "Price")}
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "PaymentMethod")}
+                  {renderItemField(item, "Quantity")}
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "PaymentStatus")}
+                  {renderItemField(item, "ReleaseDate")}
                 </td>
                 <td className={cx("product-col")}>
-                  {renderItemField(item, "OrderStatus")}
-                </td>
-                <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <button
-                      type="submit"
-                      className={cx("btn-save")}
-                      onClick={handleSaveEdit}
-                    >
-                      Save
-                    </button>
-                  ) : (
-                    <Container className={cx("edit-icon")}>
-                      <FontAwesomeIcon
-                        icon={faPen}
-                        onClick={() => handleEditItem(item.ID)}
-                      />
-                    </Container>
-                  )}
+                  <Container className={cx("edit-icon")}>
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      onClick={() => handleEditItem(item.ID)}
+                    />
+                  </Container>
                 </td>
                 <td className={cx("product-col")}>
                   <Container className={cx("delete-icon")}>
@@ -231,9 +213,8 @@ function Orders() {
           </tbody>
         </table>
       </Container>
-      <Toaster />
     </Container>
   );
 }
 
-export default Orders;
+export default Products;

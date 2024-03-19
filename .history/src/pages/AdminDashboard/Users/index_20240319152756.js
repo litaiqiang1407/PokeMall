@@ -12,13 +12,11 @@ import {
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { LoadingAnimation, Title } from "~/components";
+import Title from "~/components/Title";
+import LoadingAnimation from "~/components/LoadingAnimation";
+import ConfirmDialog from "~/components/ConfirmDialog/ConfirmDialog";
 import { interactData } from "~/functions/interactData";
-import {
-  handleCheckAll,
-  handleCheckItem,
-  handleDeleteItems,
-} from "~/functions/eventHandlers";
+import { handleResponse } from "~/functions/eventHandlers";
 import { usersURL, deleteUserURL } from "~/data";
 
 import classNames from "classnames/bind";
@@ -39,14 +37,42 @@ function Users() {
     });
   }, []);
 
+  const handleCheckItem = useCallback((itemID, isChecked) => {
+    setCheckedItems((prevCheckedItems) => {
+      if (isChecked) {
+        return [...prevCheckedItems, itemID];
+      } else {
+        return prevCheckedItems.filter((id) => id !== itemID);
+      }
+    });
+  }, []);
+
+  const handleCheckAll = (e) => {
+    if (e.target.checked) {
+      const allItemIds = userItems.map((item) => item.ID);
+      setCheckedItems([...allItemIds]);
+    } else {
+      setCheckedItems([]);
+    }
+  };
+
   const handleEditItem = (itemID) => {
     setItemID(itemID);
     setIsEditing(!isEditing);
   };
 
-  const handleDeleteItem = (itemID) => {
-    const deleteURL = `${deleteUserURL}?userID=${itemID}`;
-    handleDeleteItems(itemID, setUserItems, userItems, deleteURL);
+  const handleDeleteItem = async (itemID) => {
+    const isConfirmed = await ConfirmDialog(
+      "Are you sure you want to delete this user?"
+    );
+
+    if (isConfirmed) {
+      interactData(`${deleteUserURL}?userID=${itemID}`, "DELETE", null, () => {
+        const newUserItems = userItems.filter((item) => item.ID !== itemID);
+        setUserItems(newUserItems);
+        handleResponse("User deleted!");
+      });
+    }
   };
 
   if (loading) {
@@ -90,13 +116,7 @@ function Users() {
                 <input
                   className={cx("header-checkbox")}
                   type="checkbox"
-                  onChange={(e) => {
-                    handleCheckAll(
-                      e.target.checked,
-                      userItems,
-                      setCheckedItems
-                    );
-                  }}
+                  onChange={handleCheckAll}
                   checked={checkedItems.length === userItems.length}
                 />
               </th>
@@ -130,13 +150,7 @@ function Users() {
                   <input
                     className={cx("product-checkbox")}
                     type="checkbox"
-                    onChange={(e) =>
-                      handleCheckItem(
-                        item.ID,
-                        e.target.checked,
-                        setCheckedItems
-                      )
-                    }
+                    onChange={(e) => handleCheckItem(item.ID, e.target.checked)}
                     checked={checkedItems.includes(item.ID)}
                   />
                 </td>

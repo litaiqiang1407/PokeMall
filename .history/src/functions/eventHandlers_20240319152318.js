@@ -1,4 +1,4 @@
-import { ConfirmDialog } from "~/components";
+import ConfirmDialog from "~/components/ConfirmDialog/ConfirmDialog";
 import toast from "react-hot-toast";
 import { interactData } from "./interactData";
 
@@ -29,8 +29,6 @@ const handleQuantityChange = (e, setQuantity) => {
     setQuantity(value);
   }
 };
-
-// Handle Size Change
 
 // Check Item
 const handleCheckItem = (itemID, isChecked, setCheckedItems) => {
@@ -69,14 +67,14 @@ const handleDeleteItems = async (
     interactData(`${deleteURL}?itemID=${itemID}`, "DELETE", null, () => {
       const newStoreItems = storeItems.filter((item) => item.ID !== itemID);
       setStoreItems(newStoreItems);
-      handleResponse("Delete");
+      handleResponse("Item deleted successfully!", "success");
     });
   }
 };
 
 // Response
-const handleResponse = (formType) => {
-  if (formType) {
+const handleResponse = (data, formType) => {
+  if (data) {
     toast.success(`${formType} success`, {
       icon: "💛",
       style: {

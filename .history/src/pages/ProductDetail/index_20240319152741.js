@@ -23,8 +23,9 @@ import {
   handleResponse,
 } from "~/functions/eventHandlers"; // Custom functions
 import { renderStarIcons } from "~/functions/render"; // Custom function
-import { LoadingAnimation, Title } from "~/components"; // Custom components
-import { addToCartURL, priceURL, productDetailURL } from "~/data";
+import LoadingAnimation from "~/components/LoadingAnimation"; // Loading Animation
+import Title from "~/components/Title";
+import { addToCartURL, priceURL, productDetailURL, sizeURL } from "~/data";
 
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./ProductDetail.module.scss"; // CSS Module

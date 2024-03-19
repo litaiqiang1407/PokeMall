@@ -10,18 +10,20 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { interactData } from "~/functions/interactData";
+import LoadingAnimation from "~/components/LoadingAnimation";
 import {
+  handleResponse,
   handleDecrease,
   handleIncrease,
   handleCheckItem,
   handleCheckAll,
   handleDeleteItems,
 } from "~/functions/eventHandlers";
-import { LoadingAnimation, Title } from "~/components";
-import { deleteFromCartURL, priceURL, shoppingCartURL } from "~/data";
+import Title from "~/components/Title";
 
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./ShoppingCart.module.scss"; // CSS Module
+import { deleteFromCartURL, priceURL, shoppingCartURL } from "~/data";
 const cx = classNames.bind(styles); // CSS Module
 
 function ShoppingCart() {
@@ -79,6 +81,16 @@ function ShoppingCart() {
   const handleDeleteItem = (itemID) => {
     const deleteURL = `${deleteFromCartURL}?productID=${itemID}`;
     handleDeleteItems(itemID, setCartItems, cartItems, deleteURL);
+    // interactData(
+    //   `${deleteFromCartURL}?productID=${itemID}`,
+    //   "DELETE",
+    //   null,
+    //   () => {
+    //     const newCartItems = cartItems.filter((item) => item.ID !== itemID);
+    //     setCartItems(newCartItems);
+    //     handleResponse("Product has been deleted", "Delete");
+    //   }
+    // );
   };
 
   const handleDeleteAllCheckedItems = () => {

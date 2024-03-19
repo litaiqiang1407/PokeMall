@@ -15,12 +15,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { interactData } from "~/functions/interactData";
-import {
-  handleResponse,
-  handleCheckItem,
-  handleCheckAll,
-} from "~/functions/eventHandlers";
-import { LoadingAnimation, Title } from "~/components";
+import { handleResponse, handleCheckItem } from "~/functions/eventHandlers";
+import Title from "~/components/Title";
+import LoadingAnimation from "~/components/LoadingAnimation";
 import { ordersURL, updateAdminOrderURL } from "~/data";
 
 import classNames from "classnames/bind";
@@ -43,6 +40,15 @@ function Orders() {
       setLoading(false);
     });
   }, []);
+
+  const handleCheckAll = (e) => {
+    if (e.target.checked) {
+      const allItemIds = orderItems.map((item) => item.ID);
+      setCheckedItems([...allItemIds]);
+    } else {
+      setCheckedItems([]);
+    }
+  };
 
   const handleEditItem = (itemID) => {
     setItemID(itemID);
@@ -136,13 +142,7 @@ function Orders() {
                 <input
                   className={cx("header-checkbox")}
                   type="checkbox"
-                  onChange={(e) => {
-                    handleCheckAll(
-                      e.target.checked,
-                      setCheckedItems,
-                      orderItems
-                    );
-                  }}
+                  onChange={handleCheckAll}
                   checked={checkedItems.length === orderItems.length}
                 />
               </th>
@@ -166,13 +166,7 @@ function Orders() {
                   <input
                     className={cx("product-checkbox")}
                     type="checkbox"
-                    onChange={(e) =>
-                      handleCheckItem(
-                        item.ID,
-                        e.target.checked,
-                        setCheckedItems
-                      )
-                    }
+                    onChange={(e) => handleCheckItem(item.ID, e.target.checked)}
                     checked={checkedItems.includes(item.ID)}
                   />
                 </td>

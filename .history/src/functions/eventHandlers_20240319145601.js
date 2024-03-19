@@ -1,6 +1,5 @@
-import { ConfirmDialog } from "~/components";
+import { useCallback } from "react";
 import toast from "react-hot-toast";
-import { interactData } from "./interactData";
 
 // Increase
 const handleIncrease = (
@@ -30,10 +29,8 @@ const handleQuantityChange = (e, setQuantity) => {
   }
 };
 
-// Handle Size Change
-
 // Check Item
-const handleCheckItem = (itemID, isChecked, setCheckedItems) => {
+const handleCheckItem = useCallback((itemID, isChecked, setCheckedItems) => {
   setCheckedItems((prevCheckedItems) => {
     if (isChecked) {
       return [...prevCheckedItems, itemID];
@@ -41,42 +38,11 @@ const handleCheckItem = (itemID, isChecked, setCheckedItems) => {
       return prevCheckedItems.filter((id) => id !== itemID);
     }
   });
-};
-
-// Handle check all
-const handleCheckAll = (isChecked, setCheckedItems, storeItems) => {
-  if (isChecked) {
-    const allItemIds = storeItems.map((item) => item.ID);
-    setCheckedItems([...allItemIds]);
-  } else {
-    setCheckedItems([]);
-  }
-};
-
-// Handle delete item
-const handleDeleteItems = async (
-  itemID,
-  setStoreItems,
-  storeItems,
-  deleteURL
-) => {
-  const isConfirmed = await ConfirmDialog(
-    "Are you sure you want to delete this item?"
-  );
-
-  if (isConfirmed) {
-    // Delete item
-    interactData(`${deleteURL}?itemID=${itemID}`, "DELETE", null, () => {
-      const newStoreItems = storeItems.filter((item) => item.ID !== itemID);
-      setStoreItems(newStoreItems);
-      handleResponse("Delete");
-    });
-  }
-};
+}, []);
 
 // Response
-const handleResponse = (formType) => {
-  if (formType) {
+const handleResponse = (data, formType) => {
+  if (data) {
     toast.success(`${formType} success`, {
       icon: "💛",
       style: {
@@ -96,6 +62,4 @@ export {
   handleQuantityChange,
   handleResponse,
   handleCheckItem,
-  handleCheckAll,
-  handleDeleteItems,
 };
