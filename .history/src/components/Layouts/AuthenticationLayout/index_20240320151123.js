@@ -27,7 +27,7 @@ function AuthenticationLayout({ children }) {
         <div className={cx("image-container")}>
           <img
             src="/assets/img/authentication.jpg"
-            alt="Authentication"
+            alt="Authentication Image"
             height={500}
             width={500}
           />

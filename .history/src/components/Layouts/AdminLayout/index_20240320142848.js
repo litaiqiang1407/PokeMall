@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { Container, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import classNames from "classnames/bind";
 import styles from "./AdminLayout.module.scss";
@@ -11,6 +11,7 @@ function AdminLayout({ children }) {
   const [userData, setUserData] = useState({
     avatar: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData"));

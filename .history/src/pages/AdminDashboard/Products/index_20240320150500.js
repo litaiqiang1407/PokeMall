@@ -1,52 +1,64 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { Container, Dropdown } from "react-bootstrap";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
-import { Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faDragon,
   faXmark,
   faMagnifyingGlass,
   faPlus,
   faCircleMinus,
   faPen,
-  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { LoadingAnimation, Title } from "~/components";
 import { interactData } from "~/functions/interactData";
-import {
-  handleCheckAll,
-  handleCheckItem,
-  handleDeleteItems,
-} from "~/functions/eventHandlers";
-import { usersURL, deleteUserURL } from "~/data";
+import { LoadingAnimation, Title } from "~/components";
+import { productsURL } from "~/data";
+import { handleCheckItem, handleCheckAll } from "~/functions/eventHandlers";
 
 import classNames from "classnames/bind";
-import styles from "./Users.module.scss";
+import styles from "./Products.module.scss";
 const cx = classNames.bind(styles);
 
-function Users() {
-  const [userItems, setUserItems] = useState([]);
+function Products() {
+  const [columns, setColumns] = useState([]);
+  const [productItems, setProductItems] = useState([]);
   const [itemID, setItemID] = useState(0);
+  const [sizes, setSizes] = useState([]);
+  const [itemSizes, setItemSizes] = useState([]);
+  const [itemSizeName, setItemSizeName] = useState("");
   const [checkedItems, setCheckedItems] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    interactData(usersURL, "GET", null, (data) => {
-      setUserItems(data);
+    interactData(productsURL, "GET", null, (data) => {
+      setProductItems(data.products);
+      setSizes(data.sizes);
+      setColumns(data.columns);
       setLoading(false);
     });
   }, []);
+
+  const handleSizeChange = (itemID, newSize) => {
+    setItemSizes({ ...itemSizes, [itemID]: newSize });
+    setItemID(itemID);
+    setItemSizeName(newSize);
+  };
 
   const handleEditItem = (itemID) => {
     setItemID(itemID);
     setIsEditing(!isEditing);
   };
 
-  const handleDeleteItem = (itemID) => {
-    const deleteURL = `${deleteUserURL}?userID=${itemID}`;
-    handleDeleteItems(itemID, setUserItems, userItems, deleteURL);
-  };
+  const renderItemField = (item, field) =>
+    isEditing && item.ID === itemID ? (
+      <input className={cx(`input-${field}`)} value={item[field]} />
+    ) : (
+      <span className={cx(field)}>{item[field]}</span>
+    );
 
   if (loading) {
     return <LoadingAnimation />;
@@ -54,11 +66,11 @@ function Users() {
 
   return (
     <Container className={cx("container")}>
-      <Title title={"Admin Users - PokeMall"} />
+      <Title title={"Admin Products - PokeMall"} />
       <Container className={cx("header")}>
         <Container>
-          <FontAwesomeIcon icon={faUsers} className={cx("header-icon")} />
-          <span className={cx("header-title")}>Users</span>
+          <FontAwesomeIcon icon={faDragon} className={cx("header-icon")} />
+          <span className={cx("header-title")}>Products</span>
         </Container>
         <Container className={cx("header-right")}>
           <div className={cx("header-search")}>
@@ -74,11 +86,13 @@ function Users() {
               />
             </button>
           </div>
-          <div className={cx("header-add")}>
-            <button className={cx("btn-add")}>
-              <FontAwesomeIcon icon={faPlus} className={cx("icon-add")} />
-            </button>
-          </div>
+          <Tippy content={"Add"}>
+            <div className={cx("header-add")}>
+              <button className={cx("btn-add")}>
+                <FontAwesomeIcon icon={faPlus} className={cx("icon-add")} />
+              </button>
+            </div>
+          </Tippy>
         </Container>
       </Container>
       <Container className={cx("content")}>
@@ -92,28 +106,18 @@ function Users() {
                   onChange={(e) => {
                     handleCheckAll(
                       e.target.checked,
-                      userItems,
-                      setCheckedItems
+                      setCheckedItems,
+                      productItems
                     );
                   }}
-                  checked={checkedItems.length === userItems.length}
+                  checked={checkedItems.length === productItems.length}
                 />
               </th>
-              <th className={cx("header-col")} scope="col">
-                ID
-              </th>
-              <th className={cx("header-col")} scope="col">
-                Username
-              </th>
-              <th className={cx("header-col")} scope="col">
-                Name
-              </th>
-              <th className={cx("header-col")} scope="col">
-                Mail
-              </th>
-              <th className={cx("header-col")} scope="col">
-                Phone
-              </th>
+              {columns.map((column) => (
+                <th className={cx("header-col")} scope="col" key={column}>
+                  {column}
+                </th>
+              ))}
               <th className={cx("header-col")} scope="col">
                 Edit
               </th>
@@ -123,7 +127,7 @@ function Users() {
             </tr>
           </thead>
           <tbody>
-            {userItems.map((item) => (
+            {productItems.map((item) => (
               <tr className={cx("product-row")} key={item.ID}>
                 <td className={cx("product-col")}>
                   <input
@@ -143,35 +147,49 @@ function Users() {
                   <span className={cx("id")}>{item.ID}</span>
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input
-                      className={cx("input-username")}
-                      value={item.Username}
+                  <div className={cx("product")}>
+                    <img
+                      src={item.Image}
+                      alt={item.FigureName}
+                      className={cx("product-img")}
                     />
-                  ) : (
-                    <span className={cx("username")}>{item.Username}</span>
-                  )}
+                  </div>
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input className={cx("input-name")} value={item.Name} />
-                  ) : (
-                    <span className={cx("name")}>{item.Name}</span>
-                  )}
+                  {renderItemField(item, "FigureName")}
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input className={cx("input-email")} value={item.Email} />
-                  ) : (
-                    <span className={cx("email")}>{item.Email}</span>
-                  )}
+                  {renderItemField(item, "PrimaryType")}
+                </td>
+
+                <td className={cx("product-col")}>
+                  <Dropdown className={cx("size")}>
+                    <Dropdown.Toggle className={cx("size-select")}>
+                      {itemSizes[item.ID] || item.SizeName}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className={cx("size-option")}>
+                      {sizes.map((size) => (
+                        <Dropdown.Item
+                          key={size.ID}
+                          onClick={() =>
+                            handleSizeChange(item.ID, size.SizeName)
+                          }
+                        >
+                          {size.SizeName}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </td>
                 <td className={cx("product-col")}>
-                  {isEditing && item.ID === itemID ? (
-                    <input className={cx("input-phone")} value={item.Phone} />
-                  ) : (
-                    <span className={cx("price")}>{item.Phone}</span>
-                  )}
+                  {renderItemField(item, "Price")}
+                </td>
+                <td className={cx("product-col")}>
+                  {renderItemField(item, "Quantity")}
+                </td>
+                <td className={cx("product-col")}>
+                  {renderItemField(item, "ReleaseDate")}
                 </td>
                 <td className={cx("product-col")}>
                   <Container className={cx("edit-icon")}>
@@ -185,7 +203,7 @@ function Users() {
                   <Container className={cx("delete-icon")}>
                     <FontAwesomeIcon
                       icon={faCircleMinus}
-                      onClick={() => handleDeleteItem(item.ID)}
+                      //onClick={() => handleDeleteItem(item.ID)}
                     />
                   </Container>
                 </td>
@@ -198,4 +216,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default Products;

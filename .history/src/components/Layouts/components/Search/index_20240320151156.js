@@ -64,11 +64,7 @@ const Search = ({ isScrolled }) => {
                   className={cx("search-link")}
                 >
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  <img
-                    src={result.ImageURL}
-                    className={cx("search-img")}
-                    alt={result.FigureName}
-                  />
+                  <img src={result.ImageURL} className={cx("search-img")} />
                   {result.FigureName} - {result.PrimaryType}
                 </Link>
               </li>
