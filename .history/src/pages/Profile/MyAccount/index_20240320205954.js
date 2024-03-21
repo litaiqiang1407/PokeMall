@@ -39,18 +39,24 @@ function MyAccount() {
     if (storedUserData) {
       setUserData(storedUserData);
     }
-  }, []);
 
-  // Update newUserData whenever userData changes
-  useEffect(() => {
     setNewUserData(userData);
-  }, [userData]);
 
-  useEffect(() => {
     if (newUserData.avatar !== userData.avatar) {
       saveAvatar();
     }
-  }, [newUserData.avatar]);
+  }, [userData, newUserData.avatar]);
+
+  // Update newUserData whenever userData changes
+  // useEffect(() => {
+  //   setNewUserData(userData);
+  // }, [userData]);
+
+  // useEffect(() => {
+  //   if (newUserData.avatar !== userData.avatar) {
+  //     saveAvatar();
+  //   }
+  // }, [newUserData.avatar]);
 
   const handleEditToggle = () => {
     setEditable(!editable);

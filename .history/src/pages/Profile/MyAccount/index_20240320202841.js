@@ -29,6 +29,7 @@ function MyAccount() {
   const [userData, setUserData] = useState(emptyData);
   const [newUserData, setNewUserData] = useState(emptyData);
   const [editable, setEditable] = useState(false);
+  const [newAvatar, setNewAvatar] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -45,12 +46,6 @@ function MyAccount() {
   useEffect(() => {
     setNewUserData(userData);
   }, [userData]);
-
-  useEffect(() => {
-    if (newUserData.avatar !== userData.avatar) {
-      saveAvatar();
-    }
-  }, [newUserData.avatar]);
 
   const handleEditToggle = () => {
     setEditable(!editable);
@@ -86,11 +81,12 @@ function MyAccount() {
       const reader = new FileReader();
       reader.onloadend = () => {
         const avatar = reader.result;
+        // setNewAvatar(avatar);
         setNewUserData({ ...newUserData, avatar: avatar });
+        saveAvatar();
       };
       reader.readAsDataURL(file);
     }
-    console.log(newUserData);
   };
 
   const saveAvatar = () => {

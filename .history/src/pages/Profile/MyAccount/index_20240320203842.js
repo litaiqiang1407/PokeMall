@@ -46,12 +46,6 @@ function MyAccount() {
     setNewUserData(userData);
   }, [userData]);
 
-  useEffect(() => {
-    if (newUserData.avatar !== userData.avatar) {
-      saveAvatar();
-    }
-  }, [newUserData.avatar]);
-
   const handleEditToggle = () => {
     setEditable(!editable);
     if (!editable) {
@@ -87,6 +81,7 @@ function MyAccount() {
       reader.onloadend = () => {
         const avatar = reader.result;
         setNewUserData({ ...newUserData, avatar: avatar });
+        // saveAvatar();
       };
       reader.readAsDataURL(file);
     }
@@ -148,6 +143,9 @@ function MyAccount() {
       });
     }
   };
+
+  // when reload call the function saveAvatar
+  window.onload = saveAvatar();
 
   return (
     <Container className={cx("my-account")}>

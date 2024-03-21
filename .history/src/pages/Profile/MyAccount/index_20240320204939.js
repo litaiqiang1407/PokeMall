@@ -44,13 +44,8 @@ function MyAccount() {
   // Update newUserData whenever userData changes
   useEffect(() => {
     setNewUserData(userData);
+    saveAvatar();
   }, [userData]);
-
-  useEffect(() => {
-    if (newUserData.avatar !== userData.avatar) {
-      saveAvatar();
-    }
-  }, [newUserData.avatar]);
 
   const handleEditToggle = () => {
     setEditable(!editable);

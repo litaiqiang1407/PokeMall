@@ -46,12 +46,6 @@ function MyAccount() {
     setNewUserData(userData);
   }, [userData]);
 
-  useEffect(() => {
-    if (newUserData.avatar !== userData.avatar) {
-      saveAvatar();
-    }
-  }, [newUserData.avatar]);
-
   const handleEditToggle = () => {
     setEditable(!editable);
     if (!editable) {
@@ -86,7 +80,9 @@ function MyAccount() {
       const reader = new FileReader();
       reader.onloadend = () => {
         const avatar = reader.result;
-        setNewUserData({ ...newUserData, avatar: avatar });
+        setNewUserData({ ...newUserData, avatar: avatar }, () => {
+          saveAvatar();
+        });
       };
       reader.readAsDataURL(file);
     }

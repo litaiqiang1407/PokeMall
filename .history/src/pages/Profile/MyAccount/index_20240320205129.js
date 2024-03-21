@@ -46,12 +46,6 @@ function MyAccount() {
     setNewUserData(userData);
   }, [userData]);
 
-  useEffect(() => {
-    if (newUserData.avatar !== userData.avatar) {
-      saveAvatar();
-    }
-  }, [newUserData.avatar]);
-
   const handleEditToggle = () => {
     setEditable(!editable);
     if (!editable) {
@@ -102,6 +96,12 @@ function MyAccount() {
       }
     });
   };
+
+  useEffect(() => {
+    if (newUserData.avatar !== userData.avatar) {
+      saveAvatar();
+    }
+  }, [newUserData.avatar]);
 
   const handleClearInput = (name) => {
     setUserData({ ...userData, [name]: "" });

@@ -29,6 +29,7 @@ function MyAccount() {
   const [userData, setUserData] = useState(emptyData);
   const [newUserData, setNewUserData] = useState(emptyData);
   const [editable, setEditable] = useState(false);
+  const [newAvatar, setNewAvatar] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -40,17 +41,6 @@ function MyAccount() {
       setUserData(storedUserData);
     }
   }, []);
-
-  // Update newUserData whenever userData changes
-  useEffect(() => {
-    setNewUserData(userData);
-  }, [userData]);
-
-  useEffect(() => {
-    if (newUserData.avatar !== userData.avatar) {
-      saveAvatar();
-    }
-  }, [newUserData.avatar]);
 
   const handleEditToggle = () => {
     setEditable(!editable);
@@ -80,32 +70,14 @@ function MyAccount() {
     ...getChangedData(userData, newUserData),
   };
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const avatar = reader.result;
-        setNewUserData({ ...newUserData, avatar: avatar });
-      };
-      reader.readAsDataURL(file);
-    }
-    console.log(newUserData);
-  };
-
-  const saveAvatar = () => {
-    console.table(updateData);
-    interactData(changeAccountInfoURL, "POST", updateData, (response) => {
-      if (response.message === "Account information updated") {
-        handleResponse("Account information updated");
-        localStorage.setItem("userData", JSON.stringify(newUserData));
-      }
-    });
-  };
-
   const handleClearInput = (name) => {
     setUserData({ ...userData, [name]: "" });
   };
+
+  // Update newUserData whenever userData changes
+  useEffect(() => {
+    setNewUserData(userData);
+  }, [userData]);
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -318,24 +290,14 @@ function MyAccount() {
                 </Container>
                 <Container className={cx("photo")}>
                   <img
-                    src={newUserData.avatar || userData.avatar}
+                    src={userData.avatar}
                     alt="Avatar"
                     className={cx("photo-img")}
                   />
-                  <Container
-                    className={cx("change-avatar")}
-                    onClick={() => inputRef.current.click()}
-                  >
+                  <Container className={cx("change-avatar")}>
                     <FontAwesomeIcon
                       icon={faEdit}
                       className={cx("change-icon")}
-                    />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAvatarChange}
-                      style={{ display: "none" }}
-                      ref={inputRef}
                     />
                   </Container>
                 </Container>
