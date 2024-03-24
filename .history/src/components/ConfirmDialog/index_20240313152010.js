@@ -8,7 +8,7 @@ const ConfirmDialog = async (confirmationMessage) => {
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Yes!",
+    confirmButtonText: "Yes, proceed!",
   });
   return result.isConfirmed;
 };
