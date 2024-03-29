@@ -99,24 +99,27 @@ function Contact() {
 
                 <Form.Group className={cx("form-field")} controlId="email">
                   <Form.Label className={cx("form-label")}>Email</Form.Label>
-
-                  <Form.Control
-                    name="email"
-                    className={cx("form-input")}
-                    type={"text"}
-                    placeholder="Enter your email"
-                  />
+                  <div className={cx("form-input-container")}>
+                    <Form.Control
+                      name="email"
+                      className={cx("form-input")}
+                      type={"text"}
+                      placeholder="Enter your email"
+                    />
+                  </div>
                 </Form.Group>
 
                 <Form.Group className={cx("form-field")} controlId="message">
                   <Form.Label className={cx("form-label")}>Message</Form.Label>
-                  <Form.Control
-                    name="message"
-                    className={cx("form-input")}
-                    as="textarea"
-                    rows={3}
-                    placeholder="Enter your message"
-                  />
+                  <div className={cx("form-input-container")}>
+                    <Form.Control
+                      name="message"
+                      className={cx("form-input")}
+                      as="textarea"
+                      rows={3}
+                      placeholder="Enter your message"
+                    />
+                  </div>
                 </Form.Group>
                 <Button className={cx("btn-send")} variant="primary">
                   Send Message

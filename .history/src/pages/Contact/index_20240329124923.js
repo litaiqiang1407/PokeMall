@@ -99,13 +99,14 @@ function Contact() {
 
                 <Form.Group className={cx("form-field")} controlId="email">
                   <Form.Label className={cx("form-label")}>Email</Form.Label>
-
-                  <Form.Control
-                    name="email"
-                    className={cx("form-input")}
-                    type={"text"}
-                    placeholder="Enter your email"
-                  />
+                  <div className={cx("form-input-container")}>
+                    <Form.Control
+                      name="email"
+                      className={cx("form-input")}
+                      type={"text"}
+                      placeholder="Enter your email"
+                    />
+                  </div>
                 </Form.Group>
 
                 <Form.Group className={cx("form-field")} controlId="message">
