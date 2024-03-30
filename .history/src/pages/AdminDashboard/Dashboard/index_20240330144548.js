@@ -31,7 +31,7 @@ function Dashboard() {
   const [activeFilter, setActiveFilter] = useState("12_months");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [customDateRange, setCustomDateRange] = useState([]);
+  const [customDateRange, setCustomDateRange] = useState({});
 
   const months = [
     "Jan",
@@ -69,18 +69,8 @@ function Dashboard() {
     setEndDate(event.target.value);
   };
 
-  const formatDateForMySQL = (date) => {
-    const year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    if (day < 10) {
-      day = `0${day}`;
-    }
-
+  const formatDateForMySQL = (dateString) => {
+    const [day, month, year] = dateString.split("/");
     return `${year}-${month}-${day}`;
   };
 
@@ -91,13 +81,10 @@ function Dashboard() {
       return;
     }
 
-    const formattedStartDate = formatDateForMySQL(startDate);
-    const formattedEndDate = formatDateForMySQL(endDate);
-
     setFilterType("custom_range");
     setActiveFilter("custom_range");
     interactData(
-      `${dashboardURL}?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
+      `${dashboardURL}?startDate=${startDate}&endDate=${endDate}`,
       "GET",
       null,
       (data) => {

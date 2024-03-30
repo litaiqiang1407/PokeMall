@@ -31,7 +31,10 @@ function Dashboard() {
   const [activeFilter, setActiveFilter] = useState("12_months");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [customDateRange, setCustomDateRange] = useState([]);
+  const [customDateRange, setCustomDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
 
   const months = [
     "Jan",
@@ -53,6 +56,7 @@ function Dashboard() {
       setStatistic(data);
       setMonthlyStatistic(data.monthlyStatistic);
       setDailyStatistic(data.dailyStatistic);
+      console.table(data.dailyStatistic);
     });
   }, []);
 
@@ -69,21 +73,6 @@ function Dashboard() {
     setEndDate(event.target.value);
   };
 
-  const formatDateForMySQL = (date) => {
-    const year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    if (day < 10) {
-      day = `0${day}`;
-    }
-
-    return `${year}-${month}-${day}`;
-  };
-
   const handleCustomDateRangeChange = (startDate, endDate) => {
     // Check if start date is before end date
     if (startDate > endDate) {
@@ -91,45 +80,19 @@ function Dashboard() {
       return;
     }
 
-    const formattedStartDate = formatDateForMySQL(startDate);
-    const formattedEndDate = formatDateForMySQL(endDate);
-
     setFilterType("custom_range");
     setActiveFilter("custom_range");
-    interactData(
-      `${dashboardURL}?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
-      "GET",
-      null,
-      (data) => {
-        setCustomDateRange(data);
-      }
-    );
+    setCustomDateRange({ startDate, endDate });
   };
 
-  let chartLabels;
-  let chartRevenueData = [];
-  let chartProfitData = [];
-  let chartSoldData = [];
+  console.log(customDateRange);
 
-  if (filterType === "12_months") {
-    chartLabels = months;
-    chartRevenueData = monthlyStatistic.revenue;
-    chartProfitData = monthlyStatistic.profit;
-    chartSoldData = monthlyStatistic.sold;
-  } else if (filterType === "30_days") {
-    chartLabels = dailyStatistic.map((item) => item.date);
-    chartRevenueData = dailyStatistic.map((item) => item.revenue);
-    chartProfitData = dailyStatistic.map((item) => item.profit);
-    chartSoldData = dailyStatistic.map((item) => item.sold);
-  } else if (filterType === "custom_range") {
-    chartLabels = customDateRange.map((item) => item.date);
-    chartRevenueData = customDateRange.map((item) => item.revenue);
-    chartProfitData = customDateRange.map((item) => item.profit);
-    chartSoldData = customDateRange.map((item) => item.sold);
-  }
-
+  // Prepare data for chart
   const chartData = {
-    labels: chartLabels,
+    labels:
+      filterType === "12_months"
+        ? months
+        : dailyStatistic.map((item) => item.date),
     datasets: [
       {
         label: "Revenue",
@@ -138,7 +101,10 @@ function Dashboard() {
         backgroundColor: "rgba(220, 252, 231)",
         borderColor: "rgba(60, 216, 86)",
         borderWidth: 2,
-        data: chartRevenueData,
+        data:
+          filterType === "12_months"
+            ? monthlyStatistic.revenue
+            : dailyStatistic.map((item) => item.revenue),
       },
       {
         label: "Profit",
@@ -147,7 +113,10 @@ function Dashboard() {
         backgroundColor: "rgba(243, 232, 255)",
         borderColor: "rgba(191, 131, 255)",
         borderWidth: 2,
-        data: chartProfitData,
+        data:
+          filterType === "12_months"
+            ? monthlyStatistic.profit
+            : dailyStatistic.map((item) => item.profit),
       },
       {
         label: "Sold",
@@ -156,7 +125,10 @@ function Dashboard() {
         backgroundColor: "rgba(255, 244, 222)",
         borderColor: "rgba(255, 148, 122)",
         borderWidth: 2,
-        data: chartSoldData,
+        data:
+          filterType === "12_months"
+            ? monthlyStatistic.sold
+            : dailyStatistic.map((item) => item.sold),
       },
     ],
   };

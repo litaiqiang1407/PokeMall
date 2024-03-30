@@ -144,7 +144,7 @@
         @include flex-space;
         font-size: 2rem;
         height: 40px;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
 
         .header-icon {
           font-size: 2.8rem;
@@ -161,10 +161,9 @@
         .chart-filter {
           @include flex-end;
           margin-right: 20px;
+          position: relative;
 
           .filter-container {
-            position: relative;
-
             @include flex-space;
             height: 40px;
             padding: 0 8px;
@@ -175,7 +174,7 @@
 
           .filter-item {
             height: 28px;
-            width: 128px;
+            width: 124px;
             font-weight: 400;
             font-size: 1.6rem;
             border-radius: 999px;
@@ -191,8 +190,8 @@
           }
           .custom-date {
             position: absolute;
-            top: 120%;
-            right: -5px;
+            top: 100%;
+            left: 0;
             width: 100%;
             @include flex-space;
 
@@ -200,9 +199,9 @@
               width: 120px;
               height: 32px;
               padding: 0 12px;
-              //margin-right: 12px;
+              margin-right: 12px;
               border: 1px solid var(--profit-color);
-              font-size: 1.4rem;
+              font-size: 1.6rem;
               color: var(--text-black-color);
               border-radius: 4px;
             }

@@ -144,7 +144,7 @@
         @include flex-space;
         font-size: 2rem;
         height: 40px;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
 
         .header-icon {
           font-size: 2.8rem;
@@ -162,61 +162,28 @@
           @include flex-end;
           margin-right: 20px;
 
-          .filter-container {
-            position: relative;
-
-            @include flex-space;
-            height: 40px;
-            padding: 0 8px;
-            border-radius: 999px;
-            background-color: rgb(243, 232, 255);
-            border: 1px solid var(--profit-color);
-          }
-
-          .filter-item {
-            height: 28px;
-            width: 128px;
-            font-weight: 400;
-            font-size: 1.6rem;
-            border-radius: 999px;
-            color: var(--text-black-color);
-            background-color: rgb(243, 232, 255);
-            transition: background-color 0.3s, color 0.3s, font-weight 0.3s;
-
-            &.active {
-              font-weight: 500;
-              background-color: var(--profit-color);
-              color: var(--white);
-            }
-          }
           .custom-date {
-            position: absolute;
-            top: 120%;
-            right: -5px;
-            width: 100%;
             @include flex-space;
-
             .custom-input {
               width: 120px;
               height: 32px;
               padding: 0 12px;
-              //margin-right: 12px;
+              margin-right: 12px;
               border: 1px solid var(--profit-color);
-              font-size: 1.4rem;
+              font-size: 1.6rem;
               color: var(--text-black-color);
               border-radius: 4px;
             }
 
             .filter-item {
               height: 32px;
-              width: 116px;
+              width: 80px;
               font-weight: 400;
               font-size: 1.6rem;
               margin-right: 12px;
               color: var(--text-black-color);
               background-color: rgb(243, 232, 255);
               transition: background-color 0.3s, color 0.3s, font-weight 0.3s;
-              border: 1px solid var(--profit-color);
 
               &:hover {
                 font-weight: 500;
@@ -229,6 +196,33 @@
                 background-color: var(--profit-color);
                 color: var(--white);
               }
+            }
+          }
+
+          .filter-container {
+            @include flex-space;
+            height: 40px;
+            width: 252px;
+            padding: 0 8px;
+            border-radius: 999px;
+            background-color: rgb(243, 232, 255);
+            border: 1px solid var(--profit-color);
+          }
+
+          .filter-item {
+            height: 28px;
+            width: 116px;
+            font-weight: 400;
+            font-size: 1.6rem;
+            border-radius: 999px;
+            color: var(--text-black-color);
+            background-color: rgb(243, 232, 255);
+            transition: background-color 0.3s, color 0.3s, font-weight 0.3s;
+
+            &.active {
+              font-weight: 500;
+              background-color: var(--profit-color);
+              color: var(--white);
             }
           }
         }

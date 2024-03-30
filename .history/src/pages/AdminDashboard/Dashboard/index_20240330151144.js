@@ -94,6 +94,10 @@ function Dashboard() {
     const formattedStartDate = formatDateForMySQL(startDate);
     const formattedEndDate = formatDateForMySQL(endDate);
 
+    console.log(
+      `${dashboardURL}?startDate=${formattedStartDate}&endDate=${formattedEndDate}`
+    );
+
     setFilterType("custom_range");
     setActiveFilter("custom_range");
     interactData(
@@ -105,6 +109,8 @@ function Dashboard() {
       }
     );
   };
+
+  console.table(customDateRange);
 
   let chartLabels;
   let chartRevenueData = [];

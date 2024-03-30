@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Chart as ChartJS } from "chart.js/auto";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
 import { Line } from "react-chartjs-2";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,7 +28,10 @@ function Dashboard() {
   const [activeFilter, setActiveFilter] = useState("12_months");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [customDateRange, setCustomDateRange] = useState([]);
+  const [customDateRange, setCustomDateRange] = useState({
+    startDate: null,
+    endDate: null,
+  });
 
   const months = [
     "Jan",
@@ -53,6 +53,7 @@ function Dashboard() {
       setStatistic(data);
       setMonthlyStatistic(data.monthlyStatistic);
       setDailyStatistic(data.dailyStatistic);
+      console.table(data.dailyStatistic);
     });
   }, []);
 
@@ -69,67 +70,37 @@ function Dashboard() {
     setEndDate(event.target.value);
   };
 
-  const formatDateForMySQL = (date) => {
-    const year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    if (day < 10) {
-      day = `0${day}`;
-    }
-
-    return `${year}-${month}-${day}`;
-  };
-
   const handleCustomDateRangeChange = (startDate, endDate) => {
+    // Validate the date format
+    const startDateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+    const endDateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+
+    if (!startDate.match(startDateRegex) || !endDate.match(endDateRegex)) {
+      alert("Please enter dates in dd/mm/yyyy format");
+      return;
+    }
+
+    // Convert input string to Date object
+    const startDateObj = new Date(startDate.split("/").reverse().join("-"));
+    const endDateObj = new Date(endDate.split("/").reverse().join("-"));
+
     // Check if start date is before end date
-    if (startDate > endDate) {
+    if (startDateObj > endDateObj) {
       alert("Start date cannot be after end date");
       return;
     }
 
-    const formattedStartDate = formatDateForMySQL(startDate);
-    const formattedEndDate = formatDateForMySQL(endDate);
-
     setFilterType("custom_range");
     setActiveFilter("custom_range");
-    interactData(
-      `${dashboardURL}?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
-      "GET",
-      null,
-      (data) => {
-        setCustomDateRange(data);
-      }
-    );
+    setCustomDateRange({ startDate: startDateObj, endDate: endDateObj });
   };
 
-  let chartLabels;
-  let chartRevenueData = [];
-  let chartProfitData = [];
-  let chartSoldData = [];
-
-  if (filterType === "12_months") {
-    chartLabels = months;
-    chartRevenueData = monthlyStatistic.revenue;
-    chartProfitData = monthlyStatistic.profit;
-    chartSoldData = monthlyStatistic.sold;
-  } else if (filterType === "30_days") {
-    chartLabels = dailyStatistic.map((item) => item.date);
-    chartRevenueData = dailyStatistic.map((item) => item.revenue);
-    chartProfitData = dailyStatistic.map((item) => item.profit);
-    chartSoldData = dailyStatistic.map((item) => item.sold);
-  } else if (filterType === "custom_range") {
-    chartLabels = customDateRange.map((item) => item.date);
-    chartRevenueData = customDateRange.map((item) => item.revenue);
-    chartProfitData = customDateRange.map((item) => item.profit);
-    chartSoldData = customDateRange.map((item) => item.sold);
-  }
-
+  // Prepare data for chart
   const chartData = {
-    labels: chartLabels,
+    labels:
+      filterType === "12_months"
+        ? months
+        : dailyStatistic.map((item) => item.date),
     datasets: [
       {
         label: "Revenue",
@@ -138,7 +109,10 @@ function Dashboard() {
         backgroundColor: "rgba(220, 252, 231)",
         borderColor: "rgba(60, 216, 86)",
         borderWidth: 2,
-        data: chartRevenueData,
+        data:
+          filterType === "12_months"
+            ? monthlyStatistic.revenue
+            : dailyStatistic.map((item) => item.revenue),
       },
       {
         label: "Profit",
@@ -147,7 +121,10 @@ function Dashboard() {
         backgroundColor: "rgba(243, 232, 255)",
         borderColor: "rgba(191, 131, 255)",
         borderWidth: 2,
-        data: chartProfitData,
+        data:
+          filterType === "12_months"
+            ? monthlyStatistic.profit
+            : dailyStatistic.map((item) => item.profit),
       },
       {
         label: "Sold",
@@ -156,7 +133,10 @@ function Dashboard() {
         backgroundColor: "rgba(255, 244, 222)",
         borderColor: "rgba(255, 148, 122)",
         borderWidth: 2,
-        data: chartSoldData,
+        data:
+          filterType === "12_months"
+            ? monthlyStatistic.sold
+            : dailyStatistic.map((item) => item.sold),
       },
     ],
   };
@@ -228,6 +208,32 @@ function Dashboard() {
               <span className={cx("header-title")}>Statistical Chart</span>
             </Container>
             <Container className={cx("chart-filter")}>
+              {/* <div className={cx("custom-date")}>
+                <input
+                  className={cx("custom-input")}
+                  type="text"
+                  placeholder="Start Date"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                />
+                <input
+                  className={cx("custom-input")}
+                  type="text"
+                  placeholder="End Date"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                />
+                <button
+                  className={cx("filter-item", {
+                    active: activeFilter === "custom_range",
+                  })}
+                  onClick={() =>
+                    handleCustomDateRangeChange(startDate, endDate)
+                  }
+                >
+                  Apply
+                </button>
+              </div> */}
               <div className={cx("filter-container")}>
                 <button
                   className={cx("filter-item", {
@@ -254,20 +260,18 @@ function Dashboard() {
                   Custom Range
                 </button>
                 {activeFilter === "custom_range" && (
-                  <div className={cx("custom-date")}>
-                    <DatePicker
-                      className={cx("custom-input")}
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="Start Date"
+                  <div className={cx("custom-date-inputs")}>
+                    <input
+                      type="text"
+                      placeholder="Start Date (dd/mm/yyyy)"
+                      value={startDate}
+                      onChange={handleStartDateChange}
                     />
-                    <DatePicker
-                      className={cx("custom-input")}
-                      selected={endDate}
-                      onChange={(date) => setEndDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="End Date"
+                    <input
+                      type="text"
+                      placeholder="End Date (dd/mm/yyyy)"
+                      value={endDate}
+                      onChange={handleEndDateChange}
                     />
                     <button
                       className={cx("filter-item")}

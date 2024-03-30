@@ -31,7 +31,7 @@ function Dashboard() {
   const [activeFilter, setActiveFilter] = useState("12_months");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [customDateRange, setCustomDateRange] = useState([]);
+  const [customDateRange, setCustomDateRange] = useState({});
 
   const months = [
     "Jan",
@@ -93,6 +93,10 @@ function Dashboard() {
 
     const formattedStartDate = formatDateForMySQL(startDate);
     const formattedEndDate = formatDateForMySQL(endDate);
+
+    console.log(
+      `${dashboardURL}?startDate=${formattedStartDate}&endDate=${formattedEndDate}`
+    );
 
     setFilterType("custom_range");
     setActiveFilter("custom_range");
