@@ -24,6 +24,7 @@ import styles from "./Dashboard.module.scss";
 const cx = classNames.bind(styles);
 
 function Dashboard() {
+  const [statistic, setStatistic] = useState({});
   const [monthlyStatistic, setMonthlyStatistic] = useState({});
   const [dailyStatistic, setDailyStatistic] = useState({});
   const [filterType, setFilterType] = useState("12_months");

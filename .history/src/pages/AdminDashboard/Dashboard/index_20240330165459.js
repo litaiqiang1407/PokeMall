@@ -15,7 +15,7 @@ import {
   faMoneyBills,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { ConfirmDialog, Title } from "~/components";
+import { Title } from "~/components";
 import { interactData } from "~/functions/interactData";
 import { dashboardURL } from "~/data";
 
@@ -24,6 +24,7 @@ import styles from "./Dashboard.module.scss";
 const cx = classNames.bind(styles);
 
 function Dashboard() {
+  const [statistic, setStatistic] = useState({});
   const [monthlyStatistic, setMonthlyStatistic] = useState({});
   const [dailyStatistic, setDailyStatistic] = useState({});
   const [filterType, setFilterType] = useState("12_months");
@@ -31,10 +32,11 @@ function Dashboard() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [customDateRange, setCustomDateRange] = useState([]);
-  const [statisticProducts, setStatisticProducts] = useState("");
-  const [statisticSold, setStatisticSold] = useState("");
-  const [statisticRevenue, setStatisticRevenue] = useState("");
-  const [statisticProfit, setStatisticProfit] = useState("");
+  const [statisticSold, setStatisticSold] = useState(statistic.soldProducts);
+  const [statisticRevenue, setStatisticRevenue] = useState(
+    statistic.totalRevenue
+  );
+  const [statisticProfit, setStatisticProfit] = useState(statistic.totalProfit);
 
   const months = [
     "Jan",
@@ -53,10 +55,7 @@ function Dashboard() {
 
   useEffect(() => {
     interactData(dashboardURL, "GET", null, (data) => {
-      setStatisticProducts(data.totalProducts);
-      setStatisticSold(data.soldProducts);
-      setStatisticRevenue(data.totalRevenue);
-      setStatisticProfit(data.totalProfit);
+      setStatistic(data);
       setMonthlyStatistic(data.monthlyStatistic);
       setDailyStatistic(data.dailyStatistic);
     });
@@ -67,53 +66,23 @@ function Dashboard() {
     setActiveFilter(filter);
 
     if (filter === "12_months") {
-      const totalSold = monthlyStatistic.sold.reduce(
-        (total, item) => total + item,
-        0
+      setStatisticSold(
+        monthlyStatistic[monthlyStatistic.length - 1].soldProducts
       );
-      const totalRevenue = monthlyStatistic.revenue.reduce(
-        (total, item) => total + item,
-        0
+      setStatisticRevenue(
+        monthlyStatistic[monthlyStatistic.length - 1].totalRevenue
       );
-      const totalProfit = monthlyStatistic.profit.reduce(
-        (total, item) => total + item,
-        0
+      setStatisticProfit(
+        monthlyStatistic[monthlyStatistic.length - 1].totalProfit
       );
-      setStatisticSold(totalSold);
-      setStatisticRevenue(totalRevenue);
-      setStatisticProfit(totalProfit);
     } else if (filter === "30_days") {
-      const totalSold = dailyStatistic.reduce(
-        (total, item) => total + item.sold,
-        0
-      );
-      const totalRevenue = dailyStatistic.reduce(
-        (total, item) => total + item.revenue,
-        0
-      );
-      const totalProfit = dailyStatistic.reduce(
-        (total, item) => total + item.profit,
-        0
-      );
-      setStatisticSold(totalSold);
-      setStatisticRevenue(totalRevenue);
-      setStatisticProfit(totalProfit);
+      setStatisticSold(dailyStatistic[dailyStatistic.length - 1].sold);
+      setStatisticRevenue(dailyStatistic[dailyStatistic.length - 1].revenue);
+      setStatisticProfit(dailyStatistic[dailyStatistic.length - 1].profit);
     } else if (filter === "custom_range") {
-      const totalSold = customDateRange.reduce(
-        (total, item) => total + item.sold,
-        0
-      );
-      const totalRevenue = customDateRange.reduce(
-        (total, item) => total + item.revenue,
-        0
-      );
-      const totalProfit = customDateRange.reduce(
-        (total, item) => total + item.profit,
-        0
-      );
-      setStatisticSold(totalSold);
-      setStatisticRevenue(totalRevenue);
-      setStatisticProfit(totalProfit);
+      setStatisticSold(customDateRange[customDateRange.length - 1].sold);
+      setStatisticRevenue(customDateRange[customDateRange.length - 1].revenue);
+      setStatisticProfit(customDateRange[customDateRange.length - 1].profit);
     }
   };
 
@@ -135,7 +104,7 @@ function Dashboard() {
   const handleCustomDateRangeChange = (startDate, endDate) => {
     // Check if start date is before end date
     if (startDate > endDate) {
-      ConfirmDialog("Start date must be before end date");
+      alert("Start date cannot be after end date");
       return;
     }
 
@@ -144,7 +113,6 @@ function Dashboard() {
 
     setFilterType("custom_range");
     setActiveFilter("custom_range");
-    handleFilterChange("custom_range");
     interactData(
       `${dashboardURL}?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
       "GET",
@@ -222,7 +190,9 @@ function Dashboard() {
           <div className={cx("statistic-products")}>
             <div className={cx("statistic-content")}>
               <div className={cx("statistic-title")}>Products</div>
-              <div className={cx("statistic-value")}>{statisticProducts}</div>
+              <div className={cx("statistic-value")}>
+                {statistic.totalProducts}
+              </div>
             </div>
             <div className={cx("icon-product")}>
               <FontAwesomeIcon icon={faDragon} />

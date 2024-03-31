@@ -15,7 +15,7 @@ import {
   faMoneyBills,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { ConfirmDialog, Title } from "~/components";
+import { Title } from "~/components";
 import { interactData } from "~/functions/interactData";
 import { dashboardURL } from "~/data";
 
@@ -24,6 +24,7 @@ import styles from "./Dashboard.module.scss";
 const cx = classNames.bind(styles);
 
 function Dashboard() {
+  const [statistic, setStatistic] = useState({});
   const [monthlyStatistic, setMonthlyStatistic] = useState({});
   const [dailyStatistic, setDailyStatistic] = useState({});
   const [filterType, setFilterType] = useState("12_months");
@@ -53,6 +54,7 @@ function Dashboard() {
 
   useEffect(() => {
     interactData(dashboardURL, "GET", null, (data) => {
+      //setStatistic(data);
       setStatisticProducts(data.totalProducts);
       setStatisticSold(data.soldProducts);
       setStatisticRevenue(data.totalRevenue);
@@ -67,6 +69,7 @@ function Dashboard() {
     setActiveFilter(filter);
 
     if (filter === "12_months") {
+      // Calculate total sold, revenue, profit
       const totalSold = monthlyStatistic.sold.reduce(
         (total, item) => total + item,
         0
@@ -135,7 +138,7 @@ function Dashboard() {
   const handleCustomDateRangeChange = (startDate, endDate) => {
     // Check if start date is before end date
     if (startDate > endDate) {
-      ConfirmDialog("Start date must be before end date");
+      alert("Start date cannot be after end date");
       return;
     }
 
