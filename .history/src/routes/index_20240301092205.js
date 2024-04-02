@@ -1,2 +1,0 @@
-const publicRoutes = [];
-const privateRoutes = [];

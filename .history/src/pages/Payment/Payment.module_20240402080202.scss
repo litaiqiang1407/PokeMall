@@ -1,0 +1,143 @@
+@import "~bootstrap/scss/bootstrap";
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-space {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-header {
+  height: 60px;
+  border: var(--primary-border);
+  background-color: var(--white);
+  margin-bottom: 20px;
+
+  .header-title,
+  .payment-icon {
+    margin-left: 12px;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 60px;
+    color: var(--primary-color);
+  }
+}
+
+.delivery-address {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: var(--primary-border);
+  background-color: var(--white);
+
+  .address-header {
+    padding: 0;
+    margin-bottom: 12px;
+    .header-title,
+    .address-icon {
+      margin-right: 8px;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+  }
+
+  .address-content {
+    padding: 0;
+
+    .user-info {
+      padding: 0;
+
+      .info-content {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 600;
+      }
+    }
+
+    .address {
+      height: 100%;
+    }
+    .change-address {
+      @include flex-center;
+      height: 100%;
+
+      .btn-change {
+        height: 32px;
+        width: 160px;
+        background-color: var(--white);
+        font-size: 1.6rem;
+        border: var(--primary-border);
+
+        &:hover {
+          background-color: var(--primary-color);
+          color: var(--white);
+        }
+      }
+    }
+  }
+}
+
+.modal-header {
+  padding: 16px 24px;
+}
+
+.modal-title {
+  font-size: 2rem;
+}
+
+.modal-body {
+  padding: 16px 24px;
+}
+
+.btn-add {
+  width: 200px;
+  height: 40px;
+  background-color: var(--white);
+  border: var(--primary-border);
+  color: var(--primary-color);
+  .add-icon {
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+}
+
+.btn-second {
+  width: 140px;
+  height: 40px;
+  font-size: 1.6rem;
+  background-color: var(--white);
+  border: var(--primary-border);
+  color: var(--primary-color);
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+}
+
+.btn-primary {
+  width: 140px;
+  height: 40px;
+  font-size: 1.6rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+
+  &:hover {
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: var(--primary-border);
+  }
+}
+
+.address-input {
+  height: 50px;
+}

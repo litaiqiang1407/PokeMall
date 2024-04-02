@@ -1,0 +1,48 @@
+@import "~bootstrap/scss/bootstrap";
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-space {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-header {
+  height: 60px;
+  border: var(--primary-border);
+  background-color: var(--white);
+  margin-bottom: 20px;
+
+  .header-title,
+  .payment-icon {
+    margin-left: 12px;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 60px;
+    color: var(--primary-color);
+  }
+}
+
+.delivery-address {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: var(--primary-border);
+  background-color: var(--white);
+
+  .address-header {
+    padding: 0;
+    margin-bottom: 12px;
+    .header-title,
+    .address-icon {
+      margin-right: 8px;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+  }
+}

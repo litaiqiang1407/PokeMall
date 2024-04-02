@@ -1,0 +1,58 @@
+@import "~bootstrap/scss/bootstrap";
+
+.modal-header {
+  padding: 16px 24px;
+}
+
+.modal-title {
+  font-size: 2rem;
+}
+
+.modal-body {
+  padding: 16px 24px;
+  height: 440px;
+}
+
+.btn-add {
+  width: 200px;
+  height: 40px;
+  background-color: var(--white);
+  border: var(--primary-border);
+  color: var(--primary-color);
+  .add-icon {
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+}
+
+.btn-second {
+  width: 140px;
+  height: 40px;
+  font-size: 1.6rem;
+  background-color: var(--white);
+  border: var(--primary-border);
+  color: var(--primary-color);
+
+  &:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+}
+
+.btn-primary {
+  width: 140px;
+  height: 40px;
+  font-size: 1.6rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+
+  &:hover {
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: var(--primary-border);
+  }
+}
