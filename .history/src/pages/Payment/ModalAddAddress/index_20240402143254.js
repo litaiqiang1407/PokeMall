@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
-import { Row, Col, Modal, Form, Nav } from "react-bootstrap";
+import { Container, Row, Col, Modal, Form, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAdd,
   faCaretDown,
+  faLocationDot,
   faMagnifyingGlass,
+  faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
+import { Title } from "~/components";
 
 import { interactThirdParty } from "~/functions/interactData";
 import { districtURL, provinceURL, tokenGHN, wardURL } from "~/data";

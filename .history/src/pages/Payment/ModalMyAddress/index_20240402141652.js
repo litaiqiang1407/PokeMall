@@ -16,14 +16,10 @@ function ModalMyAddress({ show, close }) {
 
   const handleShowAddAddress = () => {
     setShowAddAddress(true);
-    handleClose();
   };
 
   const handleCloseAddAddress = (status) => {
     setShowAddAddress(status);
-  };
-  const handleBackMyAddress = (status) => {
-    close(status);
   };
 
   return (
@@ -53,11 +49,7 @@ function ModalMyAddress({ show, close }) {
           </button>
         </Modal.Footer>
       </Modal>
-      <ModalAddAddress
-        show={showAddAddress}
-        close={handleCloseAddAddress}
-        back={handleBackMyAddress}
-      />
+      <ModalAddAddress show={showAddAddress} close={handleCloseAddAddress} />
     </>
   );
 }

@@ -1,91 +1,9 @@
-import { useState, useEffect } from "react";
-import { Row, Col, Modal, Form, Nav } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretDown,
-  faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
-
-import { interactThirdParty } from "~/functions/interactData";
-import { districtURL, provinceURL, tokenGHN, wardURL } from "~/data";
-
-import classNames from "classnames/bind"; // CSS Module
-import styles from "./ModalAddAddress.module.scss"; // CSS Module
-
-const cx = classNames.bind(styles); // CSS Module
-
-function ModalAddAddress({ show, close, back }) {
-  const [showAddressSelection, setShowAddressSelection] = useState(false);
-  const [address, setAddress] = useState("");
-  const [activeTab, setActiveTab] = useState("province");
-  const [listProvince, setListProvince] = useState([]);
-  const [listDistrict, setListDistrict] = useState([]);
-  const [listWard, setListWard] = useState([]);
-
-  const handleClose = () => close(false);
-  const handleBack = () => {
-    handleClose();
-    back(true);
-  };
-
-  const handleShowAddressSelection = () => setShowAddressSelection(true);
-
-  useEffect(() => {
-    // Fetch list of provinces
-    interactThirdParty(
-      provinceURL,
-      "GET",
-      null,
-      (data) => {
-        const sortedProvinces = data.data.sort((a, b) =>
-          a.ProvinceName.localeCompare(b.ProvinceName)
-        );
-        setListProvince(sortedProvinces);
-      },
-      tokenGHN
-    );
-  }, []);
-
-  const handleGetDistrict = (provinceID, provinceName) => {
-    setActiveTab("district");
-    setAddress(provinceName);
-    interactThirdParty(
-      `${districtURL}?province_id=${provinceID}`,
-      "GET",
-      null,
-      (data) => {
-        setListDistrict(data.data);
-      },
-      tokenGHN
-    );
-  };
-
-  const handleGetWard = (districtID, districtName) => {
-    setActiveTab("ward");
-    setAddress(address + ", " + districtName);
-    interactThirdParty(
-      `${wardURL}?district_id=${districtID}`,
-      "GET",
-      null,
-      (data) => {
-        setListWard(data.data);
-      },
-      tokenGHN
-    );
-  };
-
-  const handleGetFullAddress = (wardName) => {
-    setAddress(address + ", " + wardName);
-  };
-
-  const handleActiveTab = (tab) => {
-    setActiveTab(tab);
-  };
+function ModalAddAddress() {
   return (
     <Modal
       className={cx("add-address-modal")}
-      show={show}
-      onHide={handleClose}
+      show={showAddAddress}
+      onHide={handleCloseAddAddress}
       dialogClassName="modal-50w"
       centered
     >
@@ -242,7 +160,9 @@ function ModalAddAddress({ show, close, back }) {
         <button className={cx("btn-second")} onClick={handleBack}>
           Back
         </button>
-        <button className={cx("btn-primary")}>Save</button>
+        <button className={cx("btn-primary")} onClick={handleCloseMyAddress}>
+          Save
+        </button>
       </Modal.Footer>
     </Modal>
   );

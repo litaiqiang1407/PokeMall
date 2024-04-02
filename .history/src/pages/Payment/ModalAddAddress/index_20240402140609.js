@@ -1,20 +1,30 @@
 import { useState, useEffect } from "react";
-import { Row, Col, Modal, Form, Nav } from "react-bootstrap";
+import { Container, Row, Col, Modal, Form, Nav } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAdd,
   faCaretDown,
+  faLocationDot,
   faMagnifyingGlass,
+  faReceipt,
 } from "@fortawesome/free-solid-svg-icons";
+import { Title } from "~/components";
 
 import { interactThirdParty } from "~/functions/interactData";
 import { districtURL, provinceURL, tokenGHN, wardURL } from "~/data";
 
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./ModalAddAddress.module.scss"; // CSS Module
-
+import ModalMyAddress from "./ModalMyAddress";
 const cx = classNames.bind(styles); // CSS Module
 
-function ModalAddAddress({ show, close, back }) {
+function ModalAddAddress() {
+  const [userData, setUserData] = useState({
+    name: "",
+    phone: "",
+  });
+  const [showMyAddress, setShowMyAddress] = useState(false);
+  const [showAddAddress, setShowAddAddress] = useState(false);
   const [showAddressSelection, setShowAddressSelection] = useState(false);
   const [address, setAddress] = useState("");
   const [activeTab, setActiveTab] = useState("province");
@@ -22,13 +32,28 @@ function ModalAddAddress({ show, close, back }) {
   const [listDistrict, setListDistrict] = useState([]);
   const [listWard, setListWard] = useState([]);
 
-  const handleClose = () => close(false);
+  const handleCloseMyAddress = (status) => setShowMyAddress(status);
+  const handleShowMyAddress = () => setShowMyAddress(true);
+
+  const handleCloseAddAddress = () => setShowAddAddress(false);
+  const handleShowAddAddress = () => {
+    setShowMyAddress(false);
+    setShowAddAddress(true);
+  };
+
   const handleBack = () => {
-    handleClose();
-    back(true);
+    setShowAddAddress(false);
+    setShowMyAddress(true);
   };
 
   const handleShowAddressSelection = () => setShowAddressSelection(true);
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    if (userData) {
+      setUserData(userData);
+    }
+  }, []);
 
   useEffect(() => {
     // Fetch list of provinces
@@ -84,8 +109,8 @@ function ModalAddAddress({ show, close, back }) {
   return (
     <Modal
       className={cx("add-address-modal")}
-      show={show}
-      onHide={handleClose}
+      show={showAddAddress}
+      onHide={handleCloseAddAddress}
       dialogClassName="modal-50w"
       centered
     >
@@ -242,7 +267,9 @@ function ModalAddAddress({ show, close, back }) {
         <button className={cx("btn-second")} onClick={handleBack}>
           Back
         </button>
-        <button className={cx("btn-primary")}>Save</button>
+        <button className={cx("btn-primary")} onClick={handleCloseMyAddress}>
+          Save
+        </button>
       </Modal.Footer>
     </Modal>
   );
