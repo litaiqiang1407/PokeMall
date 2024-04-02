@@ -1,55 +1,56 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios";
+
+import { interactData } from "~/functions/interactData";
+import { LoadingAnimation } from "~/components";
+
 import classNames from "classnames/bind";
 import styles from "./Suggestions.module.scss";
+import { suggestionsURL } from "~/data";
 
 const cx = classNames.bind(styles);
 
 function Suggestions() {
   const [products, setProducts] = useState([]);
-  const [showMore, setShowMore] = useState(false);
+  const [displayedProducts, setDisplayedProducts] = useState(24);
 
   useEffect(() => {
-    axios
-      .get(
-        "http://localhost/phpmyadmin/index.php?route=/database/structure&db=pokemall"
-      )
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
+    interactData(suggestionsURL, "GET", null, setProducts);
   }, []);
 
+  if (!products.length) {
+    return <LoadingAnimation />;
+  }
+
   const loadMoreProducts = () => {
-    setShowMore(true);
+    setDisplayedProducts(displayedProducts + 24);
   };
+
   return (
-    <Container fluid className={cx("suggestions-container")}>
+    <Container fluid id="suggestions" className={cx("suggestions")}>
       <Container className={cx("suggestion-header")}>
         <h2 className={cx("suggestion-title")}>SUGGESTIONS</h2>
       </Container>
       <Container className={cx("suggestion-content")}>
         <Row>
-          {products.slice(0, showMore ? products.length : 6).map((product) => (
-            <Col lg={2} key={product.id} className={cx("product-item")}>
+          {products.slice(0, displayedProducts).map((product) => (
+            <Col lg={2} key={product.ID} className={cx("product-item")}>
               <Link
-                to={`/product/${product.id}`}
+                to={`/product-detail/${product.ID}`}
                 className={cx("product-link")}
               >
                 <img
-                  src={product.imgSrc}
-                  alt={product.name}
+                  src={product.ImageURL}
+                  alt={product.FigureName}
                   className={cx("product-img")}
+                  loading="lazy" // lazy load images
                 />
                 <div className={cx("product-info")}>
-                  <p className={cx("product-name")}>{product.name}</p>
+                  <p className={cx("product-name")}>{product.FigureName}</p>
                   <Container className={cx("product-footer")}>
-                    <p className={cx("product-price")}>${product.price}</p>
-                    <p className={cx("product-sold")}>{product.sold} Sold</p>
+                    <p className={cx("product-price")}>${product.Price}</p>
+                    <p className={cx("product-sold")}>{product.Sold} Sold</p>
                   </Container>
                 </div>
               </Link>
@@ -58,15 +59,9 @@ function Suggestions() {
         </Row>
       </Container>
       <Container className={cx("suggestion-footer")}>
-        {showMore && (
-          <Row>
-            <Col>
-              <Button onClick={loadMoreProducts} className={cx("more-button")}>
-                Load More
-              </Button>
-            </Col>
-          </Row>
-        )}
+        <Button onClick={loadMoreProducts} className={cx("more-button")}>
+          More
+        </Button>
       </Container>
     </Container>
   );

@@ -24,12 +24,7 @@ import {
 } from "~/functions/eventHandlers"; // Custom functions
 import { renderStarIcons } from "~/functions/render"; // Custom function
 import { LoadingAnimation, Title } from "~/components"; // Custom components
-import {
-  addToCartURL,
-  createOrderURL,
-  priceURL,
-  productDetailURL,
-} from "~/data";
+import { addToCartURL, priceURL, productDetailURL } from "~/data";
 
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./ProductDetail.module.scss"; // CSS Module
@@ -120,7 +115,7 @@ function ProductDetail() {
       return;
     }
     if (isLoggedIn) {
-      interactData(createOrderURL, "POST", product, (data) => {
+      interactData(addToCartURL, "POST", product, (data) => {
         navigate("/payment");
       });
     } else {

@@ -35,7 +35,13 @@ function Suggestions() {
       <Container className={cx("suggestion-content")}>
         <Row>
           {products.slice(0, displayedProducts).map((product) => (
-            <Col lg={2} key={product.ID} className={cx("product-item")}>
+            <Col
+              lg={2} // 6 items per row
+              sm={4} // 4 items per row
+              xs={6} // 2 items per row
+              key={product.ID}
+              className={cx("product-item")}
+            >
               <Link
                 to={`/product-detail/${product.ID}`}
                 className={cx("product-link")}
@@ -44,6 +50,7 @@ function Suggestions() {
                   src={product.ImageURL}
                   alt={product.FigureName}
                   className={cx("product-img")}
+                  loading="lazy" // lazy load images
                 />
                 <div className={cx("product-info")}>
                   <p className={cx("product-name")}>{product.FigureName}</p>
