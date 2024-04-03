@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faReceipt } from "@fortawesome/free-solid-svg-icons";
@@ -7,6 +9,8 @@ import { Title } from "~/components";
 import classNames from "classnames/bind"; // CSS Module
 import styles from "./Payment.module.scss"; // CSS Module
 import ModalMyAddress from "./ModalMyAddress";
+import { interactData } from "~/functions/interactData";
+import { orderItemURL } from "~/data";
 import Order from "./Order";
 const cx = classNames.bind(styles); // CSS Module
 
@@ -16,6 +20,8 @@ function Payment() {
     phone: "",
   });
   const [showMyAddress, setShowMyAddress] = useState(false);
+  const [orderItems, setOrderItems] = useState([]);
+  const { orderID } = useParams();
   const handleCloseMyAddress = (status) => setShowMyAddress(status);
   const handleShowMyAddress = () => setShowMyAddress(true);
 
@@ -25,6 +31,15 @@ function Payment() {
       setUserData(userData);
     }
   }, []);
+
+  useEffect(() => {
+    interactData(
+      `${orderItemURL}?orderItemID=${orderID}`,
+      "GET",
+      null,
+      setOrderItems
+    );
+  }, [orderID]);
 
   return (
     <Container fluid style={{ backgroundColor: "#f8f9fa", padding: "20px" }}>
@@ -73,7 +88,6 @@ function Payment() {
         </Container>
       </Container>
 
-      {/* Order */}
       <Order />
       {/* My Address */}
       <ModalMyAddress show={showMyAddress} close={handleCloseMyAddress} />

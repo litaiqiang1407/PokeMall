@@ -54,8 +54,6 @@ const priceURL = `${rootURL}${price}`;
 
 const shoppingCartURL = `${rootURL}${shoppingCart}`;
 
-const orderItemURL = `${rootURL}${orderItem}`;
-
 export {
   signupURL,
   loginURL,
@@ -75,7 +73,7 @@ export {
   sizeURL,
   priceURL,
   shoppingCartURL,
-  orderItemURL,
+  orderItem,
   tokenGHN,
   provinceURL,
   districtURL,

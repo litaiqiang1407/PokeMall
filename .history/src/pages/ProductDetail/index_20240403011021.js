@@ -121,7 +121,8 @@ function ProductDetail() {
     }
     if (isLoggedIn) {
       interactData(createOrderURL, "POST", product, (data) => {
-        navigate(`/payment/${data}`);
+        console.log(data);
+        navigate("/payment");
       });
     } else {
       navigate("/login");
