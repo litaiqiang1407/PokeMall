@@ -1,0 +1,34 @@
+@import "~bootstrap/scss/bootstrap";
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar {
+  background-color: var(--white);
+  height: 100%;
+  border-right: var(--second-border);
+
+  .header {
+    @include flex-center;
+    height: 70px;
+    border-bottom: var(--second-border);
+  }
+
+  .content {
+    .menu-item {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      width: 100%;
+      padding: 0 60px;
+      margin-top: 12px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+  }
+}

@@ -1,0 +1,86 @@
+@import "~bootstrap/scss/bootstrap";
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  @include flex-between;
+  height: 70px;
+  border-bottom: var(--second-border);
+  background-color: var(--white);
+  padding: 0 30px;
+
+  .header-title {
+    .title-icon,
+    .title-content {
+      margin-right: 12px;
+      font-size: 2.4rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+  }
+
+  .header-options {
+    @include flex-between;
+    .header-search {
+      display: flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 10px;
+      margin-right: 20px;
+      border: var(--second-border);
+
+      &:focus-within,
+      &:hover {
+        border-color: var(--primary-color);
+
+        .search-input {
+          color: var(--text-hover-color);
+        }
+
+        .search-icon {
+          color: var(--primary-color);
+        }
+      }
+
+      .search-icon {
+        font-size: 1.6rem;
+        color: var(--text-color);
+      }
+
+      .search-input {
+        width: 88%;
+        font-size: 1.4rem;
+        color: var(--text-color);
+        border-radius: 999px;
+        border-color: transparent;
+
+        &:focus {
+          border-color: transparent;
+        }
+      }
+    }
+
+    .header-option {
+      @include flex-center;
+      height: 50px;
+      width: 50px;
+      border-radius: 999px;
+      background-color: var(--primary-color-background);
+
+      .option-icon {
+        font-size: 2rem;
+        color: var(--primary-color);
+      }
+    }
+  }
+}

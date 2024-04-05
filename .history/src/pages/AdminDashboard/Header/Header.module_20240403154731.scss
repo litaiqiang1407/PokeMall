@@ -1,0 +1,11 @@
+@import "~bootstrap/scss/bootstrap";
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header {
+@include flex-between;
+ 

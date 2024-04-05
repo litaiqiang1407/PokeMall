@@ -1,0 +1,15 @@
+@import "~bootstrap/scss/bootstrap";
+
+.sidebar {
+  background-color: var(--white);
+  height: 100%;
+  border-right: var(--second-border);
+
+  .header {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: var(--second-border);
+  }
+}
