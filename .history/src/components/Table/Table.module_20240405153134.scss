@@ -1,0 +1,94 @@
+@import "~bootstrap/scss/bootstrap";
+
+@mixin flex-space {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin text-center {
+  text-align: center;
+  vertical-align: middle;
+}
+
+@mixin flex-align {
+  display: flex;
+  align-items: center;
+}
+
+.header-row {
+  height: 40px;
+
+  .header-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  .header-col {
+    height: 40px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: left;
+    @include text-center;
+  }
+
+  .header-col__checkbox {
+  }
+}
+
+.body-col {
+  height: 40px;
+  text-align: left;
+  @include text-center;
+}
+
+.body-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.icon-edit {
+  color: var(--edit-button-color);
+}
+
+.icon-delete {
+  color: var(--price-color);
+}
+
+.header-checkbox,
+.body-checkbox {
+  position: relative;
+  appearance: none;
+  border: 2px solid var(--primary-color);
+
+  &:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+
+    &::before {
+      position: absolute;
+      content: "\2713";
+      font-weight: 900;
+      font-size: 14px;
+      color: var(--white);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

@@ -1,0 +1,10 @@
+@import "~bootstrap/scss/bootstrap";
+
+.header-row {
+  height: 40px;
+
+  .header-row,
+  .item-row {
+    text-align: center;
+  }
+}
