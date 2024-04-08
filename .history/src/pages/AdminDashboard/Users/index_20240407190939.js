@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
 
 import { Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -55,7 +54,6 @@ function Users() {
           ID={handleDeleteItem}
         />
       </Container>
-      <Toaster />
     </Container>
   );
 }

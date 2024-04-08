@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { handleCheckAll, handleCheckItem } from "~/functions/eventHandlers";
+import {
+  handleCheckAll,
+  handleCheckItem,
+  handleDeleteItems,
+} from "~/functions/eventHandlers";
 
 import classNames from "classnames/bind";
 import styles from "./Table.module.scss";

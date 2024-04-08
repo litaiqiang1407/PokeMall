@@ -64,8 +64,7 @@ const handleDeleteItems = async (
 
   if (isConfirmed) {
     // Delete item
-    console.log(deleteURL);
-    interactData(`${deleteURL}`, "DELETE", null, () => {
+    interactData(`${deleteURL}?itemID=${itemID}`, "DELETE", null, () => {
       const newStoreItems = storeItems.filter((item) => item.ID !== itemID);
       setStoreItems(newStoreItems);
       handleResponse("Delete");

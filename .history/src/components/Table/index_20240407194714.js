@@ -17,8 +17,8 @@ function Table({ isCheckbox, isAction, columns, items, ID }) {
     setIsEditing(!isEditing);
   };
 
-  const handleDeleteItem = (itemID) => {
-    ID(itemID);
+  const handleDeleteItem = (ID) => {
+    ID(ID);
   };
 
   const renderHeaderCheckbox = () => {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
 
 import { Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,6 +29,7 @@ function Users() {
 
   const handleDeleteItem = (itemID) => {
     const deleteURL = `${deleteUserURL}?userID=${itemID}`;
+    console.log(deleteURL);
     handleDeleteItems(itemID, setUserItems, userItems, deleteURL);
   };
 
@@ -55,7 +55,6 @@ function Users() {
           ID={handleDeleteItem}
         />
       </Container>
-      <Toaster />
     </Container>
   );
 }

@@ -1,13 +1,20 @@
 import { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
 
-import { Container } from "react-bootstrap";
+import { Container, Tab } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faCircleMinus,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { LoadingAnimation, Title } from "~/components";
 import { interactData } from "~/functions/interactData";
-import { handleDeleteItems } from "~/functions/eventHandlers";
+import {
+  handleCheckAll,
+  handleCheckItem,
+  handleDeleteItems,
+} from "~/functions/eventHandlers";
 import { usersURL, deleteUserURL } from "~/data";
 
 import classNames from "classnames/bind";
@@ -18,6 +25,9 @@ const cx = classNames.bind(styles);
 function Users() {
   const [columns, setColumns] = useState([]);
   const [userItems, setUserItems] = useState([]);
+  const [itemID, setItemID] = useState(0);
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,6 +37,11 @@ function Users() {
       setLoading(false);
     });
   }, []);
+
+  const handleEditItem = (itemID) => {
+    setItemID(itemID);
+    setIsEditing(!isEditing);
+  };
 
   const handleDeleteItem = (itemID) => {
     const deleteURL = `${deleteUserURL}?userID=${itemID}`;
@@ -52,10 +67,8 @@ function Users() {
           isAction={true}
           columns={columns}
           items={userItems}
-          ID={handleDeleteItem}
         />
       </Container>
-      <Toaster />
     </Container>
   );
 }

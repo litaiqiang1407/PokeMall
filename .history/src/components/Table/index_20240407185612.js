@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { handleCheckAll, handleCheckItem } from "~/functions/eventHandlers";
+import {
+  handleCheckAll,
+  handleCheckItem,
+  handleDeleteItems,
+} from "~/functions/eventHandlers";
 
 import classNames from "classnames/bind";
 import styles from "./Table.module.scss";
@@ -7,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleMinus, faPen } from "@fortawesome/free-solid-svg-icons";
 const cx = classNames.bind(styles);
 
-function Table({ isCheckbox, isAction, columns, items, ID }) {
+function Table({ isCheckbox, isAction, columns, items }) {
   const [itemID, setItemID] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -17,9 +21,7 @@ function Table({ isCheckbox, isAction, columns, items, ID }) {
     setIsEditing(!isEditing);
   };
 
-  const handleDeleteItem = (itemID) => {
-    ID(itemID);
-  };
+  const handleDeleteItem = (itemID) => {};
 
   const renderHeaderCheckbox = () => {
     return (
@@ -99,7 +101,7 @@ function Table({ isCheckbox, isAction, columns, items, ID }) {
           <FontAwesomeIcon
             icon={faCircleMinus}
             className={cx("icon-delete")}
-            onClick={() => handleDeleteItem(item.ID)}
+            //onClick={() => handleDeleteItem(item.ID)}
           />
         </td>
       </>

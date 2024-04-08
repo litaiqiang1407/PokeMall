@@ -13,4 +13,16 @@ const ConfirmDialog = async (confirmationMessage) => {
   return result.isConfirmed;
 };
 
+const errorDialog = (errorMessage) => {
+  Swal.fire({
+    title: "Oops...",
+    icon: "error",
+    text: errorMessage,
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes!",
+  });
+};
+
 export default ConfirmDialog;

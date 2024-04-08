@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Navbar, Container, Row, Col } from "react-bootstrap";
 
 import Authentication from "../../Components/Authentication";
 import Search from "../../Components/Search";

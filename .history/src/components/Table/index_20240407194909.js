@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { handleCheckAll, handleCheckItem } from "~/functions/eventHandlers";
 
 import classNames from "classnames/bind";

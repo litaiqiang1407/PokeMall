@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { handleCheckAll, handleCheckItem } from "~/functions/eventHandlers";
 
 import classNames from "classnames/bind";
@@ -136,6 +137,7 @@ function Table({ isCheckbox, isAction, columns, items, ID }) {
     <table className={cx("table table-hover")}>
       {renderHeader()}
       {renderBody()}
+      <Toaster />
     </table>
   );
 }
