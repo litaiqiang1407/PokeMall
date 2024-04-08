@@ -1,0 +1,17 @@
+@import "~bootstrap/scss/bootstrap";
+
+@mixin flex-space {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-item {
+  padding: 20px 30px;
+  .header {
+    @include flex-space;
+    height: 40px;
+    background-color: var(--primary-color);
+    padding: 0 15px;
+  }
+}

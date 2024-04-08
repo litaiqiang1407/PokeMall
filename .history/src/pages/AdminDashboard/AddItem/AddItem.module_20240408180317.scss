@@ -1,0 +1,34 @@
+@import "~bootstrap/scss/bootstrap";
+
+@mixin flex-space {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-item {
+  padding: 20px 30px;
+  .header {
+    @include flex-space;
+    height: 40px;
+
+    .header-title {
+      font-weight: 600;
+
+      .title {
+        font-size: 1.8rem;
+        color: var(--text-black-color);
+      }
+    }
+
+    .btn-view {
+      height: 32px;
+      width: 120px;
+      font-size: 1.4rem;
+      background-color: var(--add-button-color);
+      color: var(--white);
+      border-radius: 4px;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+  }
+}
