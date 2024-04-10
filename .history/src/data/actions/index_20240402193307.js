@@ -14,8 +14,6 @@ const changeAccountInfo = `${actions}/changeAccountInfo.php`;
 
 const createOrder = `${actions}/createOrder.php`;
 
-const addUser = `${actions}/addUser.php`;
-
 export {
   signup,
   login,
@@ -26,5 +24,4 @@ export {
   userSearch,
   changeAccountInfo,
   createOrder,
-  addUser,
 };

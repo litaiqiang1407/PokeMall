@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
 import { Toaster } from "react-hot-toast";
 
@@ -23,7 +22,6 @@ function AddItem() {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
   const [existError, setExistError] = useState("");
-  const navigate = useNavigate();
 
   let columnsURL = "";
   let addURL = "";
@@ -60,8 +58,11 @@ function AddItem() {
 
     const fields = columns.map((column) => ({
       name: column.toLowerCase(),
-      value: values[column.toLowerCase()],
+      value: values[column.ToastertoLowerCase()],
     }));
+
+    // Convert field names to name column
+    // and set the value to the value of the field
 
     const isValid = isValidation(fields, (errors) => {
       setErrors(errors || {});
@@ -69,20 +70,22 @@ function AddItem() {
 
     if (isValid) {
       interactData(addURL, "POST", values, (data) => {
-        columns.forEach((column) => {
-          if (data.message === `${column.toLowerCase()} already exists`) {
-            setExistError({
-              [column.toLowerCase()]: errorMessages[column.toLowerCase()].exist,
-            });
-          }
-        });
         handleResponse(`Added ${management.slice(0, -1)} ${values.name}`);
-        setTimeout(() => {
-          navigate(`/admin/${management}`);
-        }, 1000);
+        console.log(data);
       });
     }
+
+    console.log(errors);
+    console.log(values);
+    console.log(fields);
+    console.log(isValid);
   };
+
+  // useEffect(() => {
+  //   if (existError) {
+  //     setErrors({ ...errors, existError });
+  //   }
+  // }, [errors]);
 
   return (
     <div className={cx("add-item")}>
@@ -119,20 +122,16 @@ function AddItem() {
                         name={column}
                         type="text"
                         className={cx("form-input", {
-                          error:
-                            errors[column.toLowerCase()] ||
-                            existError[column.toLowerCase()],
+                          error: errors[column.toLowerCase()],
                         })}
                         value={values[column] || ""}
                         onChange={(e) =>
                           setValues({ ...values, [column]: e.target.value })
                         }
                       />
-                      {(errors[column.toLowerCase()] ||
-                        existError[column.toLowerCase()]) && (
+                      {errors[column.toLowerCase()] && (
                         <span className={cx("error-message")}>
-                          {errors[column.toLowerCase()] ||
-                            existError[column.toLowerCase()]}
+                          {errors[column.toLowerCase()]}
                         </span>
                       )}
                     </Form.Group>

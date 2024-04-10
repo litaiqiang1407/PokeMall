@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
-import { Toaster } from "react-hot-toast";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
@@ -10,11 +8,10 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { addUserURL, ordersURL, productsURL, usersURL } from "~/data";
 import { interactData } from "~/functions/interactData";
-import { errorMessages, isValidation } from "~/functions/validation";
+import { isValidation } from "~/functions/validation";
 
 import classNames from "classnames/bind";
 import styles from "./AddItem.module.scss";
-import { handleResponse } from "~/functions/eventHandlers";
 const cx = classNames.bind(styles);
 
 function AddItem() {
@@ -22,12 +19,9 @@ function AddItem() {
   const [columns, setColumns] = useState([]);
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
-  const [existError, setExistError] = useState("");
-  const navigate = useNavigate();
 
   let columnsURL = "";
   let addURL = "";
-
   switch (management) {
     case "users":
       columnsURL = usersURL;
@@ -53,35 +47,21 @@ function AddItem() {
   const handleAddItem = (e) => {
     e.preventDefault();
 
+    // to Lowercase all keys in values
     Object.keys(values).forEach((key) => {
       values[key.toLowerCase()] = values[key];
       delete values[key];
     });
 
-    const fields = columns.map((column) => ({
-      name: column.toLowerCase(),
-      value: values[column.toLowerCase()],
-    }));
-
-    const isValid = isValidation(fields, (errors) => {
-      setErrors(errors || {});
-    });
+    const isValid = isValidation(values, setErrors);
 
     if (isValid) {
       interactData(addURL, "POST", values, (data) => {
-        columns.forEach((column) => {
-          if (data.message === `${column.toLowerCase()} already exists`) {
-            setExistError({
-              [column.toLowerCase()]: errorMessages[column.toLowerCase()].exist,
-            });
-          }
-        });
-        handleResponse(`Added ${management.slice(0, -1)} ${values.name}`);
-        setTimeout(() => {
-          navigate(`/admin/${management}`);
-        }, 1000);
+        console.log(data);
       });
     }
+
+    console.log(values);
   };
 
   return (
@@ -118,23 +98,12 @@ function AddItem() {
                       <Form.Control
                         name={column}
                         type="text"
-                        className={cx("form-input", {
-                          error:
-                            errors[column.toLowerCase()] ||
-                            existError[column.toLowerCase()],
-                        })}
+                        className={cx("form-input")}
                         value={values[column] || ""}
                         onChange={(e) =>
                           setValues({ ...values, [column]: e.target.value })
                         }
                       />
-                      {(errors[column.toLowerCase()] ||
-                        existError[column.toLowerCase()]) && (
-                        <span className={cx("error-message")}>
-                          {errors[column.toLowerCase()] ||
-                            existError[column.toLowerCase()]}
-                        </span>
-                      )}
                     </Form.Group>
                   </Col>
                 ))}
@@ -145,7 +114,6 @@ function AddItem() {
           </button>
         </Form>
       </div>
-      <Toaster />
     </div>
   );
 }

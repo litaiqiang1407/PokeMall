@@ -132,20 +132,8 @@ function Table({ isCheckbox, isAction, columns, items, ID }) {
     );
   };
 
-  // This footer render pagination and number page of table / number page of total pages
   const renderFooter = () => {
-    return (
-      <div className={cx("footer")}>
-        <div className={cx("pagination")}>
-          <button className={cx("btn-prev")}>Prev</button>
-          <button className={cx("btn-next")}>Next</button>
-        </div>
-        <div className={cx("page")}>
-          <span className={cx("current-page")}></span>/
-          <span className={cx("total-page")}></span>
-        </div>
-      </div>
-    );
+    return <div></div>;
   };
 
   return (

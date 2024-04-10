@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
-import { Toaster } from "react-hot-toast";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
@@ -23,11 +21,9 @@ function AddItem() {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
   const [existError, setExistError] = useState("");
-  const navigate = useNavigate();
 
   let columnsURL = "";
   let addURL = "";
-
   switch (management) {
     case "users":
       columnsURL = usersURL;
@@ -58,30 +54,25 @@ function AddItem() {
       delete values[key];
     });
 
-    const fields = columns.map((column) => ({
-      name: column.toLowerCase(),
-      value: values[column.toLowerCase()],
+    const fields = Object.keys(values).map((name) => ({
+      name,
+      value: values[name],
     }));
 
     const isValid = isValidation(fields, (errors) => {
-      setErrors(errors || {});
+      setErrors(errors);
     });
 
     if (isValid) {
-      interactData(addURL, "POST", values, (data) => {
-        columns.forEach((column) => {
-          if (data.message === `${column.toLowerCase()} already exists`) {
-            setExistError({
-              [column.toLowerCase()]: errorMessages[column.toLowerCase()].exist,
-            });
-          }
-        });
-        handleResponse(`Added ${management.slice(0, -1)} ${values.name}`);
-        setTimeout(() => {
-          navigate(`/admin/${management}`);
-        }, 1000);
+      interactData(addURL, "POST", fields, (data) => {
+        handleResponse(`Added ${management.slice(0, -1)}`);
+        setValues({});
+        console.log(data);
       });
     }
+
+    console.log(fields);
+    console.log(isValid);
   };
 
   return (
@@ -119,22 +110,13 @@ function AddItem() {
                         name={column}
                         type="text"
                         className={cx("form-input", {
-                          error:
-                            errors[column.toLowerCase()] ||
-                            existError[column.toLowerCase()],
+                          error: errors[column] || existError,
                         })}
                         value={values[column] || ""}
                         onChange={(e) =>
                           setValues({ ...values, [column]: e.target.value })
                         }
                       />
-                      {(errors[column.toLowerCase()] ||
-                        existError[column.toLowerCase()]) && (
-                        <span className={cx("error-message")}>
-                          {errors[column.toLowerCase()] ||
-                            existError[column.toLowerCase()]}
-                        </span>
-                      )}
                     </Form.Group>
                   </Col>
                 ))}
@@ -145,7 +127,6 @@ function AddItem() {
           </button>
         </Form>
       </div>
-      <Toaster />
     </div>
   );
 }

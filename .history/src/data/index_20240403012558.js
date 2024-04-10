@@ -8,7 +8,6 @@ import {
   userSearch,
   changeAccountInfo,
   createOrder,
-  addUser,
 } from "./actions";
 
 import {
@@ -43,8 +42,6 @@ const changeAccountInfoURL = `${rootURL}${changeAccountInfo}`;
 
 const createOrderURL = `${rootURL}${createOrder}`;
 
-const addUserURL = `${rootURL}${addUser}`;
-
 // api
 const dashboardURL = `${rootURL}${dashboard}`;
 const ordersURL = `${rootURL}${orders}`;
@@ -69,7 +66,6 @@ export {
   userSearchURL,
   changeAccountInfoURL,
   createOrderURL,
-  addUserURL,
   dashboardURL,
   ordersURL,
   productsURL,

@@ -79,7 +79,7 @@ function AddItem() {
         handleResponse(`Added ${management.slice(0, -1)} ${values.name}`);
         setTimeout(() => {
           navigate(`/admin/${management}`);
-        }, 1000);
+        }, 1500);
       });
     }
   };

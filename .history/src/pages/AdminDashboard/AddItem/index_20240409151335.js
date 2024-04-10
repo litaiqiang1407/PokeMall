@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { Form, Row, Col } from "react-bootstrap";
 import { Toaster } from "react-hot-toast";
 
@@ -23,7 +22,6 @@ function AddItem() {
   const [values, setValues] = useState({});
   const [errors, setErrors] = useState({});
   const [existError, setExistError] = useState("");
-  const navigate = useNavigate();
 
   let columnsURL = "";
   let addURL = "";
@@ -76,10 +74,8 @@ function AddItem() {
             });
           }
         });
+
         handleResponse(`Added ${management.slice(0, -1)} ${values.name}`);
-        setTimeout(() => {
-          navigate(`/admin/${management}`);
-        }, 1000);
       });
     }
   };

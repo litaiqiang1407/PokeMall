@@ -75,30 +75,6 @@
           box-shadow: var(--primary-box-shadow);
         }
       }
-
-      .error-message {
-        color: var(--error-message-color);
-        font-size: 1.2rem;
-        margin-top: 4px;
-        display: block;
-      }
-
-      .error {
-        border-color: var(--error-message-color);
-        background-color: var(--error-background-color);
-      }
-
-      .form-input.error:focus {
-        background-color: var(--white);
-        color: var(--text-hover-color);
-        border-color: var(--primary-color);
-        outline: 0;
-        box-shadow: var(--primary-box-shadow);
-      }
-
-      .form-input.error:focus + .error-message {
-        display: none;
-      }
     }
 
     .btn-add {
@@ -119,6 +95,30 @@
         color: var(--primary-color);
         border-color: var(--primary-color);
       }
+    }
+
+    .error-message {
+      color: var(--error-message-color);
+      font-size: 1.2rem;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .error {
+      border-color: var(--error-message-color);
+      background-color: var(--error-background-color);
+    }
+
+    .form-input.error:focus {
+      background-color: var(--white);
+      color: var(--text-hover-color);
+      border-color: var(--primary-color);
+      outline: 0;
+      box-shadow: var(--primary-box-shadow);
+    }
+
+    .form-input.error:focus + .error-message {
+      display: none;
     }
   }
 }
