@@ -20,7 +20,6 @@ const Search = ({ isScrolled, isExpand }) => {
     setSearchTerm(e.target.value);
   };
 
-  // Search functionality
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm) {
@@ -34,6 +33,9 @@ const Search = ({ isScrolled, isExpand }) => {
         setSearchResults([]);
       }
     }, 500);
+
+    const autocompleteResults = fetchAutocompleteSuggestions(searchTerm);
+    setAutocompleteOptions(autocompleteResults);
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);

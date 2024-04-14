@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Navbar } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,

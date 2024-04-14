@@ -20,7 +20,6 @@ const Search = ({ isScrolled, isExpand }) => {
     setSearchTerm(e.target.value);
   };
 
-  // Search functionality
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm) {

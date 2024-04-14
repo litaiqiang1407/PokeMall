@@ -90,6 +90,7 @@ function MyAccount() {
       };
       reader.readAsDataURL(file);
     }
+    console.log(newUserData);
   };
 
   const saveAvatar = () => {
