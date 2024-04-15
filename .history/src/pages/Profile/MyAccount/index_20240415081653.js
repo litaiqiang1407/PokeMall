@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { Toaster } from "react-hot-toast";
 import Tippy from "@tippyjs/react";
@@ -46,13 +46,7 @@ function MyAccount() {
     setNewUserData(userData);
   }, [userData]);
 
-  const updateData = useMemo(
-    () => ({
-      id: userData.id,
-      ...getChangedData(userData, newUserData),
-    }),
-    [userData, newUserData]
-  );
+  // Rest of your code...
 
   const saveAvatar = useCallback(() => {
     console.table(updateData);
@@ -62,7 +56,7 @@ function MyAccount() {
         localStorage.setItem("userData", JSON.stringify(newUserData));
       }
     });
-  }, [updateData, newUserData]);
+  }, [newUserData, updateData]);
 
   useEffect(() => {
     if (newUserData.avatar !== userData.avatar) {
@@ -91,6 +85,11 @@ function MyAccount() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewUserData({ ...newUserData, [name]: value });
+  };
+
+  const updateData = {
+    id: userData.id,
+    ...getChangedData(userData, newUserData),
   };
 
   const handleAvatarChange = (e) => {

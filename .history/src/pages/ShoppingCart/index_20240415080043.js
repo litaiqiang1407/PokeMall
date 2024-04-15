@@ -114,7 +114,6 @@ function ShoppingCart() {
         null,
         (newPrices) => {
           if (newPrices && newPrices[0] && newPrices[0].Price !== undefined) {
-            // You can also do a functional update 'setItemSizePrice(i => ...)'
             setItemSizePrice({
               ...itemSizePrice,
               [itemID]: newPrices[0].Price,

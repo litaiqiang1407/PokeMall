@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { Toaster } from "react-hot-toast";
 import Tippy from "@tippyjs/react";
@@ -46,29 +46,11 @@ function MyAccount() {
     setNewUserData(userData);
   }, [userData]);
 
-  const updateData = useMemo(
-    () => ({
-      id: userData.id,
-      ...getChangedData(userData, newUserData),
-    }),
-    [userData, newUserData]
-  );
-
-  const saveAvatar = useCallback(() => {
-    console.table(updateData);
-    interactData(changeAccountInfoURL, "POST", updateData, (response) => {
-      if (response.message === "Account information updated") {
-        handleResponse("Account information updated");
-        localStorage.setItem("userData", JSON.stringify(newUserData));
-      }
-    });
-  }, [updateData, newUserData]);
-
   useEffect(() => {
     if (newUserData.avatar !== userData.avatar) {
       saveAvatar();
     }
-  }, [newUserData.avatar, userData.avatar, saveAvatar]);
+  }, [newUserData.avatar, userData.avatar]);
 
   const handleEditToggle = () => {
     setEditable(!editable);
@@ -93,6 +75,11 @@ function MyAccount() {
     setNewUserData({ ...newUserData, [name]: value });
   };
 
+  const updateData = {
+    id: userData.id,
+    ...getChangedData(userData, newUserData),
+  };
+
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -103,6 +90,16 @@ function MyAccount() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const saveAvatar = () => {
+    console.table(updateData);
+    interactData(changeAccountInfoURL, "POST", updateData, (response) => {
+      if (response.message === "Account information updated") {
+        handleResponse("Account information updated");
+        localStorage.setItem("userData", JSON.stringify(newUserData));
+      }
+    });
   };
 
   const handleClearInput = (name) => {

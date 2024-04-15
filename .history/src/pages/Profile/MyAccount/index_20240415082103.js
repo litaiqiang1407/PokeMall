@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { Toaster } from "react-hot-toast";
 import Tippy from "@tippyjs/react";
@@ -46,13 +46,10 @@ function MyAccount() {
     setNewUserData(userData);
   }, [userData]);
 
-  const updateData = useMemo(
-    () => ({
-      id: userData.id,
-      ...getChangedData(userData, newUserData),
-    }),
-    [userData, newUserData]
-  );
+  const updateData = {
+    id: userData.id,
+    ...getChangedData(userData, newUserData),
+  };
 
   const saveAvatar = useCallback(() => {
     console.table(updateData);

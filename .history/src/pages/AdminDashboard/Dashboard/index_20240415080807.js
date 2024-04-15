@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { Chart as ChartJS } from "chart.js/auto";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -59,7 +60,7 @@ function Dashboard() {
       setMonthlyStatistic(data.monthlyStatistic);
       setDailyStatistic(data.dailyStatistic);
     });
-  }, []);
+  }, [dashboardURL]);
 
   const handleFilterChange = (filter) => {
     setFilterType(filter);

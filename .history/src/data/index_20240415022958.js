@@ -26,7 +26,7 @@ import {
 
 import { tokenGHN, provinceURL, districtURL, wardURL } from "./Third-PartyAPIs";
 
-const rootURL = "http://localhost/pokemall";
+const rootURL = "http://localhpost/pokemall";
 
 // actions
 const signupURL = `${rootURL}${signup}`;
