@@ -76,7 +76,7 @@ export {
   usersURL,
   suggestionsURL,
   productDetailURL,
-  // sizeURL,
+  sizeURL,
   priceURL,
   shoppingCartURL,
   orderItemURL,

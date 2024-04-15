@@ -234,7 +234,7 @@ function ProductDetail() {
               <Container className={cx("product-size")}>
                 <span className={cx("option-label")}>Size:</span>
                 <Container className={cx("size-select")}>
-                  {sizes.map((size) => (
+                  {/* {sizes.map((size) => (
                     <Button
                       key={size.ID}
                       className={cx("size-option", {
@@ -247,7 +247,7 @@ function ProductDetail() {
                   ))}
                   {error && (
                     <span className={cx("error-message")}>{error}</span>
-                  )}
+                  )} */}
                 </Container>
               </Container>
 

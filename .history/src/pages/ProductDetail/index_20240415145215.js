@@ -52,10 +52,9 @@ function ProductDetail() {
   const { id } = useParams();
 
   useEffect(() => {
-    console.log(`${productDetailURL}?productID=${id}`);
     interactData(`${productDetailURL}?productID=${id}`, "GET", null, (data) => {
       setProductDetail(data.productDetail);
-      setSizes(data.sizes);
+      // setSizes(data.sizes);
     });
   }, [id]);
 
@@ -69,6 +68,8 @@ function ProductDetail() {
       );
     }
   }, [id, selectedSize]);
+
+  // console.log(sizes);
 
   const totalPrice = () => {
     if (sizePrice) {

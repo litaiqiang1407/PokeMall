@@ -52,12 +52,13 @@ function ProductDetail() {
   const { id } = useParams();
 
   useEffect(() => {
-    console.log(`${productDetailURL}?productID=${id}`);
     interactData(`${productDetailURL}?productID=${id}`, "GET", null, (data) => {
       setProductDetail(data.productDetail);
-      setSizes(data.sizes);
+      // setSizes(data.sizes);
     });
   }, [id]);
+
+  console.log(id);
 
   useEffect(() => {
     if (selectedSize) {

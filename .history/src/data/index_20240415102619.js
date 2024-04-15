@@ -26,7 +26,7 @@ import {
 
 import { tokenGHN, provinceURL, districtURL, wardURL } from "./Third-PartyAPIs";
 
-const rootURL = "https://cuonglt.webdevelopment.io.vn/api";
+const rootURL = "https://cuonglt.webdevelopment.io.vn/pokemall";
 
 // actions
 const signupURL = `${rootURL}${signup}`;
@@ -76,7 +76,7 @@ export {
   usersURL,
   suggestionsURL,
   productDetailURL,
-  // sizeURL,
+  sizeURL,
   priceURL,
   shoppingCartURL,
   orderItemURL,

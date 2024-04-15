@@ -283,34 +283,3 @@
     border: var(--primary-border);
   }
 }
-
-.cart-empty {
-  text-align: center;
-  margin-top: 50px;
-}
-
-.empty-message {
-  font-size: 3rem;
-  color: var(--text-title-color);
-}
-
-.product-button {
-  margin: 20px 0;
-  background-color: var(--primary-color);
-  color: var(--white);
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 1.6rem;
-  border-radius: 5px;
-  text-decoration: none;
-  display: inline-block;
-  font-weight: 600;
-  border: 1px solid var(--primary-color);
-}
-
-.product-button:hover {
-  background-color: var(--white);
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-}

@@ -83,15 +83,15 @@ function MyAccount() {
   };
 
   // Function to compare two objects and return the differences
-  // const getChangedData = (original, updated) => {
-  //   const changedData = {};
-  //   for (const key in updated) {
-  //     if (original[key] !== updated[key]) {
-  //       changedData[key] = updated[key];
-  //     }
-  //   }
-  //   return changedData;
-  // };
+  const getChangedData = (original, updated) => {
+    const changedData = {};
+    for (const key in updated) {
+      if (original[key] !== updated[key]) {
+        changedData[key] = updated[key];
+      }
+    }
+    return changedData;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;

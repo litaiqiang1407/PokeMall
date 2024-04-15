@@ -160,10 +160,10 @@ function ShoppingCart() {
     <Container fluid style={{ backgroundColor: "#f8f9fa", padding: "20px" }}>
       <Title title="Shopping Cart - PokeMall" />
       {displayEmptyCartMessage() ? (
-        <Container className={cx("cart-empty")}>
-          <h1 className={cx("empty-message")}>Your cart is empty</h1>
-          <Link to="/">
-            <button className={cx("product-button")}>Go to products</button>
+        <Container>
+          <h1>Your cart is empty</h1>
+          <Link to="/products">
+            <Button variant="primary">Go to products</Button>
           </Link>
         </Container>
       ) : (
