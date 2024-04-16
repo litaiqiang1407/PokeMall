@@ -51,6 +51,7 @@ function Suggestions() {
                   alt={product.FigureName}
                   className={cx("product-img")}
                   loading="lazy" // lazy load images
+                  decoding="async" // async decoding for better performance
                 />
                 <div className={cx("product-info")}>
                   <p className={cx("product-name")}>{product.FigureName}</p>
